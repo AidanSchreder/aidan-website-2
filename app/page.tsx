@@ -30,7 +30,7 @@ export default function HomePage() {
         <div className="pointer-events-none absolute bottom-[-8rem] right-[-4rem] h-80 w-80 rounded-full bg-sky-500/20 blur-3xl" />
       </div>
 
-      <div className="mx-auto flex min-h-screen max-w-6xl flex-col px-4 pb-16 pt-10 sm:px-6 sm:pt-12 lg:px-10 lg:pt-16">
+      <div className="mx-auto flex min-h-screen max-w-5xl flex-col px-4 pb-24 pt-10 sm:px-6 sm:pt-12 lg:px-10 lg:pt-16">
         <header className="mb-10 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div
@@ -74,203 +74,170 @@ export default function HomePage() {
         </header>
 
         <section className="relative flex-1">
-          <div className="pointer-events-none absolute -left-16 top-10 h-48 w-48 -rotate-6 rounded-3xl border border-dashed border-slate-400/60 bg-gradient-to-tr from-slate-200/80 via-white/70 to-indigo-100/80 blur-xl sm:blur-2xl -z-10" />
-          <div className="pointer-events-none absolute -right-20 bottom-0 h-60 w-60 rotate-6 rounded-full bg-gradient-to-tr from-indigo-500/20 via-sky-400/10 to-emerald-300/30 blur-3xl -z-10" />
+          <div className="pointer-events-none absolute -left-24 top-10 h-56 w-56 -rotate-6 border border-dashed border-slate-400/40 bg-gradient-to-tr from-slate-200/70 via-white/60 to-indigo-100/70 blur-2xl -z-10" />
+          <div className="pointer-events-none absolute -right-32 bottom-0 h-72 w-72 rotate-6 rounded-full bg-gradient-to-tr from-indigo-500/15 via-sky-400/10 to-emerald-300/25 blur-3xl -z-10" />
 
-          <div className="relative z-10 grid gap-8 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:gap-10">
-            <div className="space-y-6">
-              <div
-                className={`${cardBase} relative overflow-hidden bg-slate-900 text-slate-50`}
-              >
-                <div className="pointer-events-none absolute inset-0 opacity-30">
-                  <div className="h-full w-full bg-scrap-hero" />
-                </div>
-
-                <div className="relative z-10 grid gap-8 p-7 sm:grid-cols-[minmax(0,1.25fr)_minmax(0,0.9fr)] sm:p-9">
-                  <div className="space-y-5">
-                    <p className="inline-flex items-center gap-2 rounded-full border border-dashed border-slate-600 bg-slate-900/70 px-3 py-1 text-[0.65rem] font-mono uppercase tracking-[0.28em]">
-                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-300" />
-                      <span>Futuristic scrapbook</span>
-                    </p>
-
-                    <h1 className="text-[2.4rem] leading-[1.05] tracking-tight sm:text-[2.9rem] lg:text-[3.2rem]">
-                      Logos, code, and
-                      <span className="block font-mono text-sm uppercase tracking-[0.55em] text-emerald-300/90">
-                        small experiments in light
-                      </span>
-                      <span className="mt-2 block bg-gradient-to-r from-indigo-500 via-sky-400/5 to-sky-400/50 bg-clip-text text-transparent">
-                        stitched into one studio.
-                      </span>
-                    </h1>
-
-                    <p className="max-w-xl text-sm text-slate-200/80 sm:text-base">
-                      I&apos;m Aidan — a logo designer and engineer building
-                      strange, thoughtful interfaces. This is a living notebook
-                      where brand marks, prototypes, and half-finished ideas all
-                      sit on the same page.
-                    </p>
-                  </div>
-
-                  <div className="relative">
-                    <div className="absolute -left-4 -top-4 hidden rounded-2xl border border-dashed border-slate-700/80 bg-slate-900/80 px-3 py-1 text-[0.65rem] font-mono uppercase tracking-[0.28em] text-slate-300 sm:inline-flex">
-                      work in progress
-                    </div>
-
-                    <div className="relative h-40 w-full rounded-3xl border border-slate-700/80 bg-slate-900/80 shadow-[0_18px_60px_rgba(0,0,0,0.6)] sm:h-52">
-                      <Image
-                        src="/profile.jpg"
-                        alt="Aidan in the studio"
-                        fill
-                        sizes="(min-width: 1024px) 280px, 220px"
-                        className="object-cover object-center mix-blend-screen"
-                      />
-                      <div className="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
-                      <div className="absolute bottom-3 left-3 flex items-center gap-2 text-[0.7rem] font-mono uppercase tracking-[0.22em] text-slate-200/90">
-                        <span className="inline-flex h-4 w-4 items-center justify-center rounded-full border border-slate-500/80 bg-slate-900/80 text-[0.6rem]">
-                          N°
-                        </span>
-                        <span>2026 portfolio cut</span>
-                      </div>
-                    </div>
-
-                    <div className="absolute bottom-3 right-3 flex items-center gap-2 rounded-2xl border border-emerald-300/60 bg-slate-900/90 px-3 py-1.5 text-[0.7rem] font-mono uppercase tracking-[0.2em] text-emerald-200 shadow-lg">
-                      <span className="inline-flex h-2 w-8 animate-pulse bg-gradient-to-r from-indigo-500 via-sky-400/5 to-sky-400/50" />
-                      <span>always prototyping</span>
-                    </div>
-                  </div>
-                </div>
+          <div className="relative z-10 space-y-20 pb-10">
+            {/* Hero text + image collage */}
+            <div className="space-y-8">
+              <div className="space-y-4">
+                <p className="text-[0.7rem] font-mono font-semibold uppercase tracking-[0.3em] text-slate-500">
+                  FUTURISTIC SCRAPBOOK · 2026
+                </p>
+                <h1 className="max-w-3xl text-4xl font-black uppercase tracking-tight sm:text-5xl lg:text-[3.4rem]">
+                  LOGOS / CODE / SMALL EXPERIMENTS
+                </h1>
+                <p className="max-w-xl text-sm font-medium uppercase tracking-[0.18em] text-slate-600 sm:text-[0.8rem]">
+                  AIDAN · DESIGNER / ENGINEER CREATING LOGOS THAT FEEL LIKE
+                  GLYPHS AND INTERFACES THAT FEEL LIKE INSTRUMENTS.
+                </p>
               </div>
 
-              <div className="relative mt-10 space-y-4">
-                <div className="pointer-events-none absolute -left-6 -top-8 hidden h-16 w-16 rounded-full border border-dashed border-slate-400/70 md:block -z-10" />
-
-                <div className="grid gap-4 md:grid-cols-2">
-                  <Link
-                    href="/logos"
-                    className={`${cardBase} ${logoPathCard} group relative px-5 py-6 sm:px-6 sm:py-7 hover:-translate-y-1`}
-                  >
-                    <div className="absolute -right-6 -top-6 h-16 w-16 rotate-6 rounded-3xl border border-slate-300/60 bg-gradient-to-br from-slate-100/80 via-white/70 to-indigo-100/80" />
-                    <div className="relative space-y-3">
-                      <p className="text-[0.7rem] font-mono uppercase tracking-[0.32em] text-slate-500">
-                        Path one
-                      </p>
-                      <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">
-                        Logo design lab
-                      </h2>
-                      <p className="text-sm text-slate-600">
-                        Monograms, marks, and experimental typography crafted
-                        for founders and weird little products.
-                      </p>
-                      <button
-                        type="button"
-                        className="mt-2 inline-flex items-center gap-2 rounded-full border border-slate-300 bg-slate-900 px-4 py-1.5 text-xs font-medium text-slate-50 shadow-sm transition group-hover:-translate-y-0.5 group-hover:bg-slate-800"
-                      >
-                        Enter logo studio
-                        <span className="text-sm">↳</span>
-                      </button>
-                    </div>
-                  </Link>
-
-                  <Link
-                    href="/engineering"
-                    className={`${cardBase} ${engineeringPathCard} group relative px-5 py-6 sm:px-6 sm:py-7 hover:-translate-y-1`}
-                  >
-                    <div className="absolute -left-5 -top-4 h-10 w-24 -rotate-3 rounded-full border border-slate-500/60 bg-slate-900/70 text-[0.6rem] font-mono uppercase tracking-[0.26em] text-slate-200/90 sm:flex sm:items-center sm:justify-center">
-                      code & systems
-                    </div>
-                    <div className="relative space-y-3">
-                      <p className="text-[0.7rem] font-mono uppercase tracking-[0.32em] text-slate-300/90">
-                        Path two
-                      </p>
-                      <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">
-                        Engineering scrapbook
-                      </h2>
-                      <p className="text-sm text-slate-200/80">
-                        Interfaces, prototypes, and small tools built in
-                        Next.js — the behind-the-scenes of how things work.
-                      </p>
-                      <button
-                        type="button"
-                        className="mt-2 inline-flex items-center gap-2 rounded-full border border-slate-500 bg-slate-50 px-4 py-1.5 text-xs font-medium text-slate-900 shadow-sm transition group-hover:-translate-y-0.5 group-hover:bg-emerald-100"
-                      >
-                        Explore engineering work
-                        <span className="text-sm">⇱</span>
-                      </button>
-                    </div>
-                  </Link>
+              <div className="grid gap-4 sm:grid-cols-3">
+                <div className="relative -rotate-2 overflow-hidden rounded-3xl shadow-[0_18px_60px_rgba(15,23,42,0.28)]">
+                  <div className="relative aspect-[4/5]">
+                    <Image
+                      src="/profile.jpg"
+                      alt="Logo sketch and early mark exploration"
+                      fill
+                      sizes="(min-width: 1024px) 260px, 40vw"
+                      className="object-cover object-center"
+                    />
+                  </div>
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
+                  <p className="absolute bottom-3 left-4 text-[0.65rem] font-mono font-semibold uppercase tracking-[0.28em] text-slate-100">
+                    LOGO ROUGHS
+                  </p>
                 </div>
 
-                <div className="flex flex-wrap items-center gap-3 pt-2 text-[0.7rem] font-mono uppercase tracking-[0.26em] text-slate-500">
-                  <span className="inline-flex items-center gap-1 rounded-full border border-dashed border-slate-400/70 px-3 py-1">
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                    <span>Blends logo craft & code</span>
-                  </span>
-                  <span>Freelance · collaborations · experiments</span>
+                <div className="relative rotate-1 overflow-hidden rounded-3xl shadow-[0_18px_60px_rgba(15,23,42,0.24)]">
+                  <div className="relative aspect-[4/5]">
+                    <Image
+                      src="/profile.jpg"
+                      alt="Interface prototype detail"
+                      fill
+                      sizes="(min-width: 1024px) 260px, 40vw"
+                      className="object-cover object-[center_top]"
+                    />
+                  </div>
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-slate-900/70 via-transparent to-slate-900/60" />
+                  <p className="absolute top-3 left-4 text-[0.65rem] font-mono font-semibold uppercase tracking-[0.3em] text-emerald-300">
+                    UI WIRES
+                  </p>
+                </div>
+
+                <div className="relative -rotate-1 overflow-hidden rounded-3xl shadow-[0_18px_60px_rgba(15,23,42,0.26)] sm:translate-y-6">
+                  <div className="relative aspect-[4/5]">
+                    <Image
+                      src="/profile.jpg"
+                      alt="Studio desk and tools"
+                      fill
+                      sizes="(min-width: 1024px) 260px, 40vw"
+                      className="object-cover object-[center_bottom]"
+                    />
+                  </div>
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-indigo-500/40 via-transparent to-sky-400/40" />
+                  <p className="absolute bottom-3 right-4 text-[0.65rem] font-mono font-semibold uppercase tracking-[0.28em] text-slate-100">
+                    STUDIO
+                  </p>
                 </div>
               </div>
             </div>
 
-            <aside className="relative mt-4 space-y-5 lg:mt-0">
-              <div
-                className={`${cardBase} relative overflow-hidden bg-white/90 px-5 py-6 text-slate-900 sm:px-6 sm:py-7`}
-              >
-                <div className="absolute inset-x-6 top-0 h-10 bg-gradient-to-r from-slate-100 via-emerald-50/70 to-sky-100" />
-                <div className="relative flex items-start gap-4">
-                    <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-2xl border border-slate-200 bg-slate-200/80 shadow-md">
+            {/* Logo design path */}
+            <div className="space-y-6">
+              <p className="text-[0.7rem] font-mono font-semibold uppercase tracking-[0.3em] text-slate-500">
+                PATH ONE · LOGO WORK
+              </p>
+
+              <Link href="/logos" className="group block">
+                <div className="relative">
+                  <div className="relative aspect-[5/3] overflow-hidden rounded-[2.25rem] shadow-[0_26px_90px_rgba(15,23,42,0.36)]">
                     <Image
                       src="/profile.jpg"
-                      alt="Aidan portrait"
+                      alt="Grid of logo marks"
                       fill
-                      sizes="64px"
+                      sizes="(min-width: 1024px) 900px, 100vw"
                       className="object-cover object-center"
                     />
-                  </div>
-                  <div className="space-y-2">
-                    <p className="text-[0.7rem] font-mono uppercase tracking-[0.3em] text-slate-500">
-                      Aidan · designer / engineer
-                    </p>
-                    <p className="text-sm leading-relaxed text-slate-700">
-                      I work at the overlap of identity, interface, and motion —
-                      designing logos that feel like tiny worlds and interfaces
-                      that feel a bit like instruments.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="relative space-y-4">
-                <div className="absolute -right-6 -top-6 hidden h-16 w-16 rotate-6 rounded-3xl border border-dashed border-slate-400/70 md:block -z-10" />
-
-                <div className="grid gap-3 sm:grid-cols-2">
-                  <div className="relative -rotate-2 rounded-2xl border border-dashed border-slate-300 bg-slate-50/90 px-4 py-3 text-xs text-slate-700 shadow-sm">
-                    <p className="font-mono text-[0.68rem] uppercase tracking-[0.26em] text-slate-500">
-                      Notes from the desk
-                    </p>
-                    <p className="mt-1">
-                      Favorite tools: a notebook, Figma, and a very messy
-                      Next.js repo.
-                    </p>
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-slate-950/80 via-transparent to-slate-950/90" />
                   </div>
 
-                  <div className="relative rotate-1 rounded-2xl border border-slate-200 bg-gradient-to-br from-indigo-500/10 via-sky-400/5 to-sky-400/50 px-4 py-3 text-xs text-slate-800 shadow-sm">
-                    <p className="font-mono text-[0.68rem] uppercase tracking-[0.26em] text-emerald-600">
-                      Currently exploring
-                    </p>
-                    <p className="mt-1">
-                      Kinetic logo systems, generative palettes, and small
-                      tools that help teams think visually.
-                    </p>
+                  <div className="absolute inset-x-6 bottom-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                    <div className="space-y-1">
+                      <p className="text-[0.7rem] font-mono font-semibold uppercase tracking-[0.32em] text-slate-300">
+                        LOGO DESIGN LAB
+                      </p>
+                      <p className="max-w-xl text-xs font-medium uppercase tracking-[0.2em] text-slate-200">
+                        MONOGRAMS, WORDMARKS, AND SYMBOLS FOR FOUNDERS, CLUBS,
+                        AND WEIRD LITTLE PRODUCTS.
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      className="inline-flex items-center gap-2 rounded-md bg-slate-50 px-4 py-2 text-[0.75rem] font-semibold uppercase tracking-[0.2em] text-slate-900 shadow-sm transition group-hover:-translate-y-0.5 group-hover:bg-emerald-100"
+                    >
+                      Enter logo studio
+                      <span className="text-sm">↳</span>
+                    </button>
                   </div>
                 </div>
+              </Link>
+            </div>
 
-                <div className="flex items-center justify-between text-[0.7rem] text-slate-500">
-                  <span>Based in GMT · open to remote work</span>
-                  <span className="hidden font-mono uppercase tracking-[0.25em] sm:inline">
-                    Built with Next.js & Tailwind
-                  </span>
+            {/* Engineering path */}
+            <div className="space-y-6">
+              <p className="text-[0.7rem] font-mono font-semibold uppercase tracking-[0.3em] text-slate-500">
+                PATH TWO · ENGINEERING
+              </p>
+
+              <Link href="/engineering" className="group block">
+                <div className="relative">
+                  <div className="relative aspect-[5/3] overflow-hidden rounded-[2.25rem] shadow-[0_26px_90px_rgba(15,23,42,0.34)]">
+                    <Image
+                      src="/profile.jpg"
+                      alt="Interface details and code overlays"
+                      fill
+                      sizes="(min-width: 1024px) 900px, 100vw"
+                      className="object-cover object-[center_top]"
+                    />
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-slate-950/85 via-slate-900/40 to-sky-400/40" />
+                  </div>
+
+                  <div className="absolute inset-x-6 bottom-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                    <div className="space-y-1">
+                      <p className="text-[0.7rem] font-mono font-semibold uppercase tracking-[0.32em] text-slate-200">
+                        ENGINEERING SCRAPBOOK
+                      </p>
+                      <p className="max-w-xl text-xs font-medium uppercase tracking-[0.2em] text-slate-200">
+                        INTERFACES, PROTOTYPES, AND SMALL TOOLS IN NEXT.JS —
+                        THE BEHIND-THE-SCENES OF HOW THINGS WORK.
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      className="inline-flex items-center gap-2 rounded-md bg-slate-900/90 px-4 py-2 text-[0.75rem] font-semibold uppercase tracking-[0.2em] text-slate-50 shadow-sm ring-1 ring-slate-600 transition group-hover:-translate-y-0.5 group-hover:bg-slate-950"
+                    >
+                      Explore engineering work
+                      <span className="text-sm">⇱</span>
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </aside>
+              </Link>
+            </div>
+
+            {/* About blurb */}
+            <div className="space-y-4 border-t border-slate-200 pt-10">
+              <p className="text-[0.7rem] font-mono font-semibold uppercase tracking-[0.3em] text-slate-500">
+                ABOUT
+              </p>
+              <p className="max-w-2xl text-sm font-medium text-slate-700">
+                I LIKE PROJECTS WHERE THE BRAND MARK, PRODUCT SURFACE, AND
+                LITTLE INTERNAL TOOLS ALL TALK TO EACH OTHER. IF YOU&apos;RE
+                LOOKING FOR SOMEONE WHO CAN DESIGN THE LOGO, BUILD THE SITE, AND
+                KEEP THE EXPERIMENTS GOING, YOU&apos;RE IN THE RIGHT PLACE.
+              </p>
+            </div>
           </div>
         </section>
       </div>
