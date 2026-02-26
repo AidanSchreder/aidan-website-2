@@ -1,13 +1,33 @@
+"use client";
 import Image from "next/image";
 import { useState } from "react";
 
 const skills = [
-  "TypeScript",
-  "React / Next.js",
-  "Node.js",
-  "Tailwind CSS",
-  "Design Systems",
-  "Testing & QA",
+  {
+    label: "Product thinking",
+    description:
+      "Translating ambiguous ideas into clear problem statements, flows, and interfaces.",
+  },
+  {
+    label: "Interface design",
+    description:
+      "Designing calm, minimal layouts with attention to hierarchy, rhythm, and motion.",
+  },
+  {
+    label: "Front‑end engineering",
+    description:
+      "Building accessible, performant interfaces in React / Next.js with clean architecture.",
+  },
+  {
+    label: "Systems & tokens",
+    description:
+      "Creating reusable components, tokens, and documentation that scale across products.",
+  },
+  {
+    label: "Collaboration",
+    description:
+      "Working closely with founders, PMs, and engineers to ship quickly without chaos.",
+  },
 ];
 
 const projects = [
@@ -33,6 +53,7 @@ const projects = [
 
 export default function HomePage() {
   const [isDark, setIsDark] = useState(false);
+  const [activeSkill, setActiveSkill] = useState(skills[0]);
 
   const bgClass = isDark
     ? "bg-slate-950 text-slate-50"
@@ -46,15 +67,15 @@ export default function HomePage() {
 
   return (
     <main
-      className={`${bgClass} min-h-screen transition-colors duration-300`}
+      className={`${bgClass} min-h-screen font-sans antialiased transition-colors duration-300`}
     >
       <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
         <div className="pointer-events-none absolute -left-32 top-[-10rem] h-72 w-72 rounded-full bg-indigo-500/20 blur-3xl" />
         <div className="pointer-events-none absolute bottom-[-8rem] right-[-4rem] h-80 w-80 rounded-full bg-sky-500/20 blur-3xl" />
       </div>
 
-      <div className="mx-auto flex min-h-screen max-w-6xl flex-col px-4 pb-16 pt-8 sm:px-6 lg:px-8">
-        <header className="mb-8 flex items-center justify-between">
+      <div className="mx-auto flex min-h-screen max-w-6xl flex-col px-4 pb-16 pt-10 sm:px-6 sm:pt-12 lg:px-10 lg:pt-16">
+        <header className="mb-10 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div
               className={`flex h-10 w-10 items-center justify-center rounded-2xl text-xl font-semibold shadow-sm transition ${
@@ -76,7 +97,7 @@ export default function HomePage() {
           <button
             type="button"
             onClick={() => setIsDark((prev) => !prev)}
-            className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium shadow-sm ring-1 transition ${
+            className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium shadow-sm ring-1 transition-colors ${
               isDark
                 ? "bg-slate-900 text-slate-100 ring-slate-700 hover:bg-slate-800"
                 : "bg-white text-slate-900 ring-slate-200 hover:bg-slate-100"
@@ -94,10 +115,10 @@ export default function HomePage() {
           </button>
         </header>
 
-        <section className="grid flex-1 gap-10 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
+        <section className="grid flex-1 gap-10 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:gap-12">
           <div className="flex flex-col gap-8">
             <div
-              className={`${panelClass} relative overflow-hidden rounded-3xl p-8 shadow-lg backdrop-blur-sm sm:p-10`}
+              className={`${panelClass} relative overflow-hidden rounded-3xl p-7 shadow-lg backdrop-blur-sm sm:p-10`}
             >
               <div className="absolute right-[-3rem] top-[-3rem] h-40 w-40 rounded-full bg-gradient-to-br from-indigo-500/70 to-sky-400/70 opacity-60 blur-3xl" />
 
@@ -112,7 +133,7 @@ export default function HomePage() {
                 </span>
               </h1>
 
-              <p className={`mt-6 max-w-xl text-lg ${subtleText}`}>
+              <p className={`mt-6 max-w-xl text-base sm:text-lg ${subtleText}`}>
                 I design and build thoughtful interfaces with a focus on
                 clarity, motion, and accessibility — from first sketches to
                 production-ready code.
@@ -166,7 +187,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className="grid gap-6 md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
+            <div className="grid gap-6 md:grid-cols-[minmax(0,1.3fr)_minmax(0,1.1fr)]">
               <div className={`${panelClass} rounded-3xl p-6 shadow-md`}>
                 <h2 className="text-lg font-semibold tracking-tight">
                   Selected skills
@@ -177,18 +198,27 @@ export default function HomePage() {
                 </p>
                 <div className="mt-4 flex flex-wrap gap-2">
                   {skills.map((skill) => (
-                    <span
-                      key={skill}
-                      className={`rounded-full px-3 py-1 text-xs font-medium transition ${
-                        isDark
+                    <button
+                      key={skill.label}
+                      type="button"
+                      onClick={() => setActiveSkill(skill)}
+                      className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium transition ${
+                        activeSkill.label === skill.label
+                          ? isDark
+                            ? "bg-indigo-500 text-slate-50 shadow-sm"
+                            : "bg-slate-900 text-slate-50 shadow-sm"
+                          : isDark
                           ? "bg-slate-900/80 text-slate-100 ring-1 ring-slate-700/80 hover:bg-slate-800"
                           : "bg-slate-100 text-slate-900 ring-1 ring-slate-200 hover:bg-slate-200"
                       }`}
                     >
-                      {skill}
-                    </span>
+                      {skill.label}
+                    </button>
                   ))}
                 </div>
+                <p className={`mt-4 text-sm leading-relaxed ${subtleText}`}>
+                  {activeSkill.description}
+                </p>
               </div>
 
               <div
