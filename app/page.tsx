@@ -10,17 +10,6 @@ export default function HomePage() {
     ? "bg-slate-950 text-slate-50"
     : "bg-slate-100 text-slate-900";
 
-  const cardBase =
-    "rounded-3xl border shadow-[0_18px_60px_rgba(15,23,42,0.26)] backdrop-blur-md transition-transform duration-300";
-
-  const logoPathCard = isDark
-    ? "bg-slate-900/90 border-slate-700"
-    : "bg-white border-slate-200";
-
-  const engineeringPathCard = isDark
-    ? "bg-slate-900/90 border-slate-700"
-    : "bg-slate-900 text-slate-50 border-slate-900";
-
   return (
     <main
       className={`${bgClass} min-h-screen font-sans antialiased transition-colors duration-300`}
