@@ -83,7 +83,7 @@ export default function HomePage() {
                 className={`${cardBase} relative overflow-hidden bg-slate-900 text-slate-50`}
               >
                 <div className="pointer-events-none absolute inset-0 opacity-30">
-                  <div className="h-full w-full bg-[radial-gradient(circle_at_0_0,#22d3ee_0,transparent_55%),radial-gradient(circle_at_100%_0,#4f46e5_0,transparent_55%)]" />
+                  <div className="h-full w-full bg-scrap-hero" />
                 </div>
 
                 <div className="relative z-10 grid gap-8 p-7 sm:grid-cols-[minmax(0,1.25fr)_minmax(0,0.9fr)] sm:p-9">
@@ -98,7 +98,7 @@ export default function HomePage() {
                       <span className="block font-mono text-sm uppercase tracking-[0.55em] text-emerald-300/90">
                         small experiments in light
                       </span>
-                      <span className="mt-2 block bg-gradient-to-r from-emerald-300 via-sky-300 to-indigo-300 bg-clip-text text-transparent">
+                      <span className="mt-2 block bg-gradient-to-r from-indigo-500 via-sky-400/5 to-sky-400/50 bg-clip-text text-transparent">
                         stitched into one studio.
                       </span>
                     </h1>
@@ -134,7 +134,7 @@ export default function HomePage() {
                     </div>
 
                     <div className="absolute bottom-3 right-3 flex items-center gap-2 rounded-2xl border border-emerald-300/60 bg-slate-900/90 px-3 py-1.5 text-[0.7rem] font-mono uppercase tracking-[0.2em] text-emerald-200 shadow-lg">
-                      <span className="inline-flex h-2 w-8 animate-pulse bg-gradient-to-r from-emerald-300 via-sky-300 to-emerald-300" />
+                      <span className="inline-flex h-2 w-8 animate-pulse bg-gradient-to-r from-indigo-500 via-sky-400/5 to-sky-400/50" />
                       <span>always prototyping</span>
                     </div>
                   </div>
@@ -252,7 +252,7 @@ export default function HomePage() {
                     </p>
                   </div>
 
-                  <div className="relative rotate-1 rounded-2xl border border-emerald-200 bg-gradient-to-br from-emerald-50 via-white to-sky-50 px-4 py-3 text-xs text-slate-800 shadow-sm">
+                  <div className="relative rotate-1 rounded-2xl border border-slate-200 bg-gradient-to-br from-indigo-500/10 via-sky-400/5 to-sky-400/50 px-4 py-3 text-xs text-slate-800 shadow-sm">
                     <p className="font-mono text-[0.68rem] uppercase tracking-[0.26em] text-emerald-600">
                       Currently exploring
                     </p>

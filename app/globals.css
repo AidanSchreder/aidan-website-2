@@ -21,3 +21,36 @@ body {
     "Segoe UI", sans-serif;
 }
 
+@layer utilities {
+  .opacity-30 {
+    opacity: 0.3;
+  }
+
+  .rotate-1 {
+    rotate: 1deg;
+  }
+
+  .-rotate-2 {
+    rotate: -2deg;
+  }
+
+  .-rotate-3 {
+    rotate: -3deg;
+  }
+
+  .rotate-6 {
+    rotate: 6deg;
+  }
+
+  .-rotate-6 {
+    rotate: -6deg;
+  }
+
+  .bg-scrap-hero {
+    background-image:
+      radial-gradient(circle at 0 0, #22d3ee 0, transparent 55%),
+      radial-gradient(circle at 100% 0, #4f46e5 0, transparent 55%);
+  }
+}
+
+
