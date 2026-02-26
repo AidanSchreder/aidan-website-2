@@ -74,19 +74,19 @@ export default function HomePage() {
         </header>
 
         <section className="relative flex-1">
-          <div className="pointer-events-none absolute -left-16 top-10 h-48 w-48 -rotate-6 rounded-3xl border border-dashed border-slate-400/60 bg-gradient-to-tr from-slate-200/80 via-white/70 to-indigo-100/80 blur-xl sm:blur-2xl" />
-          <div className="pointer-events-none absolute -right-20 bottom-0 h-60 w-60 rotate-6 rounded-full bg-gradient-to-tr from-indigo-500/20 via-sky-400/10 to-emerald-300/30 blur-3xl" />
+          <div className="pointer-events-none absolute -left-16 top-10 h-48 w-48 -rotate-6 rounded-3xl border border-dashed border-slate-400/60 bg-gradient-to-tr from-slate-200/80 via-white/70 to-indigo-100/80 blur-xl sm:blur-2xl -z-10" />
+          <div className="pointer-events-none absolute -right-20 bottom-0 h-60 w-60 rotate-6 rounded-full bg-gradient-to-tr from-indigo-500/20 via-sky-400/10 to-emerald-300/30 blur-3xl -z-10" />
 
-          <div className="grid gap-8 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:gap-10">
+          <div className="relative z-10 grid gap-8 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:gap-10">
             <div className="space-y-6">
               <div
-                className={`${cardBase} relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 text-slate-50`}
+                className={`${cardBase} relative overflow-hidden bg-slate-900 text-slate-50`}
               >
-                <div className="pointer-events-none absolute inset-0 opacity-35">
+                <div className="pointer-events-none absolute inset-0 opacity-30">
                   <div className="h-full w-full bg-[radial-gradient(circle_at_0_0,#22d3ee_0,transparent_55%),radial-gradient(circle_at_100%_0,#4f46e5_0,transparent_55%)]" />
                 </div>
 
-                <div className="relative grid gap-8 p-7 sm:grid-cols-[minmax(0,1.25fr)_minmax(0,0.9fr)] sm:p-9">
+                <div className="relative z-10 grid gap-8 p-7 sm:grid-cols-[minmax(0,1.25fr)_minmax(0,0.9fr)] sm:p-9">
                   <div className="space-y-5">
                     <p className="inline-flex items-center gap-2 rounded-full border border-dashed border-slate-600 bg-slate-900/70 px-3 py-1 text-[0.65rem] font-mono uppercase tracking-[0.28em]">
                       <span className="h-1.5 w-1.5 rounded-full bg-emerald-300" />
@@ -142,7 +142,7 @@ export default function HomePage() {
               </div>
 
               <div className="relative mt-10 space-y-4">
-                <div className="pointer-events-none absolute -left-6 -top-8 hidden h-16 w-16 rounded-full border border-dashed border-slate-400/70 md:block" />
+                <div className="pointer-events-none absolute -left-6 -top-8 hidden h-16 w-16 rounded-full border border-dashed border-slate-400/70 md:block -z-10" />
 
                 <div className="grid gap-4 md:grid-cols-2">
                   <Link
@@ -216,7 +216,7 @@ export default function HomePage() {
               >
                 <div className="absolute inset-x-6 top-0 h-10 bg-gradient-to-r from-slate-100 via-emerald-50/70 to-sky-100" />
                 <div className="relative flex items-start gap-4">
-                  <div className="relative h-16 w-16 shrink-0 -rotate-3 overflow-hidden rounded-2xl border border-slate-200 bg-slate-200/80 shadow-md">
+                    <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-2xl border border-slate-200 bg-slate-200/80 shadow-md">
                     <Image
                       src="/profile.jpg"
                       alt="Aidan portrait"
@@ -239,7 +239,7 @@ export default function HomePage() {
               </div>
 
               <div className="relative space-y-4">
-                <div className="absolute -right-6 -top-6 hidden h-16 w-16 rotate-6 rounded-3xl border border-dashed border-slate-400/70 md:block" />
+                <div className="absolute -right-6 -top-6 hidden h-16 w-16 rotate-6 rounded-3xl border border-dashed border-slate-400/70 md:block -z-10" />
 
                 <div className="grid gap-3 sm:grid-cols-2">
                   <div className="relative -rotate-2 rounded-2xl border border-dashed border-slate-300 bg-slate-50/90 px-4 py-3 text-xs text-slate-700 shadow-sm">
