@@ -1,69 +1,25 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
-
-const skills = [
-  {
-    label: "Product thinking",
-    description:
-      "Translating ambiguous ideas into clear problem statements, flows, and interfaces.",
-  },
-  {
-    label: "Interface design",
-    description:
-      "Designing calm, minimal layouts with attention to hierarchy, rhythm, and motion.",
-  },
-  {
-    label: "Front‑end engineering",
-    description:
-      "Building accessible, performant interfaces in React / Next.js with clean architecture.",
-  },
-  {
-    label: "Systems & tokens",
-    description:
-      "Creating reusable components, tokens, and documentation that scale across products.",
-  },
-  {
-    label: "Collaboration",
-    description:
-      "Working closely with founders, PMs, and engineers to ship quickly without chaos.",
-  },
-];
-
-const projects = [
-  {
-    title: "Interactive Dashboard",
-    description:
-      "A realtime analytics dashboard with live charts, filters, and responsive layout.",
-    tags: ["Next.js", "Tailwind", "Charts"],
-  },
-  {
-    title: "Design System Kit",
-    description:
-      "A reusable component library with tokens, documentation, and theming support.",
-    tags: ["Storybook", "Design Systems"],
-  },
-  {
-    title: "Creative Landing Page",
-    description:
-      "A high-conversion marketing page with motion, A/B tests, and SEO optimizations.",
-    tags: ["SEO", "Animation", "A/B Testing"],
-  },
-];
 
 export default function HomePage() {
   const [isDark, setIsDark] = useState(false);
-  const [activeSkill, setActiveSkill] = useState(skills[0]);
 
   const bgClass = isDark
     ? "bg-slate-950 text-slate-50"
-    : "bg-slate-50 text-slate-900";
+    : "bg-slate-100 text-slate-900";
 
-  const panelClass = isDark
-    ? "bg-slate-900/70 ring-1 ring-slate-800"
-    : "bg-white/70 ring-1 ring-slate-200";
+  const cardBase =
+    "rounded-3xl border shadow-[0_18px_60px_rgba(15,23,42,0.26)] backdrop-blur-md transition-transform duration-300";
 
-  const subtleText = isDark ? "text-slate-400" : "text-slate-500";
+  const logoPathCard = isDark
+    ? "bg-slate-900/90 border-slate-700"
+    : "bg-white border-slate-200";
+
+  const engineeringPathCard = isDark
+    ? "bg-slate-900/90 border-slate-700"
+    : "bg-slate-900 text-slate-50 border-slate-900";
 
   return (
     <main
@@ -87,10 +43,12 @@ export default function HomePage() {
               A
             </div>
             <div className="leading-tight">
-              <p className="text-sm font-medium uppercase tracking-[0.18em]">
-                Portfolio
+              <p className="text-[0.65rem] font-mono uppercase tracking-[0.28em]">
+                Aidan Studio
               </p>
-              <p className={`text-xs ${subtleText}`}>Designer & Developer</p>
+              <p className="text-xs text-slate-500">
+                Logos · Interfaces · Experiments
+              </p>
             </div>
           </div>
 
@@ -115,249 +73,205 @@ export default function HomePage() {
           </button>
         </header>
 
-        <section className="grid flex-1 gap-10 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:gap-12">
-          <div className="flex flex-col gap-8">
-            <div
-              className={`${panelClass} relative overflow-hidden rounded-3xl p-7 shadow-lg backdrop-blur-sm sm:p-10`}
-            >
-              <div className="absolute right-[-3rem] top-[-3rem] h-40 w-40 rounded-full bg-gradient-to-br from-indigo-500/70 to-sky-400/70 opacity-60 blur-3xl" />
+        <section className="relative flex-1">
+          <div className="pointer-events-none absolute -left-16 top-10 h-48 w-48 -rotate-6 rounded-3xl border border-dashed border-slate-400/60 bg-gradient-to-tr from-slate-200/80 via-white/70 to-indigo-100/80 blur-xl sm:blur-2xl" />
+          <div className="pointer-events-none absolute -right-20 bottom-0 h-60 w-60 rotate-6 rounded-full bg-gradient-to-tr from-indigo-500/20 via-sky-400/10 to-emerald-300/30 blur-3xl" />
 
-              <p className="mb-4 text-sm font-semibold uppercase tracking-[0.22em] text-indigo-500">
-                Portfolio · 2026
-              </p>
-
-              <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
-                Crafting calm, modern
-                <span className="block bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-400 bg-clip-text text-transparent">
-                  digital experiences.
-                </span>
-              </h1>
-
-              <p className={`mt-6 max-w-xl text-base sm:text-lg ${subtleText}`}>
-                I design and build thoughtful interfaces with a focus on
-                clarity, motion, and accessibility — from first sketches to
-                production-ready code.
-              </p>
-
-              <div className="mt-8 flex flex-wrap items-center gap-4">
-                <button
-                  type="button"
-                  className="inline-flex items-center justify-center rounded-full bg-slate-900 px-5 py-2.5 text-sm font-semibold text-slate-50 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-800 hover:shadow-md active:translate-y-0 active:shadow-sm"
-                >
-                  View selected work
-                </button>
-                <button
-                  type="button"
-                  className={`inline-flex items-center justify-center rounded-full px-4 py-2 text-sm font-medium transition ${
-                    isDark
-                      ? "text-slate-100 hover:text-slate-50"
-                      : "text-slate-800 hover:text-slate-950"
-                  }`}
-                >
-                  Get in touch
-                  <span className="ml-2 text-base leading-none">↗</span>
-                </button>
-              </div>
-
-              <div className="mt-8 grid gap-4 text-sm sm:grid-cols-3">
-                <div>
-                  <p
-                    className={`text-xs font-medium uppercase tracking-[0.18em] ${subtleText}`}
-                  >
-                    Role
-                  </p>
-                  <p className="mt-1 font-medium">Product Designer · Engineer</p>
-                </div>
-                <div>
-                  <p
-                    className={`text-xs font-medium uppercase tracking-[0.18em] ${subtleText}`}
-                  >
-                    Location
-                  </p>
-                  <p className="mt-1 font-medium">Remote · GMT</p>
-                </div>
-                <div>
-                  <p
-                    className={`text-xs font-medium uppercase tracking-[0.18em] ${subtleText}`}
-                  >
-                    Availability
-                  </p>
-                  <p className="mt-1 font-medium">Open to new projects</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="grid gap-6 md:grid-cols-[minmax(0,1.3fr)_minmax(0,1.1fr)]">
-              <div className={`${panelClass} rounded-3xl p-6 shadow-md`}>
-                <h2 className="text-lg font-semibold tracking-tight">
-                  Selected skills
-                </h2>
-                <p className={`mt-2 text-sm ${subtleText}`}>
-                  A blend of product thinking, visual craft, and robust
-                  engineering.
-                </p>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {skills.map((skill) => (
-                    <button
-                      key={skill.label}
-                      type="button"
-                      onClick={() => setActiveSkill(skill)}
-                      className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium transition ${
-                        activeSkill.label === skill.label
-                          ? isDark
-                            ? "bg-indigo-500 text-slate-50 shadow-sm"
-                            : "bg-slate-900 text-slate-50 shadow-sm"
-                          : isDark
-                          ? "bg-slate-900/80 text-slate-100 ring-1 ring-slate-700/80 hover:bg-slate-800"
-                          : "bg-slate-100 text-slate-900 ring-1 ring-slate-200 hover:bg-slate-200"
-                      }`}
-                    >
-                      {skill.label}
-                    </button>
-                  ))}
-                </div>
-                <p className={`mt-4 text-sm leading-relaxed ${subtleText}`}>
-                  {activeSkill.description}
-                </p>
-              </div>
-
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:gap-10">
+            <div className="space-y-6">
               <div
-                className={`${panelClass} group relative overflow-hidden rounded-3xl p-6 shadow-md`}
+                className={`${cardBase} relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 text-slate-50`}
               >
-                <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/10 via-sky-400/5 to-transparent opacity-0 transition group-hover:opacity-100" />
-                <div className="flex items-center justify-between gap-4">
-                  <div>
-                    <h2 className="text-lg font-semibold tracking-tight">
-                      Experience snapshot
-                    </h2>
-                    <p className={`mt-2 text-sm ${subtleText}`}>
-                      5+ years designing & building product experiences for
-                      startups and agencies.
+                <div className="pointer-events-none absolute inset-0 opacity-35">
+                  <div className="h-full w-full bg-[radial-gradient(circle_at_0_0,#22d3ee_0,transparent_55%),radial-gradient(circle_at_100%_0,#4f46e5_0,transparent_55%)]" />
+                </div>
+
+                <div className="relative grid gap-8 p-7 sm:grid-cols-[minmax(0,1.25fr)_minmax(0,0.9fr)] sm:p-9">
+                  <div className="space-y-5">
+                    <p className="inline-flex items-center gap-2 rounded-full border border-dashed border-slate-600 bg-slate-900/70 px-3 py-1 text-[0.65rem] font-mono uppercase tracking-[0.28em]">
+                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-300" />
+                      <span>Futuristic scrapbook</span>
+                    </p>
+
+                    <h1 className="text-[2.4rem] leading-[1.05] tracking-tight sm:text-[2.9rem] lg:text-[3.2rem]">
+                      Logos, code, and
+                      <span className="block font-mono text-sm uppercase tracking-[0.55em] text-emerald-300/90">
+                        small experiments in light
+                      </span>
+                      <span className="mt-2 block bg-gradient-to-r from-emerald-300 via-sky-300 to-indigo-300 bg-clip-text text-transparent">
+                        stitched into one studio.
+                      </span>
+                    </h1>
+
+                    <p className="max-w-xl text-sm text-slate-200/80 sm:text-base">
+                      I&apos;m Aidan — a logo designer and engineer building
+                      strange, thoughtful interfaces. This is a living notebook
+                      where brand marks, prototypes, and half-finished ideas all
+                      sit on the same page.
                     </p>
                   </div>
-                  <div className="text-right text-xs">
-                    <p className={`font-medium ${subtleText}`}>Shipped</p>
-                    <p className="text-2xl font-semibold">40+</p>
-                    <p className={subtleText}>projects</p>
+
+                  <div className="relative">
+                    <div className="absolute -left-4 -top-4 hidden rounded-2xl border border-dashed border-slate-700/80 bg-slate-900/80 px-3 py-1 text-[0.65rem] font-mono uppercase tracking-[0.28em] text-slate-300 sm:inline-flex">
+                      work in progress
+                    </div>
+
+                    <div className="relative h-40 w-full rounded-3xl border border-slate-700/80 bg-slate-900/80 shadow-[0_18px_60px_rgba(0,0,0,0.6)] sm:h-52">
+                      <Image
+                        src="/profile.jpg"
+                        alt="Aidan in the studio"
+                        fill
+                        sizes="(min-width: 1024px) 280px, 220px"
+                        className="object-cover object-center mix-blend-screen"
+                      />
+                      <div className="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
+                      <div className="absolute bottom-3 left-3 flex items-center gap-2 text-[0.7rem] font-mono uppercase tracking-[0.22em] text-slate-200/90">
+                        <span className="inline-flex h-4 w-4 items-center justify-center rounded-full border border-slate-500/80 bg-slate-900/80 text-[0.6rem]">
+                          N°
+                        </span>
+                        <span>2026 portfolio cut</span>
+                      </div>
+                    </div>
+
+                    <div className="absolute bottom-3 right-3 flex items-center gap-2 rounded-2xl border border-emerald-300/60 bg-slate-900/90 px-3 py-1.5 text-[0.7rem] font-mono uppercase tracking-[0.2em] text-emerald-200 shadow-lg">
+                      <span className="inline-flex h-2 w-8 animate-pulse bg-gradient-to-r from-emerald-300 via-sky-300 to-emerald-300" />
+                      <span>always prototyping</span>
+                    </div>
                   </div>
                 </div>
-                <div className="mt-4 flex items-center justify-between text-xs">
-                  <p className={subtleText}>Web · Product · Systems · Brand</p>
-                  <p className={subtleText}>Available for freelance & full-time</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <aside className="flex flex-col gap-6">
-            <div
-              className={`${panelClass} relative overflow-hidden rounded-3xl p-5 shadow-lg backdrop-blur-sm`}
-            >
-              <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-gradient-to-br from-indigo-500/60 to-sky-400/50 blur-2xl" />
-
-              <div className="relative flex items-center gap-4">
-                <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-3xl ring-2 ring-slate-900/80">
-                  <Image
-                    src="/profile.jpg"
-                    alt="Portrait"
-                    fill
-                    sizes="80px"
-                    className="object-cover"
-                  />
-                </div>
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-[0.18em] text-indigo-400">
-                    Hello, I&apos;m
-                  </p>
-                  <p className="mt-1 text-xl font-semibold tracking-tight">
-                    Aidan
-                  </p>
-                  <p className={`mt-1 text-sm ${subtleText}`}>
-                    Product designer & front‑end engineer
-                  </p>
-                </div>
               </div>
 
-              <p className={`relative mt-4 text-sm leading-relaxed ${subtleText}`}>
-                I help teams translate messy ideas into crisp digital products —
-                balancing usability, aesthetics, and performance.
-              </p>
-            </div>
+              <div className="relative mt-10 space-y-4">
+                <div className="pointer-events-none absolute -left-6 -top-8 hidden h-16 w-16 rounded-full border border-dashed border-slate-400/70 md:block" />
 
-            <div
-              className={`${panelClass} grid flex-1 grid-rows-[auto,1fr] gap-4 rounded-3xl p-5 shadow-md`}
-            >
-              <div className="flex items-center justify-between">
-                <h2 className="text-sm font-semibold uppercase tracking-[0.22em]">
-                  Selected work
-                </h2>
-                <span
-                  className={`rounded-full px-2 py-1 text-[0.65rem] font-medium uppercase tracking-[0.18em] ${
-                    isDark
-                      ? "bg-slate-900 text-slate-200"
-                      : "bg-slate-100 text-slate-800"
-                  }`}
-                >
-                  Case studies
-                </span>
-              </div>
-
-              <div className="flex flex-1 flex-col gap-3">
-                {projects.map((project) => (
-                  <button
-                    key={project.title}
-                    type="button"
-                    className={`group flex flex-1 flex-col justify-between rounded-2xl border p-4 text-left transition hover:-translate-y-1 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
-                      isDark
-                        ? "border-slate-800 bg-slate-950/40"
-                        : "border-slate-200 bg-white"
-                    }`}
+                <div className="grid gap-4 md:grid-cols-2">
+                  <Link
+                    href="/logos"
+                    className={`${cardBase} ${logoPathCard} group relative px-5 py-6 sm:px-6 sm:py-7 hover:-translate-y-1`}
                   >
-                    <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <p className="text-sm font-semibold tracking-tight">
-                          {project.title}
-                        </p>
-                        <p className={`mt-1 text-xs ${subtleText}`}>
-                          {project.description}
-                        </p>
-                      </div>
-                      <span
-                        className={`mt-1 inline-flex h-7 w-7 items-center justify-center rounded-full text-xs transition ${
-                          isDark
-                            ? "bg-slate-900 text-slate-200 group-hover:bg-slate-800"
-                            : "bg-slate-100 text-slate-900 group-hover:bg-slate-900 group-hover:text-slate-50"
-                        }`}
-                        aria-hidden="true"
+                    <div className="absolute -right-6 -top-6 h-16 w-16 rotate-6 rounded-3xl border border-slate-300/60 bg-gradient-to-br from-slate-100/80 via-white/70 to-indigo-100/80" />
+                    <div className="relative space-y-3">
+                      <p className="text-[0.7rem] font-mono uppercase tracking-[0.32em] text-slate-500">
+                        Path one
+                      </p>
+                      <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">
+                        Logo design lab
+                      </h2>
+                      <p className="text-sm text-slate-600">
+                        Monograms, marks, and experimental typography crafted
+                        for founders and weird little products.
+                      </p>
+                      <button
+                        type="button"
+                        className="mt-2 inline-flex items-center gap-2 rounded-full border border-slate-300 bg-slate-900 px-4 py-1.5 text-xs font-medium text-slate-50 shadow-sm transition group-hover:-translate-y-0.5 group-hover:bg-slate-800"
                       >
-                        →
-                      </span>
+                        Enter logo studio
+                        <span className="text-sm">↳</span>
+                      </button>
                     </div>
-                    <div className="mt-3 flex flex-wrap gap-1.5">
-                      {project.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className={`rounded-full px-2 py-0.5 text-[0.68rem] font-medium ${
-                            isDark
-                              ? "bg-slate-900 text-slate-200"
-                              : "bg-slate-100 text-slate-800"
-                          }`}
-                        >
-                          {tag}
-                        </span>
-                      ))}
+                  </Link>
+
+                  <Link
+                    href="/engineering"
+                    className={`${cardBase} ${engineeringPathCard} group relative px-5 py-6 sm:px-6 sm:py-7 hover:-translate-y-1`}
+                  >
+                    <div className="absolute -left-5 -top-4 h-10 w-24 -rotate-3 rounded-full border border-slate-500/60 bg-slate-900/70 text-[0.6rem] font-mono uppercase tracking-[0.26em] text-slate-200/90 sm:flex sm:items-center sm:justify-center">
+                      code & systems
                     </div>
-                  </button>
-                ))}
+                    <div className="relative space-y-3">
+                      <p className="text-[0.7rem] font-mono uppercase tracking-[0.32em] text-slate-300/90">
+                        Path two
+                      </p>
+                      <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">
+                        Engineering scrapbook
+                      </h2>
+                      <p className="text-sm text-slate-200/80">
+                        Interfaces, prototypes, and small tools built in
+                        Next.js — the behind-the-scenes of how things work.
+                      </p>
+                      <button
+                        type="button"
+                        className="mt-2 inline-flex items-center gap-2 rounded-full border border-slate-500 bg-slate-50 px-4 py-1.5 text-xs font-medium text-slate-900 shadow-sm transition group-hover:-translate-y-0.5 group-hover:bg-emerald-100"
+                      >
+                        Explore engineering work
+                        <span className="text-sm">⇱</span>
+                      </button>
+                    </div>
+                  </Link>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-3 pt-2 text-[0.7rem] font-mono uppercase tracking-[0.26em] text-slate-500">
+                  <span className="inline-flex items-center gap-1 rounded-full border border-dashed border-slate-400/70 px-3 py-1">
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                    <span>Blends logo craft & code</span>
+                  </span>
+                  <span>Freelance · collaborations · experiments</span>
+                </div>
               </div>
             </div>
 
-            <div className="text-xs">
-              <p className={subtleText}>
-                Built with Next.js · Tailwind CSS · App Router.
-              </p>
-            </div>
-          </aside>
+            <aside className="relative mt-4 space-y-5 lg:mt-0">
+              <div
+                className={`${cardBase} relative overflow-hidden bg-white/90 px-5 py-6 text-slate-900 sm:px-6 sm:py-7`}
+              >
+                <div className="absolute inset-x-6 top-0 h-10 bg-gradient-to-r from-slate-100 via-emerald-50/70 to-sky-100" />
+                <div className="relative flex items-start gap-4">
+                  <div className="relative h-16 w-16 shrink-0 -rotate-3 overflow-hidden rounded-2xl border border-slate-200 bg-slate-200/80 shadow-md">
+                    <Image
+                      src="/profile.jpg"
+                      alt="Aidan portrait"
+                      fill
+                      sizes="64px"
+                      className="object-cover object-center"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <p className="text-[0.7rem] font-mono uppercase tracking-[0.3em] text-slate-500">
+                      Aidan · designer / engineer
+                    </p>
+                    <p className="text-sm leading-relaxed text-slate-700">
+                      I work at the overlap of identity, interface, and motion —
+                      designing logos that feel like tiny worlds and interfaces
+                      that feel a bit like instruments.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="relative space-y-4">
+                <div className="absolute -right-6 -top-6 hidden h-16 w-16 rotate-6 rounded-3xl border border-dashed border-slate-400/70 md:block" />
+
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <div className="relative -rotate-2 rounded-2xl border border-dashed border-slate-300 bg-slate-50/90 px-4 py-3 text-xs text-slate-700 shadow-sm">
+                    <p className="font-mono text-[0.68rem] uppercase tracking-[0.26em] text-slate-500">
+                      Notes from the desk
+                    </p>
+                    <p className="mt-1">
+                      Favorite tools: a notebook, Figma, and a very messy
+                      Next.js repo.
+                    </p>
+                  </div>
+
+                  <div className="relative rotate-1 rounded-2xl border border-emerald-200 bg-gradient-to-br from-emerald-50 via-white to-sky-50 px-4 py-3 text-xs text-slate-800 shadow-sm">
+                    <p className="font-mono text-[0.68rem] uppercase tracking-[0.26em] text-emerald-600">
+                      Currently exploring
+                    </p>
+                    <p className="mt-1">
+                      Kinetic logo systems, generative palettes, and small
+                      tools that help teams think visually.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between text-[0.7rem] text-slate-500">
+                  <span>Based in GMT · open to remote work</span>
+                  <span className="hidden font-mono uppercase tracking-[0.25em] sm:inline">
+                    Built with Next.js & Tailwind
+                  </span>
+                </div>
+              </div>
+            </aside>
+          </div>
         </section>
       </div>
     </main>
