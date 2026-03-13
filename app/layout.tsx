@@ -96,7 +96,7 @@ export const metadata: Metadata = {
   // After submitting your sitemap to Google Search Console, paste the
   // verification token here (find it under Settings → Ownership verification).
   verification: {
-    google: "KV5X69EIfvQHIWt6E58u2nkAd",
+    google: "KV5X69EIfvQHIWt6E58u2nkAdodVgCxoO3iSBIR0isk" />",
     // bing: "PASTE_IF_NEEDED",
   },
 };
