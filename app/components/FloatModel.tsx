@@ -142,7 +142,7 @@ export default function FloatModel({
 
     // ── Load model or build cube ───────────────────────────────────────────────
     if (modelSrc) {
-      import("three/examples/jsm/loaders/GLTFLoader")
+      import("three/examples/jsm/loaders/GLTFLoader.js")
         .then(({ GLTFLoader }) => {
           const loader = new GLTFLoader();
           loader.load(
