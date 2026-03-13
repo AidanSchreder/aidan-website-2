@@ -25,15 +25,41 @@ const FloatModel = dynamic(() => import("./components/FloatModel"), { ssr: false
 const FloatImg   = dynamic(() => import("./components/FloatImg"),   { ssr: false });
 
 // ── MAIN COMPONENT ───────────────────────────────────────────────────────────
+// Device classes drive conditional rendering of FloatImg / FloatModel.
+// Resolved client-side only (inside useEffect) to avoid SSR/hydration mismatches.
+// "pc"     → fine pointer (mouse/trackpad): all floats shown
+// "tablet" → coarse pointer + wide screen (≥768 px): images only, no models
+// "phone"  → coarse pointer + narrow screen (<768 px): no images, no models
+type DeviceClass = "pc" | "tablet" | "phone";
+
 export default function Portfolio() {
-  const [scrollY, setScrollY]   = useState(0);
-  const { isDark, setIsDark }   = useTheme();
-  const { dotRef, ringRef }     = useFastCursor();
+  const [scrollY, setScrollY]                       = useState(0);
+  // null = not yet resolved (first render / SSR). Floats are suppressed until
+  // this is set, preventing a flash of incorrectly-shown content on mobile.
+  const [deviceClass, setDeviceClass]               = useState<DeviceClass | null>(null);
+  const { isDark, setIsDark }                       = useTheme();
+  const { dotRef, ringRef }                         = useFastCursor();
 
   const heroRef        = useRef<HTMLElement>(null);
   const aboutRef       = useRef<HTMLElement>(null);
   const engineeringRef = useRef<HTMLElement>(null);
   const footerRef      = useRef<HTMLElement>(null);
+
+  // Resolve device class once on mount (client only).
+  // getDeviceClass is defined here — inside the effect scope — so it is
+  // guaranteed to only ever run in a browser context where window exists.
+  // Also re-evaluates on resize to handle device rotation correctly.
+  useEffect(() => {
+    function getDeviceClass(): DeviceClass {
+      if (window.matchMedia("(pointer: coarse) and (max-width: 767px)").matches) return "phone";
+      if (window.matchMedia("(pointer: coarse)").matches) return "tablet";
+      return "pc";
+    }
+    const update = () => setDeviceClass(getDeviceClass());
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
 
   useEffect(() => {
     let rafId = 0;
@@ -54,6 +80,12 @@ export default function Portfolio() {
   const ftScroll    = relScroll(footerRef);
 
   const engineeringProjects = ENGINEERING_PROJECTS;
+
+  // Derived visibility flags from deviceClass.
+  // null (unresolved) → hide all floats to prevent flash on mobile.
+  // PC: both shown. Tablet: images only, no models. Phone: neither.
+  const showImgs   = deviceClass === "pc" || deviceClass === "tablet";
+  const showModels = deviceClass === "pc";
 
   return (
     <div className={SpaceMono.variable} data-theme={isDark ? "dark" : "light"}>
@@ -215,6 +247,20 @@ export default function Portfolio() {
           color: var(--fg);
         }
 
+        /* ── FLOAT MODEL WRAPPER ── */
+        /* Zero-size, non-positioned wrapper. Adds no layout space and does not
+           create a new stacking or positioning context, so FloatModel's own
+           position: absolute continues to resolve against its section ancestor.
+           Using display: block (not display: contents) is intentional — Safari
+           has a bug where display: none cannot override display: contents,
+           which would break the PC portrait hide rule below. */
+        .float-model-wrap {
+          display: block;
+          width: 0;
+          height: 0;
+          overflow: visible;
+        }
+
         /* ── CURSOR ── */
         .cursor {
           position: fixed;
@@ -239,6 +285,16 @@ export default function Portfolio() {
           transform: translate(-20px, -20px);
           transition: transform 0.10s linear;
           will-change: transform;
+        }
+
+        /* ── HIDE CUSTOM CURSOR ON TOUCH/MOBILE DEVICES ── */
+        /* pointer: coarse = touchscreen (phone, tablet).        */
+        /* pointer: fine   = mouse/trackpad (PC, even portrait). */
+        @media (pointer: coarse) {
+          body { cursor: auto; }
+          .theme-toggle, .cta-button, .cta-button-outline,
+          .nav-links a, .eng-item { cursor: auto; }
+          .cursor, .cursor-ring { display: none; }
         }
 
         /* ── THEME TOGGLE ── */
@@ -505,8 +561,16 @@ export default function Portfolio() {
           .footer-bottom { flex-direction: column; gap: 12px; }
           .theme-toggle { bottom: 20px; right: 20px; }
           .section-ghost { display: none; }
-          .float-img { display: none; }
-          .interstitial { display: none; }
+        }
+
+        /* On PC (fine pointer) in portrait, hide floats — they are positioned
+           for landscape and will overlap text in a tall/narrow window.
+           Tablet and phone are already handled by React conditional rendering
+           and are unaffected by this rule (they have pointer: coarse). */
+        @media (pointer: fine) and (max-aspect-ratio: 1/1) {
+          .float-img       { display: none; }
+          .float-model-wrap { display: none; }
+          .interstitial    { display: none; }
         }
       `}</style>
 
@@ -544,9 +608,9 @@ export default function Portfolio() {
         <div className="hero-bg-text"       style={{ transform: `translate(-50%, calc(-50% + ${heroScroll * 0.30}px))` }} aria-hidden="true">AIDAN</div>
         <div className="hero-deco-line"     style={{ transform: `translateY(${heroScroll * 0.12}px)` }} aria-hidden="true" />
 
-        <FloatModel label="IMG 01" width={400} height={400} top="8%"  left="55%"  rotation={0} speed={0.25}  scrollY={heroScroll} zIndex={2} isDark={isDark} cameraZ={7.5}  modelScale={3.3} modelSrc="/models/RSPod13.glb"/>
-        <FloatImg   label="IMG 02" width={230} height={230} top="45%" left="39%"  rotation={0} speed={0.20} scrollY={heroScroll} zIndex={1} src="/images/main/tedx.jpg" />
-        <FloatImg   label="IMG 03" width={330} height={400} top="18%" left="70%"  rotation={0} speed={0.3}  scrollY={heroScroll} zIndex={1} src="/images/main/quebec1.jpg"/>
+        {showModels && <div className="float-model-wrap"><FloatModel label="IMG 01" width={400} height={400} top="8%"  left="55%"  rotation={0} speed={0.25}  scrollY={heroScroll} zIndex={2} isDark={isDark} cameraZ={7.5}  modelScale={3.3} modelSrc="/models/RSPod13.glb"/></div>}
+        {showImgs   && <FloatImg   label="IMG 02" width={230} height={230} top="45%" left="39%"  rotation={0} speed={0.20} scrollY={heroScroll} zIndex={1} src="/images/main/tedx.jpg" />}
+        {showImgs   && <FloatImg   label="IMG 03" width={330} height={400} top="18%" left="70%"  rotation={0} speed={0.3}  scrollY={heroScroll} zIndex={1} src="/images/main/quebec1.jpg"/>}
 
         <div className="hero-corner-tag" style={{ transform: `translateY(calc(-50% + ${heroScroll * 0.08}px))` }} aria-hidden="true">
           Designer &amp; Engineer — 2026
@@ -574,12 +638,14 @@ export default function Portfolio() {
       {/* ══════════════════════════════════════════════
           INTERSTITIAL
       ══════════════════════════════════════════════ */}
-      <div className="interstitial" style={{ position: "relative", height: 340, overflow: "visible" }}>
-        <FloatImg   label="IMG 04" width={320} height={220} top="-100px" left="5%"   rotation={0} speed={0.22} scrollY={scrollY - 700}  zIndex={2} src="/images/main/quebec2.jpg"  />
-        <FloatModel label="IMG 05" width={700} height={700} top="-100px" left="18%"  rotation={0} speed={0.2}  scrollY={scrollY - 700}  zIndex={2} isDark={isDark} cameraZ={7.5}  modelScale={2.2} modelSrc="/models/repairship12.glb"/>
-        <FloatImg   label="IMG 06" width={300} height={200} top="-40px"  left="68%"  rotation={0} speed={0.35} scrollY={scrollY - 700}  zIndex={1} src="/images/main/orbital.jpg" />
-        <FloatImg   label="IMG 07" width={160} height={160} top="80px"   left="82%"  rotation={0} speed={0.38} scrollY={scrollY - 700}  zIndex={1} src="/images/main/spright.jpg" />
-      </div>
+      {showImgs && (
+        <div className="interstitial" style={{ position: "relative", height: 340, overflow: "visible" }}>
+          <FloatImg   label="IMG 04" width={320} height={220} top="-100px" left="5%"   rotation={0} speed={0.22} scrollY={scrollY - 700}  zIndex={2} src="/images/main/quebec2.jpg"  />
+          {showModels && <div className="float-model-wrap"><FloatModel label="IMG 05" width={700} height={700} top="-100px" left="18%"  rotation={0} speed={0.2}  scrollY={scrollY - 700}  zIndex={2} isDark={isDark} cameraZ={7.5}  modelScale={2.2} modelSrc="/models/repairship12.glb"/></div>}
+          <FloatImg   label="IMG 06" width={300} height={200} top="-40px"  left="68%"  rotation={0} speed={0.35} scrollY={scrollY - 700}  zIndex={1} src="/images/main/orbital.jpg" />
+          <FloatImg   label="IMG 07" width={160} height={160} top="80px"   left="82%"  rotation={0} speed={0.38} scrollY={scrollY - 700}  zIndex={1} src="/images/main/spright.jpg" />
+        </div>
+      )}
 
       {/* ══════════════════════════════════════════════
           ABOUT SECTION
@@ -587,7 +653,7 @@ export default function Portfolio() {
       <section className="about-section" id="about" ref={aboutRef}>
         <div className="about-bg-text" style={{ transform: `translateY(${aboutScroll * 0.26}px)` }} aria-hidden="true">AS</div>
 
-        <FloatImg label="IMG 09" width={300} height={130} top="30%"  left="55%"    rotation={0} speed={0.27} scrollY={aboutScroll} zIndex={1} src="/images/main/watcher.jpg" />
+        {showImgs && <FloatImg label="IMG 09" width={300} height={130} top="30%"  left="55%"    rotation={0} speed={0.27} scrollY={aboutScroll} zIndex={1} src="/images/main/watcher.jpg" />}
 
         <div className="about-grid">
           <div>
@@ -630,8 +696,8 @@ export default function Portfolio() {
       <section className="section" id="projects" ref={engineeringRef}>
         <div className="section-ghost" style={{ transform: `translateY(${engScroll * 0.20}px)` }} aria-hidden="true">02</div>
 
-        <FloatImg label="IMG 08" width={260} height={340} top="-40px"  left="400px"  rotation={0} speed={0.20} scrollY={engScroll} zIndex={0} src="/images/main/japan2.jpg" />
-        <FloatImg label="IMG 10" width={110} height={190} top="-120px" left="520px"  rotation={0} speed={0.22} scrollY={engScroll} zIndex={0} src="/images/main/japan1.jpg"/>
+        {showImgs && <FloatImg label="IMG 08" width={260} height={340} top="-40px"  left="400px"  rotation={0} speed={0.20} scrollY={engScroll} zIndex={0} src="/images/main/japan2.jpg" />}
+        {showImgs && <FloatImg label="IMG 10" width={110} height={190} top="-120px" left="520px"  rotation={0} speed={0.22} scrollY={engScroll} zIndex={0} src="/images/main/japan1.jpg"/>}
 
         <div className="section-header">
           <div>
@@ -666,8 +732,8 @@ export default function Portfolio() {
       <section className="footer-cta" id="contact" ref={footerRef}>
         <div className="footer-ghost" style={{ transform: `translateX(-50%) translateY(${ftScroll * 0.28}px)` }} aria-hidden="true">CTA</div>
 
-        <FloatModel label="IMG 11" width={400} height={600} top="80px"  left="-20px"  rotation={0} speed={0.32}  scrollY={ftScroll} zIndex={3} isDark={isDark} cameraZ={7.5}  modelScale={1.7} modelSrc="/models/hotel5.glb"/>
-        <FloatImg   label="IMG 12" width={260} height={260} top="60px"  left="76%"    rotation={0} speed={-0.18} scrollY={ftScroll} zIndex={1}  src="/images/main/854.jpg" />
+        {showModels && <div className="float-model-wrap"><FloatModel label="IMG 11" width={400} height={600} top="80px"  left="-20px"  rotation={0} speed={0.32}  scrollY={ftScroll} zIndex={3} isDark={isDark} cameraZ={7.5}  modelScale={1.7} modelSrc="/models/hotel5.glb"/></div>}
+        {showImgs   && <FloatImg   label="IMG 12" width={260} height={260} top="60px"  left="76%"    rotation={0} speed={-0.18} scrollY={ftScroll} zIndex={1}  src="/images/main/854.jpg" />}
 
         <p className="footer-cta-label">[ 03 ] — Let&apos;s Work Together</p>
 
