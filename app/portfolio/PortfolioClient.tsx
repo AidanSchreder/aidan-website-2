@@ -497,6 +497,17 @@ export default function PortfolioPage() {
           .nav-back, .lb-dot, .chip { cursor: none; }
         }
 
+        /* ── TOUCH/MOBILE OVERRIDES ── */
+        @media (pointer: coarse) {
+          body { cursor: auto; }
+          .theme-toggle, .cta-button, .nav-back, .lb-dot, .chip { cursor: auto; }
+          .cursor, .cursor-ring { display: none; }
+          /* Prevent rubber-band/bounce overscroll revealing white browser chrome.
+             Horizontal is fully locked; vertical bounce at page top/bottom removed.
+             Applied only on touch devices — PC trackpad momentum scroll unaffected. */
+          html, body { overscroll-behavior: none; }
+        }
+
         /* ── SKIP LINK ── */
         .skip-link {
           position: absolute; top: 0; left: 16px; z-index: 10000;

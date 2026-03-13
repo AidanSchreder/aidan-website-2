@@ -295,6 +295,10 @@ export default function Portfolio() {
           .theme-toggle, .cta-button, .cta-button-outline,
           .nav-links a, .eng-item { cursor: auto; }
           .cursor, .cursor-ring { display: none; }
+          /* Prevent rubber-band/bounce overscroll revealing white browser chrome.
+             Horizontal is fully locked; vertical bounce at page top/bottom removed.
+             Applied only on touch devices — PC trackpad momentum scroll unaffected. */
+          html, body { overscroll-behavior: none; }
         }
 
         /* ── THEME TOGGLE ── */
