@@ -365,7 +365,7 @@ export const PORTFOLIO_CAPTIONS: Record<string, string> = {
   "09-4": "Initial organism-based sketches",
   "10-0": "Watchers in the forest - environment",
   "10-1": "Watchers in the forest - close up",
-  "10-1": "Watchers in the forest - close up grayscale",
+  "10-2": "Watchers in the forest - close up grayscale",
   "10-3": "Textured watcher model 1",
   "10-4": "Watcher model grayscale 1",
   "10-5": "Textured watcher model 2",
