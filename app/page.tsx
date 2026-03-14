@@ -71,6 +71,28 @@ export default function Portfolio() {
     return () => { window.removeEventListener("scroll", onScroll); cancelAnimationFrame(rafId); };
   }, []);
 
+  // Sync Safari/Chrome mobile UI chrome colour (status bar, tab bar) with the
+  // current theme. --bg is defined on [data-theme] (a child div), NOT on :root,
+  // so we must query that element — not document.documentElement — to get the
+  // resolved value. rAF ensures the attribute has been committed to the DOM
+  // before we read the computed style.
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => {
+      const themeEl = document.querySelector("[data-theme]");
+      if (!themeEl) return;
+      const bg = getComputedStyle(themeEl).getPropertyValue("--bg").trim();
+      if (!bg) return;
+      let meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+      if (!meta) {
+        meta = document.createElement("meta");
+        meta.name = "theme-color";
+        document.head.appendChild(meta);
+      }
+      meta.content = bg;
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [isDark]);
+
   const relScroll = (ref: React.RefObject<HTMLElement | null>) =>
     ref.current ? scrollY - ref.current.offsetTop : 0;
 
@@ -88,7 +110,7 @@ export default function Portfolio() {
   const showModels = deviceClass === "pc";
 
   return (
-    <div className={SpaceMono.variable} data-theme={isDark ? "dark" : "light"}>
+    <div className={SpaceMono.variable} data-theme={isDark ? "dark" : "light"} style={{ width: "100%", overflowX: "hidden" }}>
       <a href="#main-content" className="skip-link">Skip to content</a>
       <style>{`
         ${fontConfig.fontFace ?? ""}
@@ -112,8 +134,8 @@ export default function Portfolio() {
           ${homeLightVars()}
         }
 
-        html { scroll-behavior: smooth; }
-        body { font-family: var(--font-mono); overflow-x: hidden; cursor: none; }
+        html { scroll-behavior: smooth; overflow-x: hidden; max-width: 100%; }
+        body { font-family: var(--font-mono); overflow-x: hidden; max-width: 100%; cursor: none; }
 
         @media (pointer: fine) {
           .theme-toggle, .cta-button, .cta-button-outline,
