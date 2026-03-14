@@ -110,7 +110,7 @@ export default function Portfolio() {
   const showModels = deviceClass === "pc";
 
   return (
-    <div className={SpaceMono.variable} data-theme={isDark ? "dark" : "light"} style={{ width: "100%", overflowX: "hidden" }}>
+    <div className={SpaceMono.variable} data-theme={isDark ? "dark" : "light"} style={{ width: "100%" }}>
       <a href="#main-content" className="skip-link">Skip to content</a>
       <style>{`
         ${fontConfig.fontFace ?? ""}
@@ -135,7 +135,7 @@ export default function Portfolio() {
         }
 
         html { scroll-behavior: smooth; overflow-x: hidden; max-width: 100%; }
-        body { font-family: var(--font-mono); overflow-x: hidden; max-width: 100%; cursor: none; }
+        body { font-family: var(--font-mono); cursor: none; }
 
         @media (pointer: fine) {
           .theme-toggle, .cta-button, .cta-button-outline,
@@ -587,6 +587,10 @@ export default function Portfolio() {
           .footer-bottom { flex-direction: column; gap: 12px; }
           .theme-toggle { bottom: 20px; right: 20px; }
           .section-ghost { display: none; }
+          /* Scale hero name to always fit within the padded viewport.
+             clamp floor drops from 80px to 9vw so "SCHREDER" (8 wide glyphs)
+             never exceeds the available width (100vw - 48px padding). */
+          .hero-name { font-size: clamp(9vw, 13vw, 200px); }
         }
 
         /* On PC (fine pointer) in portrait, hide floats — they are positioned
@@ -772,7 +776,7 @@ export default function Portfolio() {
 
         <div className="cta-buttons">
           <a
-            href="mailto:aidan.schreder@gmail.com"
+            href="/thank-you"
             className="cta-button"
             onClick={() => trackGA4Event("contact_click", { source: "home_cta" })}
           >

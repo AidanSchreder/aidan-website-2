@@ -1051,7 +1051,7 @@ export default function PortfolioPage() {
 
         <div className="cta-buttons">
           <a
-            href="mailto:aidan.schreder@gmail.com"
+            href="/thank-you"
             className="cta-button"
             onClick={() => trackGA4Event("contact_click", { source: "portfolio_cta" })}
           >
