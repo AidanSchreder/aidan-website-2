@@ -28,7 +28,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Script from "next/script";
 
 declare global {
@@ -56,7 +56,6 @@ function pageView(path: string) {
 // ── PROVIDER COMPONENT ────────────────────────────────────────────────────────
 export default function GoogleAnalytics() {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   useEffect(() => {
     if (!GA_MEASUREMENT_ID) {
@@ -66,10 +65,10 @@ export default function GoogleAnalytics() {
       return;
     }
 
-    const query = searchParams?.toString();
-    const path = query ? `${pathname}?${query}` : pathname;
+    const query = typeof window !== "undefined" ? window.location.search : "";
+    const path = `${pathname}${query}`;
     pageView(path);
-  }, [pathname, searchParams]);
+  }, [pathname]);
 
   if (!GA_MEASUREMENT_ID) {
     return null;
