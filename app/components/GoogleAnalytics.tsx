@@ -27,12 +27,54 @@
 
 "use client";
 
+import { useEffect } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
 import Script from "next/script";
 
-const GA_MEASUREMENT_ID = "G-TEGYYJX901";
+declare global {
+  interface Window {
+    dataLayer: unknown[];
+    gtag?: (...args: unknown[]) => void;
+  }
+}
+
+const GA_MEASUREMENT_ID =
+  process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "G-TEGYYJX901";
+
+function pageView(path: string) {
+  if (typeof window === "undefined" || typeof window.gtag !== "function") {
+    return;
+  }
+
+  window.gtag("event", "page_view", {
+    page_title: document.title,
+    page_location: window.location.href,
+    page_path: path,
+  });
+}
 
 // ── PROVIDER COMPONENT ────────────────────────────────────────────────────────
 export default function GoogleAnalytics() {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    if (!GA_MEASUREMENT_ID) {
+      if (process.env.NODE_ENV !== "production") {
+        console.warn("Google Analytics is disabled: no measurement ID found.");
+      }
+      return;
+    }
+
+    const query = searchParams?.toString();
+    const path = query ? `${pathname}?${query}` : pathname;
+    pageView(path);
+  }, [pathname, searchParams]);
+
+  if (!GA_MEASUREMENT_ID) {
+    return null;
+  }
+
   return (
     <>
       <Script
@@ -42,10 +84,10 @@ export default function GoogleAnalytics() {
       <Script id="google-analytics" strategy="afterInteractive">
         {`
           window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', '${GA_MEASUREMENT_ID}', {
-            page_path: window.location.pathname,
+          window.gtag = function gtag(){window.dataLayer.push(arguments);};
+          window.gtag('js', new Date());
+          window.gtag('config', '${GA_MEASUREMENT_ID}', {
+            send_page_view: false
           });
         `}
       </Script>
@@ -59,12 +101,10 @@ type GA4Props = Record<string, string | number | boolean>;
 export function trackGA4Event(eventName: string, props?: GA4Props): void {
   if (typeof window === "undefined") return;
 
-  const gtag = (window as Window & {
-    gtag?: (...args: unknown[]) => void;
-  }).gtag;
-
-  if (typeof gtag === "function") {
-    gtag("event", eventName, props ?? {});
+  if (typeof window.gtag === "function") {
+    window.gtag("event", eventName, props ?? {});
+  } else if (process.env.NODE_ENV !== "production") {
+    console.warn(`Google Analytics event dropped: ${eventName}`);
   }
 }
 

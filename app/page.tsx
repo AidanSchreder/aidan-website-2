@@ -689,14 +689,14 @@ export default function Portfolio() {
           <div>
             <div className="about-label">[ 01 ] — About</div>
             <h2 className="about-headline" style={{ transform: `translateY(${aboutScroll * 0.12}px)` }}>
-              <span className="stroke"> Precision<br />MEETS </span> <br />CREATIVITY
+              <span className="stroke"> EFFICIENCY,<br />RESPONSBILITY, </span> <br />& CREATIVITY
             </h2>
           </div>
           <div className="about-right" style={{ transform: `translateY(${aboutScroll * 0.04}px)` }}>
             <p className="about-body">
-              I design and build systems that work — and last. My projects span design, software,
-              photography and mechanical engineering, but they all start the same way: curiosity, careful design,
-              and an obsession with getting the details right. From leading robotics teams to designing
+              I design and build systems that work and impress. My projects span design, mechanical, software,
+              photography and more, but they all start the same way: curiosity, passion,
+              and an obsession with detail. From leading robotics teams to designing
               identities for game studios, I focus on turning rough ideas into clear, functional results.
               <br /><br />
               I&apos;m drawn to work that lives at the intersection of technical rigor and creative thinking.
