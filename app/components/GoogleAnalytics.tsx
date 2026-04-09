@@ -39,7 +39,7 @@ declare global {
 }
 
 const GA_MEASUREMENT_ID =
-  process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "G-TEGYYJX901";
+  process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "G-3RYJ5FDDWX";
 
 function pageView(path: string) {
   if (typeof window === "undefined" || typeof window.gtag !== "function") {
