@@ -9,6 +9,7 @@ import { ENGINEERING_PROJECTS, LAST_UPDATED } from "./content.config";
 import { useTheme } from "./components/ThemeProvider";
 import { useFastCursor } from "./components/useFastCursor";
 import { trackGA4Event } from "./components/GoogleAnalytics";
+import { trackClarityEvent } from "./components/MicrosoftClarity";
 
 // ── DYNAMIC IMPORTS ───────────────────────────────────────────────────────────
 // FloatModel: dynamically imported so Three.js (~600kb) is excluded from the
@@ -605,11 +606,11 @@ export default function Portfolio() {
       `}</style>
 
       {/* ── NOISE ── */}
-      <div className="noise" aria-hidden="true" />
+      <div className="noise" data-clarity-mask="true" aria-hidden="true" />
 
       {/* ── CURSOR ── */}
-      <div className="cursor"      ref={dotRef}  aria-hidden="true" />
-      <div className="cursor-ring" ref={ringRef} aria-hidden="true" />
+      <div className="cursor" data-clarity-mask="true" ref={dotRef} aria-hidden="true" />
+      <div className="cursor-ring" data-clarity-mask="true" ref={ringRef} aria-hidden="true" />
 
       {/* ── THEME TOGGLE ── */}
       <button className="theme-toggle" onClick={() => setIsDark(d => !d)} aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}>
@@ -778,14 +779,20 @@ export default function Portfolio() {
           <a
             href="/thank-you"
             className="cta-button"
-            onClick={() => trackGA4Event("contact_click", { source: "home_cta" })}
+            onClick={() => {
+              trackGA4Event("contact_click", { source: "home_cta" });
+              trackClarityEvent("home_contact_click");
+            }}
           >
             Request Design Services <span className="cta-arrow">→</span>
           </a>
           <a
             href="/portfolio"
             className="cta-button-outline"
-            onClick={() => trackGA4Event("portfolio_link_click", { source: "home_cta" })}
+            onClick={() => {
+              trackGA4Event("portfolio_link_click", { source: "home_cta" });
+              trackClarityEvent("home_portfolio_click");
+            }}
           >
             View Design Portfolio <span className="cta-arrow">→</span>
           </a>

@@ -56,6 +56,7 @@ export default function FloatImg({
   return (
     <div
       className="float-img"
+      data-clarity-mask="true"
       style={{
         position: "absolute",
         top,

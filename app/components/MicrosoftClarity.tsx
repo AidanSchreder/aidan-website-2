@@ -30,11 +30,82 @@
 
 "use client";
 
+import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Script from "next/script";
 
 const CLARITY_PROJECT_ID = "vv6k3s8thp";
 
+type ClarityTagValue = string | string[];
+type ClarityCommand = (...args: unknown[]) => void;
+type QueuedClarityCommand = ClarityCommand & { q?: unknown[][] };
+
+declare global {
+  interface Window {
+    clarity?: QueuedClarityCommand;
+  }
+}
+
+const clarityTagState = new Map<string, Set<string>>();
+
+function getClarity() {
+  if (typeof window === "undefined") return null;
+
+  if (typeof window.clarity === "function") {
+    return window.clarity;
+  }
+
+  const clarityQueue: QueuedClarityCommand = (...args: unknown[]) => {
+    clarityQueue.q = clarityQueue.q || [];
+    clarityQueue.q.push(args);
+  };
+
+  clarityQueue.q = clarityQueue.q || [];
+  window.clarity = clarityQueue;
+  return window.clarity;
+}
+
+function getPageType(pathname: string) {
+  if (pathname === "/") return "home";
+  if (pathname === "/portfolio") return "portfolio";
+  if (pathname === "/thank-you") return "thank_you";
+  return "other";
+}
+
+export function setClarityTag(key: string, value: ClarityTagValue) {
+  const clarity = getClarity();
+  if (!clarity) return;
+  clarity("set", key, value);
+}
+
+export function appendClarityTag(key: string, value: string | string[]) {
+  const values = Array.isArray(value) ? value : [value];
+  const existing = clarityTagState.get(key) ?? new Set<string>();
+
+  values
+    .filter(Boolean)
+    .forEach((entry) => {
+      existing.add(entry);
+    });
+
+  clarityTagState.set(key, existing);
+  setClarityTag(key, Array.from(existing));
+}
+
+export function trackClarityEvent(eventName: string) {
+  const clarity = getClarity();
+  if (!clarity) return;
+  clarity("event", eventName);
+}
+
 export default function MicrosoftClarity() {
+  const pathname = usePathname();
+
+  useEffect(() => {
+    setClarityTag("page_path", pathname);
+    setClarityTag("page_type", getPageType(pathname));
+  }, [pathname]);
+
   return (
     <Script id="microsoft-clarity" strategy="afterInteractive">
       {`

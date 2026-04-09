@@ -274,6 +274,7 @@ export default function FloatModel({
   return (
     <div
       className="float-img"
+      data-clarity-mask="true"
       style={{
         position: "absolute", top, left, width, height,
         transform: `rotate(${rotation}deg) translateY(${scrollY * speed}px)`,

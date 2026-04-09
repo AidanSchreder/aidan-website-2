@@ -7,6 +7,11 @@ import { themeConfig, portfolioDarkVars, portfolioLightVars } from "../theme.con
 import { useTheme } from "../components/ThemeProvider";
 import { useFastCursor } from "../components/useFastCursor";
 import { trackGA4Event } from "../components/GoogleAnalytics";
+import {
+  appendClarityTag,
+  setClarityTag,
+  trackClarityEvent,
+} from "../components/MicrosoftClarity";
 
 import {
   PORTFOLIO_PIECES,
@@ -52,6 +57,17 @@ function getCaption(pieceId: string, slideIndex: number): string {
 //
 function getSlideImagePath(pieceId: string, slideIndex: number): string {
   return `/images/portfolio/${pieceId}/${slideIndex}.jpg`;
+}
+
+function toClarityToken(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/^_+|_+$/g, "");
+}
+
+function getPieceClaritySlug(piece: Piece): string {
+  return toClarityToken(piece.title) || piece.id;
 }
 
 // ── SLIDESHOW (card version) ──────────────────────────────────────────────────
@@ -461,8 +477,16 @@ export default function PortfolioPage() {
   }, [lightbox]);
 
   const openLightbox = (piece: Piece, slide: number, rect: DOMRect) => {
+    const pieceSlug = getPieceClaritySlug(piece);
     setLightbox({ piece, slide, rect: { top: rect.top, left: rect.left, width: rect.width, height: rect.height } });
     trackGA4Event("project_viewed", { project: piece.title, category: piece.categories.join(", ") });
+    trackClarityEvent("portfolio_piece_opened");
+    trackClarityEvent(`portfolio_piece_opened_${pieceSlug}`);
+    setClarityTag("portfolio_last_piece_slug", pieceSlug);
+    setClarityTag("portfolio_last_piece_title", piece.title);
+    appendClarityTag("portfolio_piece_slugs", pieceSlug);
+    appendClarityTag("portfolio_piece_titles", piece.title);
+    appendClarityTag("portfolio_piece_categories", piece.categories);
   };
 
   const closeLightbox = () => setLightbox(null);
@@ -475,6 +499,10 @@ export default function PortfolioPage() {
     if (next !== "") {
       setHasEverSelected(true);
       trackGA4Event("category_selected", { category: next });
+      trackClarityEvent("portfolio_category_selected");
+      trackClarityEvent(`portfolio_category_selected_${toClarityToken(next)}`);
+      setClarityTag("portfolio_active_category", next);
+      appendClarityTag("portfolio_selected_categories", next);
     }
   };
 
@@ -947,9 +975,9 @@ export default function PortfolioPage() {
         }
       `}</style>
 
-      <div className="noise" aria-hidden="true" />
-      <div className="cursor"      ref={dotRef}  aria-hidden="true" />
-      <div className="cursor-ring" ref={ringRef} aria-hidden="true" />
+      <div className="noise" data-clarity-mask="true" aria-hidden="true" />
+      <div className="cursor" data-clarity-mask="true" ref={dotRef} aria-hidden="true" />
+      <div className="cursor-ring" data-clarity-mask="true" ref={ringRef} aria-hidden="true" />
 
       <button className="theme-toggle" onClick={() => setIsDark(d => !d)} aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}>
         <span className="toggle-icon" aria-hidden="true">{isDark ? "○" : "●"}</span>
@@ -1053,7 +1081,10 @@ export default function PortfolioPage() {
           <a
             href="/thank-you"
             className="cta-button"
-            onClick={() => trackGA4Event("contact_click", { source: "portfolio_cta" })}
+            onClick={() => {
+              trackGA4Event("contact_click", { source: "portfolio_cta" });
+              trackClarityEvent("portfolio_contact_click");
+            }}
           >
             Request Design Services <span className="cta-arrow">→</span>
           </a>
