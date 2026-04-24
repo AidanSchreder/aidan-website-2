@@ -33,21 +33,27 @@ export interface EngineeringProject {
 export const ENGINEERING_PROJECTS: EngineeringProject[] = [
   {
     id: "01",
-    title: "STEM 4 ALL Rebrand",
-    stack: "LOGO · BRAND · APPAREL · ACCESSORIES",
-    desc: "Full brand identity revamp for an evolving highschool FRC robotics team: Team 8224. STEM 4 ALL, previously Vanguard Robotics. See portfolio.",
+    title: "Research and Sample Pod #13",
+    stack: "3D MODELLING · ANIMATION · VIDEO EDITING · SOUND DESIGN",
+    desc: "Animated sci-fi short-film featuring an alien spacecraft created using Blender and Premiere Pro",
   },
   {
     id: "02",
-    title: "Satellite-Repair Rocket Design",
-    stack: "3D MODEL · PHOTOGRAPHY · 3D PRINT",
-    desc: "Designed a multi-stage rocket model with a four degree of freedom deployable arm. See above.",
+    title: "STEM 4 ALL Rebrand",
+    stack: "LOGO · BRAND · APPAREL · ACCESSORIES",
+    desc: "Full brand identity revamp for an evolving highschool FRC robotics team: Team 8224. STEM 4 ALL, previously Vanguard Robotics.",
   },
   {
-    id: "03",
+    id: "04",
+    title: "Satellite-Repair Rocket Design",
+    stack: "3D MODEL · PHOTOGRAPHY · 3D PRINT",
+    desc: "Designed a multi-stage rocket model with a four degree of freedom deployable arm.",
+  },
+  {
+    id: "05",
     title: "Spright Games Launch",
     stack: "LOGO · BRAND",
-    desc: "Logo and brand design work for a Minecraft DLC content company: Spright Games. See portfolio",
+    desc: "Logo and brand design work for a Minecraft DLC content company: Spright Games.",
   },
 ];
 
@@ -279,6 +285,15 @@ export const PORTFOLIO_PIECES: PortfolioPiece[] = [
     found throughout the space. The photographs explore how light interacts with the wood and stone surfaces, highlighting the character
     and scale of the château’s interior.`,
     slides: 5,
+  },
+  {
+    id: "15",
+    title: "Research and Sample Pod #13",
+    categories: ["3D Visualization"],
+    date: "April 2026",
+    desc: `Animated sci-fi short-film with original modelling, texturing, rendering, video editing and sound design created using
+    Blender, Premiere Pro and the eSpeak NG package for robotic text-to-speech. Early unedited shot frames pictured here. View on YouTube here: https://youtu.be/NnYOx5x_wQg `,
+    slides: 4,
   },
   //{
   //  id: "15",
