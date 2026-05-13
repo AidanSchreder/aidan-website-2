@@ -33,12 +33,18 @@ export interface EngineeringProject {
 export const ENGINEERING_PROJECTS: EngineeringProject[] = [
   {
     id: "01",
+    title: "AI Compass",
+    stack: "UI/UX · AI Integration ",
+    desc: "Full-stack web app that routes users to the optimal AI model for their prompt",
+  },
+  {
+    id: "02",
     title: "Research and Sample Pod #13",
     stack: "3D MODELLING · ANIMATION · VIDEO EDITING · SOUND DESIGN",
     desc: "Animated sci-fi short-film featuring an alien spacecraft created using Blender and Premiere Pro",
   },
   {
-    id: "02",
+    id: "03",
     title: "STEM 4 ALL Rebrand",
     stack: "LOGO · BRAND · APPAREL · ACCESSORIES",
     desc: "Full brand identity revamp for an evolving highschool FRC robotics team: Team 8224. STEM 4 ALL, previously Vanguard Robotics.",
@@ -48,13 +54,7 @@ export const ENGINEERING_PROJECTS: EngineeringProject[] = [
     title: "Satellite-Repair Rocket Design",
     stack: "3D MODEL · PHOTOGRAPHY · 3D PRINT",
     desc: "Designed a multi-stage rocket model with a four degree of freedom deployable arm.",
-  },
-  {
-    id: "05",
-    title: "Spright Games Launch",
-    stack: "LOGO · BRAND",
-    desc: "Logo and brand design work for a Minecraft DLC content company: Spright Games.",
-  },
+  }
 ];
 
 // ── PORTFOLIO PAGE — CATEGORIES ───────────────────────────────────────────────
@@ -63,6 +63,7 @@ export const PORTFOLIO_CATEGORIES: string[] = [
   "Graphic Design",
   "3D Visualization",
   "Photography",
+  "Software",
 ];
 
 // ── PORTFOLIO PAGE — PIECES ───────────────────────────────────────────────────
@@ -294,6 +295,18 @@ export const PORTFOLIO_PIECES: PortfolioPiece[] = [
     desc: `Animated sci-fi short-film with original modelling, texturing, rendering, video editing and sound design created using
     Blender, Premiere Pro and the eSpeak NG package for robotic text-to-speech. Early unedited shot frames pictured here. View on YouTube here: https://youtu.be/NnYOx5x_wQg `,
     slides: 4,
+  },
+  {
+    id: "20",
+    title: "AI Compass",
+    categories: ["Software"],
+    date: "May 2026",
+    desc: `AI Compass is a full-stack web app that routes users who want to complete a project to the AI model that would fit best by cross-referencing prompt context
+    against a capability dataset of public AI services, using Claude Haiku 4.5 as a reasoning engine. I designed the REST API layer and React frontend end-to-end, deployed on Vercel with server-side inference calls to the
+    Anthropic API.
+    \n\n
+    Try it out here: https://theaicompass.vercel.app/ `,
+    slides: 2,
   },
   //{
   //  id: "15",
