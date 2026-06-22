@@ -79,6 +79,14 @@ export interface PortfolioPiece {
 
 export const PORTFOLIO_PIECES: PortfolioPiece[] = [
   {
+    id: "21",
+    title: "COMING SOON",
+    categories: ["Graphic Design"],
+    date: "June 2026",
+    desc: `Collaboration with Students for the Exploration and Development of Space.`,
+    slides: 2,
+  },
+  {
     id: "01",
     title: "Evacuation",
     categories: ["3D Visualization"],
@@ -308,6 +316,7 @@ export const PORTFOLIO_PIECES: PortfolioPiece[] = [
     Try it out here: https://theaicompass.vercel.app/ `,
     slides: 2,
   },
+
   //{
   //  id: "15",
   //  title: "Experimental Photo",
