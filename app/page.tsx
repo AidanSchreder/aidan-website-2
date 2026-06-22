@@ -695,7 +695,7 @@ export default function Portfolio() {
           </div>
           <div className="about-right" style={{ transform: `translateY(${aboutScroll * 0.04}px)` }}>
             <p className="about-body">
-              I design and build systems that work and impress. My projects span design, mechanical, software,
+              Hello! My name is Aidan, and I love to build to impress. My projects span design, mechanical, software,
               photography and more, but they all start the same way: curiosity, passion,
               and an obsession with detail. From leading robotics teams to designing
               identities for game studios, I focus on turning rough ideas into clear, functional results.
