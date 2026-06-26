@@ -140,7 +140,7 @@ export default function Portfolio() {
 
         @media (pointer: fine) {
           .theme-toggle, .cta-button, .cta-button-outline,
-          .nav-links a, .eng-item { cursor: none; }
+          .nav-links a, .eng-item, .icra-float { cursor: none; }
         }
 
         [data-theme] {
@@ -316,7 +316,7 @@ export default function Portfolio() {
         @media (pointer: coarse) {
           body { cursor: auto; }
           .theme-toggle, .cta-button, .cta-button-outline,
-          .nav-links a, .eng-item { cursor: auto; }
+          .nav-links a, .eng-item, .icra-float { cursor: auto; }
           .cursor, .cursor-ring { display: none; }
           /* Prevent rubber-band/bounce overscroll revealing white browser chrome.
              Horizontal is fully locked; vertical bounce at page top/bottom removed.
@@ -339,6 +339,30 @@ export default function Portfolio() {
         .theme-toggle:hover { transform: scale(1.04); }
         .toggle-icon { font-size: 14px; line-height: 1; transition: transform 0.4s ease; }
         .theme-toggle:hover .toggle-icon { transform: rotate(30deg); }
+
+        /* ── ICRA PAPER FLOATING BUTTON ── */
+        /* Fixed, top-centred so it clears the nav (logo left / links right) on
+           every width and never overlaps them. Sits below the nav row over the
+           hero's empty upper area. Reuses the theme-toggle tokens so it stays
+           cohesive and adapts to dark/light. Stays visible on all devices —
+           it is not a .float-img, so the mobile float-hiding rules don't touch it. */
+        .icra-float {
+          position: fixed; top: 80px; left: 50%; transform: translateX(-50%);
+          z-index: 600;
+          display: inline-flex; align-items: center; gap: 10px;
+          padding: 12px 22px;
+          background: var(--toggle-bg); color: var(--toggle-fg);
+          border: 1px solid var(--toggle-border);
+          font-family: var(--font-mono); font-size: 10px;
+          letter-spacing: 0.25em; text-transform: uppercase; text-decoration: none;
+          white-space: nowrap; cursor: none;
+          box-shadow: 0 6px 24px var(--img-shadow);
+          transition: background 0.45s ease, color 0.45s ease,
+                      border-color 0.45s ease, transform 0.2s ease;
+        }
+        .icra-float:hover { transform: translateX(-50%) scale(1.04); }
+        .icra-float .cta-arrow { display: inline-block; transition: transform 0.3s ease; }
+        .icra-float:hover .cta-arrow { transform: translateX(4px); }
 
         /* ── NAV ── */
         nav {
@@ -581,6 +605,7 @@ export default function Portfolio() {
         /* ── RESPONSIVE ── */
         @media (max-aspect-ratio: 1/1) {
           nav { padding: 20px 24px; }
+          .icra-float { top: 68px; padding: 10px 16px; font-size: 9px; letter-spacing: 0.18em; }
           .hero { padding: 0 24px 48px; }
           .section, .about-section, .footer-cta { padding: 80px 24px; }
           .about-grid { grid-template-columns: 1fr; gap: 40px; }
@@ -628,6 +653,21 @@ export default function Portfolio() {
           <li><a href="/portfolio">Portfolio</a></li>
         </ul>
       </nav>
+
+      {/* ── ICRA PAPER FLOATING BUTTON ── */}
+      <a
+        href="/ICRA-paper.pdf"
+        className="icra-float"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Read ICRA paper (opens PDF in a new tab)"
+        onClick={() => {
+          trackGA4Event("icra_paper_click", { source: "home_float" });
+          trackClarityEvent("home_icra_paper_click");
+        }}
+      >
+        Read ICRA Paper <span className="cta-arrow" aria-hidden="true">→</span>
+      </a>
 
       <main id="main-content">
 
