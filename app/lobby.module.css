@@ -1,0 +1,43 @@
+/* Root card: the stencil name and a contact line on the faint v1 grid. */
+
+.root { position: relative; min-height: 100vh; min-height: 100dvh; overflow: hidden; }
+
+.grid {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(var(--faint) 1px, transparent 1px),
+    linear-gradient(90deg, var(--faint) 1px, transparent 1px);
+  background-size: 80px 80px;
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 30% 50%, #000 30%, transparent);
+  mask-image: radial-gradient(ellipse 80% 70% at 30% 50%, #000 30%, transparent);
+}
+
+.top { display: flex; justify-content: flex-end; padding: 24px var(--gutter); }
+
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: calc(100dvh - 76px);
+  padding: 0 var(--gutter) 10vh;
+}
+
+.name {
+  font-family: var(--font-display);
+  font-size: clamp(52px, 9.2vw, 168px);
+  line-height: 0.88;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+.name > span { display: inline-block; animation: rise 1s var(--ease-out) both; }
+.name > span + span { animation-delay: 0.08s; }
+.outline { color: transparent; -webkit-text-stroke: 1.5px var(--fg); }
+
+.contact { margin-top: clamp(24px, 3vw, 40px); animation: rise 0.9s var(--ease-out) 0.3s both; }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: none; }
+}

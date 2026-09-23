@@ -1,0 +1,184 @@
+/* Engineering: structured and quiet. Drafting grid in the background; in the
+   foreground, three text styles only — titles, body, and one secondary grey —
+   so images and blocks of text alternate with real empty space. */
+
+.root {
+  --wrap: 1240px;
+  --grid-minor: color-mix(in srgb, var(--faint) 45%, transparent);
+  position: relative;
+  min-height: 100vh;
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+
+.root::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(var(--faint) 1px, transparent 1px),
+    linear-gradient(90deg, var(--faint) 1px, transparent 1px),
+    linear-gradient(var(--grid-minor) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-minor) 1px, transparent 1px);
+  background-size: 96px 96px, 96px 96px, 16px 16px, 16px 16px;
+  background-position: -1px -1px;
+}
+
+/* ── NAV ── */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 56px;
+  padding: 0 var(--gutter);
+  background: color-mix(in srgb, var(--bg) 94%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.brand { display: flex; align-items: baseline; gap: 12px; }
+.mark { font-family: var(--font-display); font-size: 19px; letter-spacing: 0.12em; }
+.brandLabel,
+.navLinks a {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.brandLabel { color: var(--gray); }
+.navLinks { display: flex; align-items: center; gap: 28px; }
+.navLinks a { opacity: 0.65; transition: opacity 0.2s ease; }
+.navLinks a:hover { opacity: 1; }
+
+/* ── SHARED TEXT STYLES ── */
+.secondary,
+.details p { font-size: 15px; line-height: 1.55; color: var(--gray); }
+.details strong { font-weight: 500; color: var(--fg); }
+.text p,
+.text li,
+.heroText,
+.aboutText p { font-size: 16px; line-height: 1.6; }
+.links,
+.heroLinks { display: flex; flex-wrap: wrap; gap: 6px 24px; font-size: 16px; }
+.links a,
+.heroLinks a,
+.aboutFacts a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  text-decoration-color: color-mix(in srgb, var(--fg) 40%, transparent);
+  transition: text-decoration-color 0.2s ease;
+}
+.links a:hover,
+.heroLinks a:hover,
+.aboutFacts a:hover { text-decoration-color: var(--fg); }
+
+/* ── HERO ── */
+.hero {
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: clamp(64px, 11vw, 128px) var(--gutter) clamp(56px, 8vw, 96px);
+}
+.name {
+  font-family: var(--font-display);
+  font-size: clamp(46px, 8.2vw, 116px);
+  line-height: 0.9;
+  letter-spacing: -0.005em;
+  text-transform: uppercase;
+}
+.heroText { max-width: 52ch; margin-top: 32px; }
+.heroLinks { margin-top: 20px; }
+
+/* ── INDEX ── */
+.index { max-width: var(--wrap); margin: 0 auto; padding: 0 var(--gutter); scroll-margin-top: 72px; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px 32px; padding-bottom: 20px; position: relative; z-index: 5; }
+.empty { padding: 40px 0; border-top: 1px solid var(--line); }
+
+/* ── PROJECT ENTRY ── */
+.list { display: grid; }
+.project {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(28px, 5vw, 80px);
+  padding: 56px 0;
+  border-top: 1px solid var(--line);
+  scroll-margin-top: 72px;
+}
+
+/* Room at top-right for the photos stacked behind the cover. Every layer is
+   a photo cropped to 4:3 with a hairline outline on its edge — no fill. */
+.figureWrap { position: relative; align-self: start; padding: 16px 16px 0 0; }
+.sheet,
+.figure { display: block; overflow: hidden; }
+.sheet {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  bottom: 0;
+  left: 0;
+  transform-origin: 0% 100%;
+}
+.figure {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  cursor: zoom-in;
+}
+.sheet img,
+.figure img { object-fit: cover; }
+.figure img { transition: transform 0.7s var(--ease-out); }
+.figure:hover img { transform: scale(1.02); }
+/* The outline is an overlay so it paints above the photo, even while it scales. */
+.sheet::after,
+.figure::after { content: ""; position: absolute; inset: 0; z-index: 1; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--fg) 24%, transparent); pointer-events: none; }
+
+.body { min-width: 0; }
+.title { font-size: clamp(22px, 2.2vw, 28px); font-weight: 500; line-height: 1.2; letter-spacing: -0.01em; }
+.body > .secondary { margin-top: 6px; }
+
+.text { margin-top: 24px; }
+.text ul { margin-top: 12px; display: grid; gap: 6px; }
+.text li { position: relative; padding-left: 18px; }
+.text li::before { content: "–"; position: absolute; left: 0; }
+
+.details { margin-top: 24px; display: grid; gap: 4px; }
+.links { margin-top: 24px; }
+
+/* ── ABOUT ── */
+.about {
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: clamp(64px, 11vw, 128px) var(--gutter) 24px;
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: clamp(32px, 6vw, 96px);
+  align-items: start;
+}
+.aboutTitle { font-family: var(--font-display); font-size: clamp(40px, 5vw, 72px); line-height: 0.9; text-transform: uppercase; }
+.aboutText p { margin-top: 20px; }
+.aboutText .aboutTitle + p { margin-top: 32px; }
+.aboutFacts { display: grid; gap: 20px; padding-top: clamp(0px, 5vw, 72px); }
+.aboutFacts p { font-size: 16px; line-height: 1.55; }
+
+/* ── FOOTER ── */
+.footer {
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: 72px var(--gutter) 40px;
+  display: grid;
+  gap: 28px;
+  border-top: 1px solid var(--line);
+}
+
+@media (max-width: 860px) {
+  .project { grid-template-columns: 1fr; gap: 24px; padding: 40px 0; }
+  .about { grid-template-columns: 1fr; }
+  .navLinks { gap: 18px; }
+  .navLinks a:first-child { display: none; }
+}
