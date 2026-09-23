@@ -1,0 +1,85 @@
+.root {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.top,
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 18px var(--gutter);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.title { color: var(--gray); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.close {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+  padding: 6px 0;
+}
+.close:hover { opacity: 1; }
+
+.stage {
+  position: relative;
+  min-height: 0;
+  margin: 0 var(--gutter);
+  overflow: hidden;
+  touch-action: pan-y;
+}
+
+.frame {
+  position: absolute;
+  inset: 0;
+  cursor: grab;
+}
+.frame:active { cursor: grabbing; }
+
+.arrow {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 18%;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  font-size: 22px;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  z-index: 2;
+}
+.prev { left: 0; justify-content: flex-start; }
+.next { right: 0; justify-content: flex-end; }
+.stage:hover .arrow { opacity: 0.45; }
+.arrow:hover,
+.arrow:focus-visible { opacity: 1 !important; }
+
+.caption { color: var(--gray); text-transform: none; letter-spacing: 0.02em; font-size: 12px; }
+.count { color: var(--gray); flex-shrink: 0; }
+
+.preload {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (hover: none) {
+  .arrow { display: none; }
+}

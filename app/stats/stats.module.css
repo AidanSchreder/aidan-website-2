@@ -1,0 +1,148 @@
+/* Private analytics dashboard. Quiet, technical; one validated series hue. */
+
+.root {
+  --series: #5b8def;
+  --card: #0b0b0b;
+  min-height: 100vh;
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 14px;
+}
+:global([data-theme="light"]) .root {
+  --series: #2f62d6;
+  --card: #fafafa;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px var(--gutter);
+  border-bottom: 1px solid var(--line);
+}
+.title { font-family: var(--font-display); font-size: 22px; letter-spacing: 0.04em; }
+.title span { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; color: var(--gray); }
+.headerRight { display: flex; align-items: center; gap: 24px; }
+.linkBtn { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gray); }
+.linkBtn:hover { color: var(--fg); }
+
+.banner {
+  margin: 16px var(--gutter) 0;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  font-size: 13px;
+  color: var(--gray);
+}
+
+.main { padding: 20px var(--gutter) 64px; display: grid; gap: 20px; max-width: 1400px; }
+
+/* ── FILTERS: one row, above everything they scope ── */
+.filters { display: flex; flex-wrap: wrap; gap: 12px; }
+.segment { display: flex; flex-wrap: wrap; border: 1px solid var(--line); }
+.segment a {
+  padding: 7px 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--gray);
+  border-right: 1px solid var(--line);
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+.segment a:last-child { border-right: 0; }
+.segment a:hover { color: var(--fg); }
+.segment a[aria-current] { background: var(--fg); color: var(--bg); }
+
+/* ── KPI ROW ── */
+.kpis { display: grid; grid-template-columns: 2fr repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+.hero,
+.tile { background: var(--bg); padding: 18px 20px; }
+.kLabel { font-size: 13px; color: var(--gray); }
+.heroValue { margin-top: 6px; font-size: 56px; font-weight: 500; line-height: 1; letter-spacing: -0.02em; }
+.kSub { margin-top: 8px; font-size: 12px; color: var(--gray); }
+.tileValue { margin-top: 10px; font-size: 30px; font-weight: 500; line-height: 1; }
+
+/* ── CARDS ── */
+.card { border: 1px solid var(--line); padding: 18px 20px; min-width: 0; }
+.cardTitle { font-size: 15px; font-weight: 500; margin-bottom: 14px; }
+.cardTitle span { margin-left: 6px; font-weight: 400; color: var(--gray); }
+.spaced { margin-top: 28px; }
+.cols { display: grid; grid-template-columns: 1.2fr 1fr; gap: 20px; }
+
+/* ── CHART ── */
+.chart { position: relative; width: 100%; outline-offset: 4px; }
+.grid { stroke: var(--line); stroke-width: 1; }
+.tick { font-family: var(--font-mono); font-size: 10px; fill: var(--gray); font-variant-numeric: tabular-nums; }
+.bar { fill: var(--series); transition: opacity 0.15s ease; }
+.chart:hover .bar:not([data-active]) { opacity: 0.55; }
+.tooltip {
+  position: absolute;
+  transform: translate(-50%, calc(-100% - 10px));
+  display: grid;
+  gap: 2px;
+  padding: 8px 10px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+  font-size: 12px;
+  color: var(--gray);
+  white-space: nowrap;
+  pointer-events: none;
+}
+.tooltip strong { font-size: 14px; font-weight: 500; color: var(--fg); }
+
+.tableView { margin-top: 10px; font-size: 12px; }
+.tableView summary { cursor: pointer; color: var(--gray); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; }
+.tableView table { margin-top: 10px; width: 100%; max-width: 420px; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.tableView td,
+.tableView th { text-align: left; padding: 4px 0; border-bottom: 1px solid var(--line); }
+
+/* ── TABLES ── */
+.table { width: 100%; border-collapse: collapse; }
+.table th {
+  text-align: left;
+  font-weight: 400;
+  font-size: 12px;
+  color: var(--gray);
+  padding: 0 8px 8px 0;
+  border-bottom: 1px solid var(--line);
+}
+.table th a[aria-current] { color: var(--fg); text-decoration: underline; text-underline-offset: 3px; }
+.table td { padding: 8px 8px 8px 0; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.table tr[data-active] td { background: var(--faint); }
+.table a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.num { text-align: right !important; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.empty { color: var(--gray); font-size: 13px; padding: 16px 0 !important; }
+
+.item { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.item:hover { text-decoration: none !important; }
+.item:hover .itemTitle { text-decoration: underline; text-underline-offset: 3px; }
+.thumb { position: relative; flex-shrink: 0; width: 56px; height: 40px; overflow: hidden; background: var(--faint); }
+.thumb img { object-fit: cover; }
+.itemTitle { display: block; }
+.itemSection { display: block; font-size: 12px; color: var(--gray); }
+.barCol { width: 28%; }
+.hbar { display: block; height: 8px; min-width: 2px; background: var(--series); border-radius: 0 4px 4px 0; }
+
+.spark polyline { fill: none; stroke: var(--gray); stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round; }
+
+/* ── LOGIN ── */
+.login { display: grid; place-content: center; gap: 24px; min-height: 100vh; padding: 24px; }
+.loginTitle { font-family: var(--font-display); font-size: 40px; letter-spacing: 0.04em; }
+.loginForm { display: grid; gap: 10px; width: min(320px, 90vw); }
+.loginForm input {
+  font: inherit;
+  padding: 10px 12px;
+  color: var(--fg);
+  background: transparent;
+  border: 1px solid var(--line);
+}
+.loginForm input:focus { outline: 1px solid var(--fg); }
+.loginForm button { padding: 10px 12px; background: var(--fg); color: var(--bg); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; }
+.error { color: var(--gray); font-size: 13px; }
+.note { max-width: 40ch; color: var(--gray); line-height: 1.6; }
+
+@media (max-width: 960px) {
+  .kpis { grid-template-columns: 1fr 1fr; }
+  .hero { grid-column: 1 / -1; }
+  .cols { grid-template-columns: 1fr; }
+  .barCol { display: none; }
+}

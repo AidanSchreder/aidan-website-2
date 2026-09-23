@@ -1,0 +1,174 @@
+/* Photography: minimal. White page, fixed sidebar, 10px gutters, no chrome
+   on the photos. Stencil name is the only brand mark. */
+
+.root {
+  --side: 272px;
+  --gap: 10px;
+  font-family: var(--font-body), system-ui, sans-serif;
+  min-height: 100vh;
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: var(--side);
+  display: flex;
+  flex-direction: column;
+  padding: 44px 32px 32px 40px;
+  overflow-y: auto;
+  z-index: 10;
+}
+.name {
+  font-family: var(--font-display);
+  font-size: 23px;
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+}
+.kicker { margin-top: 6px; font-size: 13px; color: var(--gray); }
+
+.sideNav { margin-top: 40px; }
+.navList { display: grid; gap: 2px; font-size: 14px; line-height: 1.55; }
+.navList a {
+  position: relative;
+  display: inline-block;
+  transition: color 0.25s ease, transform 0.35s var(--ease-out);
+}
+.navList a::before {
+  content: "";
+  position: absolute;
+  left: -14px;
+  top: 50%;
+  width: 8px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s var(--ease-out);
+}
+.navList a:hover,
+.navList a[data-focus] { transform: translateX(4px); }
+.navList a[data-focus]::before,
+.navList a[aria-current="page"]::before { transform: scaleX(1); }
+.navList a[aria-current="page"] { color: var(--gray); }
+.navGap { height: 14px; }
+
+.sideBottom { margin-top: auto; padding-top: 40px; display: grid; gap: 18px; }
+.sideBottom :global(.contact-line) { font-size: 12.5px; }
+.sideMeta { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.sideMeta :global(.footer-line) { font-size: 9px; gap: 14px; }
+
+/* ── MAIN ── */
+.main {
+  margin-left: var(--side);
+  padding: 0 clamp(24px, 5vw, 72px) 64px 0;
+  max-width: calc(var(--side) + 1300px);
+}
+/* Padding lives on the page wrapper (not <main>) so Next's scroll-to-segment
+   on navigation lands at the true top. */
+.page { padding-top: 44px; }
+
+/* Three columns; each starts at its own --offset so the tops don't line up. */
+.masonry { display: flex; gap: var(--gap); align-items: flex-start; }
+.col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--gap); padding-top: var(--offset, 0px); }
+/* A nested slot: two photos side by side, sized to equal heights by their ratios. */
+.pair { display: flex; gap: var(--gap); }
+.pair > .tile { min-width: 0; }
+
+.tile {
+  position: relative;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  transition: opacity 0.5s ease;
+}
+.tile > a,
+.tile > button { display: block; width: 100%; height: 100%; cursor: zoom-in; }
+.tile img {
+  display: block;
+  width: 100%;
+  height: auto;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+.tile img[data-loaded] { opacity: 1; }
+.tile[data-dim] { opacity: 0.14; }
+
+/* ── COLLECTION HEADER ── */
+.collectionHead { margin-bottom: 28px; max-width: 62ch; }
+.collectionHead h1 { font-size: 22px; font-weight: 500; letter-spacing: -0.005em; }
+.collectionMeta { margin-top: 4px; font-size: 13px; color: var(--gray); }
+.collectionText { margin-top: 14px; font-size: 14px; line-height: 1.6; color: var(--gray); }
+
+/* ── ABOUT ── */
+.about {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(32px, 5vw, 80px);
+  align-items: start;
+  max-width: 1100px;
+}
+.aboutText { max-width: 48ch; }
+.aboutText h1 { font-size: 22px; font-weight: 500; margin-bottom: 20px; }
+.aboutText p { font-size: 15px; line-height: 1.7; }
+.aboutText p + p { margin-top: 16px; }
+.aboutFacts { display: grid; gap: 14px; margin-top: 36px; }
+.aboutFacts dt { font-size: 13px; color: var(--gray); }
+.aboutFacts dd { font-size: 15px; margin-top: 2px; }
+/* The sidebar already carries the contact line on desktop. */
+.aboutContact { display: none; margin-top: 36px; }
+.aboutFigure img { display: block; width: 100%; height: auto; }
+.aboutFigure figcaption { margin-top: 8px; font-size: 13px; color: var(--gray); }
+
+/* ── MOBILE ── */
+.mobileBar,
+.mobileMenu { display: none; }
+
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .mobileBar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    padding: 0 16px;
+    background: var(--bg);
+  }
+  .mobileActions { display: flex; align-items: center; gap: 22px; }
+  .menuBtn { font-size: 14px; }
+  .mobileMenu {
+    position: fixed;
+    inset: 60px 0 0;
+    z-index: 19;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding: 24px 16px 32px;
+    background: var(--bg);
+    overflow-y: auto;
+  }
+  .mobileMenu .navList { font-size: 20px; gap: 6px; padding-left: 14px; }
+  .main { margin-left: 0; padding: 0 12px 48px; }
+  .page { padding-top: 4px; }
+  .collectionHead { padding: 8px 4px 0; }
+  .about { grid-template-columns: 1fr; padding: 8px 4px 0; }
+  .aboutContact { display: block; }
+}
+
+/* Two columns: let CSS multi-column flow the units; the stagger is dropped. */
+@media (max-width: 1100px) {
+  .masonry { display: block; columns: 2; column-gap: var(--gap); }
+  .col { display: contents; }
+  .unit { break-inside: avoid; margin-bottom: var(--gap); }
+}
+
+/* One column, back in original order. */
+@media (max-width: 600px) {
+  .masonry { display: flex; flex-direction: column; gap: var(--gap); columns: auto; }
+  .unit { margin-bottom: 0; }
+}

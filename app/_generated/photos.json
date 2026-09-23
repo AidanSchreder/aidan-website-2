@@ -1,0 +1,180 @@
+{
+  "collections": [
+    {
+      "slug": "quebec-night",
+      "title": "Québec: Night",
+      "description": "The last images from my time in Québec, all taken at night. The first is a long exposure of over 60 seconds on a tripod; the rest were taken handheld.",
+      "location": "Québec City",
+      "year": null,
+      "order": 1,
+      "photos": [
+        {
+          "file": "01_home.jpg",
+          "src": "/photography/quebec-night/01_home.jpg",
+          "width": 1600,
+          "height": 2400,
+          "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAQAAsDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAgMEBv/EACEQAAIBAwMFAAAAAAAAAAAAAAECEQADBAUTURIUIUHh/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/xAAWEQEBAQAAAAAAAAAAAAAAAAAAASH/2gAMAwEAAhEDEQA/AMphYXc3ygYARJI8x9pedjHEzLthoLW26THNW6Vqhw724UUqomDz6NBevpuSyKxIBJ5kUiXH/9k=",
+          "home": true,
+          "caption": "Long exposure, over 60 seconds"
+        },
+        {
+          "file": "02_home.jpg",
+          "src": "/photography/quebec-night/02_home.jpg",
+          "width": 1600,
+          "height": 2400,
+          "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAQAAsDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABQME/8QAIRAAAQMEAgMBAAAAAAAAAAAAAgEDEQAEBTESIRMyQdH/xAAVAQEBAAAAAAAAAAAAAAAAAAADBP/EABgRAQADAQAAAAAAAAAAAAAAAAEAEjER/9oADAMBAAIRAxEAPwATCYU8ipGZC20PRKu5VJSE+6qN1jPFcuA04hgi9FqUrdYPXdrYutN8ZMkXtdRP7R7rV0TpFx2s+1TWV2NXhk//2Q==",
+          "home": true,
+          "caption": null
+        },
+        {
+          "file": "03.jpg",
+          "src": "/photography/quebec-night/03.jpg",
+          "width": 2366,
+          "height": 1568,
+          "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAALABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAgMEBf/EACEQAAEEAgICAwAAAAAAAAAAAAECAwQRACEFEjFRIiNh/8QAFAEBAAAAAAAAAAAAAAAAAAAAAv/EABgRAAMBAQAAAAAAAAAAAAAAAAABEQIx/9oADAMBAAIRAxEAPwDJichElwXETWm7ZT8L871r3kXKtwg6y5GKEocQCW0m+vu96P5hRfpPdsAKB0ausXNdW6sqcIKifNDDmJRD1X0//9k=",
+          "home": false,
+          "caption": null
+        }
+      ]
+    },
+    {
+      "slug": "streets-of-quebec",
+      "title": "Streets of Québec",
+      "description": "Stonework, arches and glass in the historic streets of Québec: details that are easy to miss when moving quickly through the city.",
+      "location": "Québec City",
+      "year": null,
+      "order": 2,
+      "photos": [
+        {
+          "file": "01_home.jpg",
+          "src": "/photography/streets-of-quebec/01_home.jpg",
+          "width": 1444,
+          "height": 2166,
+          "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAQAAsDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAwT/xAAgEAACAQQBBQAAAAAAAAAAAAABAgMABBESYQUhMVFx/8QAFAEBAAAAAAAAAAAAAAAAAAAAAv/EABcRAAMBAAAAAAAAAAAAAAAAAAABESH/2gAMAwEAAhEDEQA/AKOmySQXDGDQsyHbb6PHNE1rbXLtNeJtO5Jchsd/VBaNKZGdFGVGCc81O926OVIOQaOjaVp//9k=",
+          "home": true,
+          "caption": null
+        },
+        {
+          "file": "02_home.jpg",
+          "src": "/photography/streets-of-quebec/02_home.jpg",
+          "width": 1541,
+          "height": 2311,
+          "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAQAAsDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABAUG/8QAIxAAAgEDAwQDAAAAAAAAAAAAAQIDAAQRBRIiEyExQVGR8P/EABUBAQEAAAAAAAAAAAAAAAAAAAID/8QAGBEBAQEBAQAAAAAAAAAAAAAAAQIAAxH/2gAMAwEAAhEDEQA/ALs2otbTRQsvUMnnPr9kUW6TfcOY4kC57cRWcttQltoWZwZpixPM+B8/dKh1u+aJS0QYn3txmnHQlfdHpDQBv//Z",
+          "home": true,
+          "caption": null
+        },
+        {
+          "file": "03.jpg",
+          "src": "/photography/streets-of-quebec/03.jpg",
+          "width": 1600,
+          "height": 2400,
+          "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAQAAsDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAwUG/8QAIxAAAQMDAgcAAAAAAAAAAAAAAQACEQMEEhMUISIxYWJxof/EABUBAQEAAAAAAAAAAAAAAAAAAAID/8QAFxEAAwEAAAAAAAAAAAAAAAAAAAERE//aAAwDAQACEQMRAD8ArVrfVe98jnPQI9AjhiTHmQsxvmkYmqGuEmHgtn0QlF7SInIjtGX2UtFCeddbP//Z",
+          "home": false,
+          "caption": null
+        },
+        {
+          "file": "04_home.jpg",
+          "src": "/photography/streets-of-quebec/04_home.jpg",
+          "width": 1600,
+          "height": 2400,
+          "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAQAAsDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAABQT/xAAeEAACAgICAwAAAAAAAAAAAAABAgMRAAQSISIjUf/EABQBAQAAAAAAAAAAAAAAAAAAAAL/xAAWEQEBAQAAAAAAAAAAAAAAAAABAAL/2gAMAwEAAhEDEQA/AJtPajhdNaON+CgryAsXiAdSAbGCau1Ms88MSIyRkyHryNj7i8EnoS7BodYcrJC//9k=",
+          "home": true,
+          "caption": null
+        },
+        {
+          "file": "05.jpg",
+          "src": "/photography/streets-of-quebec/05.jpg",
+          "width": 1370,
+          "height": 2055,
+          "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAQAAsDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAABQb/xAAiEAACAgIBAwUAAAAAAAAAAAACAwEEABExBRITIUFRYZH/xAAVAQEBAAAAAAAAAAAAAAAAAAABAv/EABYRAQEBAAAAAAAAAAAAAAAAAAEAAv/aAAwDAQACEQMRAD8Afo0KdiqJvQvzWFwTPuePT44yFu9PUq45aGBKxORGS51E40rqHkCJQUiYxrclrfvr9wG0mwyywwHYkUzE9+GkKb//2Q==",
+          "home": false,
+          "caption": null
+        }
+      ]
+    },
+    {
+      "slug": "chateau-frontenac",
+      "title": "Le Château Frontenac",
+      "description": "Interior details of the Château Frontenac, and the way light moves across its wood and stone.",
+      "location": "Québec City",
+      "year": null,
+      "order": 3,
+      "photos": [
+        {
+          "file": "01_home.jpg",
+          "src": "/photography/chateau-frontenac/01_home.jpg",
+          "width": 2400,
+          "height": 1600,
+          "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAALABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABQMG/8QAIBABAAEEAgIDAAAAAAAAAAAAAQIAAwQRISISMRNRcf/EABQBAQAAAAAAAAAAAAAAAAAAAAP/xAAYEQADAQEAAAAAAAAAAAAAAAAAASERMf/aAAwDAQACEQMRAD8Az9nAi2echJqIa9mqq4eGYTORe+UV8iQhE43r9aLsOpie90hctxlj2pJ2Yy2/fajyiJzh/9k=",
+          "home": true,
+          "caption": null
+        },
+        {
+          "file": "02.jpg",
+          "src": "/photography/chateau-frontenac/02.jpg",
+          "width": 1600,
+          "height": 2400,
+          "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAQAAsDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAgQF/8QAIRAAAQMDBAMAAAAAAAAAAAAAAQIDIQAEEQUSMaETYeH/xAAVAQEBAAAAAAAAAAAAAAAAAAACA//EABcRAQEBAQAAAAAAAAAAAAAAAAEAAwL/2gAMAwEAAhEDEQA/AMu2sHb1CnUPOOhCcqXJmY6oB61wIdPvx/aNlq69PsnWEBRcdwIAxwe5qFLru0YIEcYoOZV51Rv/2Q==",
+          "home": false,
+          "caption": null
+        },
+        {
+          "file": "03_home.jpg",
+          "src": "/photography/chateau-frontenac/03_home.jpg",
+          "width": 1600,
+          "height": 2400,
+          "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAQAAsDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAMEBf/EACAQAAICAgIDAQEAAAAAAAAAAAECAwQRIQAFEjFBUYH/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAv/EABgRAQEAAwAAAAAAAAAAAAAAAAEAERIh/9oADAMBAAIRAxEAPwDG6kBY1keaJHzkeQyR/MfeOtXgbDHMz+t5IzrlPVdvVgqQRS7eNRvzUA4zr9+8LtutasmaNJGVlXYUn0oHGotWUOX/2Q==",
+          "home": true,
+          "caption": null
+        }
+      ]
+    },
+    {
+      "slug": "japan",
+      "title": "Japan",
+      "description": null,
+      "location": "Japan",
+      "year": null,
+      "order": 4,
+      "photos": [
+        {
+          "file": "01_home.jpg",
+          "src": "/photography/japan/01_home.jpg",
+          "width": 1600,
+          "height": 2400,
+          "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAQAAsDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABAMF/8QAIxAAAgEEAQMFAAAAAAAAAAAAAQIDAAQREgUhMWFBUVOB4f/EABUBAQEAAAAAAAAAAAAAAAAAAAID/8QAGBEAAwEBAAAAAAAAAAAAAAAAAAIhARH/2gAMAwEAAhEDEQA/AMeG3SWZVw2pPoOoFPHExfHcHzr+1TioGbaVYZJBnUFUVh57/VMa2JOTbXWT7QpVXfewCrKf/9k=",
+          "home": true,
+          "caption": null
+        },
+        {
+          "file": "02_home.jpg",
+          "src": "/photography/japan/02_home.jpg",
+          "width": 1600,
+          "height": 2400,
+          "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAQAAsDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABQIE/8QAIBAAAgICAgIDAAAAAAAAAAAAAQIDEQAEEiEFQTJRYf/EABQBAQAAAAAAAAAAAAAAAAAAAAD/xAAVEQEBAAAAAAAAAAAAAAAAAAAAAf/aAAwDAQACEQMRAD8AO8Lt60LbDSLHBG1hGERIsd136usFmsStyAJvujka+wyo0Z+LGx+H7zahiCDkiE+zWIV//9k=",
+          "home": true,
+          "caption": null
+        }
+      ]
+    },
+    {
+      "slug": "family-field",
+      "title": "Family Field",
+      "description": "Two twin dandelions rising from a field of their own kind. Third place in a local division of the Bondar Challenge.",
+      "location": null,
+      "year": null,
+      "order": 5,
+      "photos": [
+        {
+          "file": "01_home.jpg",
+          "src": "/photography/family-field/01_home.jpg",
+          "width": 2000,
+          "height": 3000,
+          "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAQAAsDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAQIEBf/EAB8QAAIBBAIDAAAAAAAAAAAAAAECEQADBDEFQRIhYf/EABUBAQEAAAAAAAAAAAAAAAAAAAIE/8QAFxEBAQEBAAAAAAAAAAAAAAAAAQACQf/aAAwDAQACEQMRAD8AfGv5TY0teRRoS491lvmjzM3bu+ialt8g6IVDEAiSN90GzJMhVj6tTmHslv/Z",
+          "home": true,
+          "caption": null
+        }
+      ]
+    }
+  ]
+}
