@@ -31,9 +31,14 @@ const PER_DAY = 100;
 const KEEP = 500;
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-const TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-const CHAT = process.env.TELEGRAM_CHAT_ID;
+// Tolerates the usual paste slips: spaces, quotes or <brackets> around the
+// value, or a leading "bot" copied from @BotFather's example URL.
+const envValue = (v?: string) => v?.trim().replace(/^["'<]|["'>]$/g, "").replace(/^bot(?=\d)/i, "");
+const TOKEN = envValue(process.env.TELEGRAM_BOT_TOKEN);
+const CHAT = envValue(process.env.TELEGRAM_CHAT_ID);
 export const telegramReady = Boolean(TOKEN && CHAT);
+/** False when the token isn't shaped like one from @BotFather (digits:secret). */
+export const telegramTokenShaped = !TOKEN || /^\d{6,}:[\w-]{30,}$/.test(TOKEN);
 
 // Control characters other than newline and tab.
 const clean = (v: string) => v.replace(/[\u0000-\u0008\u000b-\u001f\u007f]/g, "").trim();
@@ -61,14 +66,9 @@ export async function overLimit(ip: string) {
   return Number(mine) > PER_VISITOR_HOUR || Number(all) > PER_DAY;
 }
 
-/** Forwards a message to Telegram. False if it isn't set up or didn't take it. */
-export async function notify(m: Pick<Message, "section" | "email" | "text">) {
-  const label = SECTIONS.find((s) => s.id === m.section)?.label ?? m.section;
-  const text = `New message · ${label}\nFrom: ${m.email}\n\n${m.text}`;
-  if (!telegramReady) {
-    if (process.env.NODE_ENV === "development") console.info(`[message]\n${text}`);
-    return false;
-  }
+/** Sends text to Aidan's Telegram chat; on failure, Telegram's own reason. */
+export async function sendTelegram(text: string): Promise<{ ok: boolean; error?: string }> {
+  if (!telegramReady) return { ok: false, error: "TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID isn't set" };
   try {
     // Plain text (no parse_mode), so nothing the visitor types is read as formatting.
     const res = await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
@@ -77,11 +77,25 @@ export async function notify(m: Pick<Message, "section" | "email" | "text">) {
       body: JSON.stringify({ chat_id: CHAT, text, link_preview_options: { is_disabled: true } }),
       cache: "no-store",
     });
-    return res.ok;
+    if (res.ok) return { ok: true };
+    const body = (await res.json().catch(() => ({}))) as { description?: string };
+    return { ok: false, error: body.description ?? `HTTP ${res.status}` };
   } catch (err) {
-    console.error("[message] telegram", err);
+    return { ok: false, error: err instanceof Error ? err.message : String(err) };
+  }
+}
+
+/** Forwards a message to Telegram. False if it isn't set up or didn't take it. */
+export async function notify(m: Pick<Message, "section" | "email" | "text">) {
+  const label = SECTIONS.find((s) => s.id === m.section)?.label ?? m.section;
+  const text = `New message · ${label}\nFrom: ${m.email}\n\n${m.text}`;
+  if (!telegramReady) {
+    if (process.env.NODE_ENV === "development") console.info(`[message]\n${text}`);
     return false;
   }
+  const r = await sendTelegram(text);
+  if (!r.ok) console.error("[message] telegram:", r.error);
+  return r.ok;
 }
 
 /** Keeps a message for /stats. False if there's no store to keep it in. */

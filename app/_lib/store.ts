@@ -5,6 +5,7 @@ import "server-only";
 // store in the Vercel dashboard (Storage → Upstash → Redis) and it injects
 // these env vars:
 //   KV_REST_API_URL / KV_REST_API_TOKEN   (or UPSTASH_REDIS_REST_URL / _TOKEN)
+// A prefix chosen while connecting (STORAGE_KV_REST_API_URL, …) works too.
 //
 // Without them: in development an in-memory store is used so /stats can be
 // tried locally; in production tracking becomes a no-op.
@@ -12,8 +13,13 @@ import "server-only";
 type Arg = string | number;
 export type Command = Arg[];
 
-const REST_URL = process.env.KV_REST_API_URL ?? process.env.UPSTASH_REDIS_REST_URL;
-const TOKEN = process.env.KV_REST_API_TOKEN ?? process.env.UPSTASH_REDIS_REST_TOKEN;
+const urlKey = Object.keys(process.env)
+  .filter((k) => /(^|_)(KV_REST_API|REDIS_REST)_URL$/.test(k) && process.env[k.replace(/URL$/, "TOKEN")])
+  .sort((a, b) => a.length - b.length)[0];
+/** The env var names the store was found under, for the /stats setup check. */
+export const redisVars = urlKey ? [urlKey, urlKey.replace(/URL$/, "TOKEN")] : null;
+const REST_URL = urlKey && process.env[urlKey];
+const TOKEN = urlKey && process.env[urlKey.replace(/URL$/, "TOKEN")];
 const DEV = process.env.NODE_ENV === "development";
 
 export type StoreMode = "upstash" | "memory" | "none";

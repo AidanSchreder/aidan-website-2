@@ -63,8 +63,9 @@ one visitor can send 5 an hour (100 a day in total).
 
 1. In Telegram, message **@BotFather** → `/newbot` → pick a name. It replies with a token.
 2. Open your new bot and send it any message (a bot can only message people who have written to it).
-3. Put `TELEGRAM_BOT_TOKEN=<token>` in `.env.local`, then run `npm run telegram`. It prints your
-   `TELEGRAM_CHAT_ID=…`; add that line to `.env.local` too.
+3. Put the token in `.env.local` as a line like `TELEGRAM_BOT_TOKEN=123456789:AAH4x…` (just the
+   token: no quotes or brackets), then run `npm run telegram`. It prints your `TELEGRAM_CHAT_ID=…`;
+   add that line to `.env.local` too.
 4. Vercel → project → Settings → Environment Variables: add both, then redeploy.
 
 Without them, messages still land on `/stats`; in development they're also printed in the terminal.
