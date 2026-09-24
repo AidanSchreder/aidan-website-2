@@ -1,260 +1,210 @@
 "use client";
 
-// Work grid + case study.
+// Work grid. Tiles sit slightly tilted, collage-style, and each one slowly
+// crossfades through its homepage slides while it's on screen (tiles start in
+// a wave, not all at once). Hovering straightens the tile, fades the image out
+// and brings the project name up in its place. On touch the name sits under
+// the tile instead. Reduced motion: first slide only, no cycling.
 //
-// Motion plan:
-//   reveal  — cards fade up 60px on a soft spring as they enter (once).
-//   rest    — each cover sits at a slight tilt (±1.6°), collage-style.
-//   hover   — tilt straightens, cover lifts to 1.02, the image inside drifts
-//             to 1.06 more slowly; cursor becomes a "View" disc.
-//   open    — the cover itself morphs (shared layoutId) into the case-study
-//             frame, 550ms; backdrop fades; text staggers in after 200ms.
-//   slides  — direction-aware 40px slide + crossfade.
-//   close   — frame morphs back into its card (lifted above the overlay
-//             while it travels).
+// Layout (see `place`): every tile has the same area whatever its proportions,
+// so a wide project and a square one carry the same weight. Tiles go in rows
+// of two spread evenly across the full page width: the space at the left
+// edge, between the two and at the right edge is the same. Each tile sits
+// below whatever is above it by the average of the two rows' spacing, so the
+// space around a tile matches its row. Corners are rounded in proportion to
+// the tile's short side, and every image gets the glow and light edge from
+// Edge.tsx.
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { AnimatePresence, motion, useReducedMotion, type Variants } from "framer-motion";
-import type { DesignPiece, Slide } from "@/content/design";
-import { trackOpen, type TrackItem } from "../_lib/track";
+import Link from "next/link";
+import { motion, useReducedMotion } from "framer-motion";
+import type { Slide } from "@/content/design";
+import type { TrackItem } from "../_lib/track";
 import { useDwell } from "../_lib/useDwell";
+import { Glow, LightEdge } from "./Edge";
 import styles from "./design.module.css";
 
-type SizedSlide = Slide & { width: number; height: number };
-type Piece = Omit<DesignPiece, "slides"> & { slides: SizedSlide[] };
+interface Piece {
+  id: string;
+  title: string;
+  /** Homepage slides, in order. */
+  slides: Slide[];
+  /** Width / height of the first homepage slide; the tile takes this shape. */
+  ratio: number;
+}
 
-const ease = [0.22, 1, 0.36, 1] as const;
-const MORPH = { duration: 0.55, ease };
+const HOLD = 6500; // ms between changes
+const FADE = 1800; // ms crossfade; matches .tileImg in design.module.css
+const WAVE = 1100; // ms between neighbouring tiles' first change
 
-// Collage slots on the 12-column grid: column span, vertical offset, resting tilt.
-const SLOTS = [
-  { col: "1 / 8", y: 0, r: -1.2 },
-  { col: "8 / 13", y: 150, r: 1.4 },
-  { col: "2 / 6", y: 0, r: 1.6 },
-  { col: "7 / 12", y: 70, r: -1 },
-  { col: "1 / 5", y: 10, r: -1.6 },
-  { col: "7 / 11", y: 100, r: 1.1 },
-];
+// Geometry, as fractions of the page width.
+const GAP = 0.045; // the tightest spacing: a row of the two widest tiles
+const RIGHT_DROP = 0.06; // right-hand tiles start this much lower, for the stagger
+const TILT = [-1.6, 1.3, 1.1, -1.2, 1.5, -1.8]; // resting tilt per tile, degrees
+const CORNER = 0.05; // corner radius / short side; the header's rounded square uses 0.2
 
-const itemFor = (p: Piece): TrackItem => ({
+export const itemFor = (p: Pick<Piece, "id" | "title" | "slides">): TrackItem => ({
   section: "design",
   id: p.id,
   title: p.title,
   thumb: p.slides[0].src,
-  href: `/design#${p.id}`,
+  href: `/design/${p.id}`,
 });
 
-export function DesignWork({ pieces }: { pieces: Piece[] }) {
-  const [open, setOpen] = useState<Piece | null>(null);
-  const [returning, setReturning] = useState<string | null>(null);
-  const returnTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
-
-  useEffect(() => () => clearTimeout(returnTimer.current), []);
-
-  const show = (p: Piece) => {
-    setOpen(p);
-    trackOpen(itemFor(p));
+function place(pieces: Piece[]) {
+  const widest = Math.max(...pieces.map((p) => p.ratio));
+  // Same area for every tile, sized so a row of the two widest fits with GAP
+  // at both edges and between.
+  const size = (p: Piece) => {
+    const w = ((1 - 3 * GAP) / 2) * Math.sqrt(p.ratio / widest);
+    return { w, h: w / p.ratio };
   };
-  const openId = open?.id;
-  const close = useCallback(() => {
-    if (!openId) return;
-    // Lift the card above the fading overlay while the frame morphs back into it.
-    setReturning(openId);
-    clearTimeout(returnTimer.current);
-    returnTimer.current = setTimeout(() => setReturning(null), 700);
-    setOpen(null);
-  }, [openId]);
+  const placed: { x: number; y: number; w: number; h: number; gap: number }[] = [];
+  const out = [];
+  for (let i = 0; i < pieces.length; i += 2) {
+    const pair = pieces.slice(i, i + 2).map((p) => ({ p, ...size(p) }));
+    // Spread evenly: the same space at each edge of the page and between the two.
+    const gap = (1 - pair.reduce((sum, t) => sum + t.w, 0)) / (pair.length + 1);
+    let x = gap;
+    for (const [k, t] of pair.entries()) {
+      // Below the lowest tile it sits under, by the two rows' average spacing
+      // (held within 1–2.5× GAP so a lone last tile doesn't float off).
+      const y = placed
+        .filter((q) => q.x < x + t.w - 1e-6 && q.x + q.w > x + 1e-6)
+        .reduce((top, q) => {
+          const space = Math.min(Math.max((q.gap + gap) / 2, GAP), 2.5 * GAP);
+          return Math.max(top, q.y + q.h + space);
+        }, k === 1 ? RIGHT_DROP : 0);
+      placed.push({ x, y, w: t.w, h: t.h, gap });
+      // On phones it's one column; the widest fills it and the rest keep the same area.
+      const m = Math.sqrt(t.p.ratio / widest);
+      out.push({
+        piece: t.p,
+        x,
+        y,
+        w: t.w,
+        corner: CORNER * Math.min(t.w, t.h),
+        wm: m,
+        cornerM: CORNER * Math.min(m, m / t.p.ratio),
+        tilt: TILT[(i + k) % TILT.length],
+        side: k,
+      });
+      x += t.w + gap;
+    }
+  }
+  const height = Math.max(0, ...placed.map((q) => q.y + q.h));
+  return { tiles: out, height };
+}
 
+export function DesignWork({ pieces }: { pieces: Piece[] }) {
+  const { tiles, height } = place(pieces);
   return (
     <section id="work" className={styles.work} aria-label="Selected work">
-      <div className={styles.grid}>
-        {pieces.map((p, i) => (
-          <Card key={p.id} piece={p} slot={SLOTS[i % SLOTS.length]} lifted={returning === p.id} onOpen={() => show(p)} />
+      <ul className={styles.tiles} style={{ ["--height" as string]: height }}>
+        {tiles.map((t, i) => (
+          <Tile key={t.piece.id} tile={t} index={i} />
         ))}
-      </div>
-
-      <AnimatePresence>{open && <CaseStudy key={open.id} piece={open} onClose={close} />}</AnimatePresence>
+      </ul>
     </section>
   );
 }
 
-function Card({ piece, slot, lifted, onOpen }: { piece: Piece; slot: (typeof SLOTS)[number]; lifted: boolean; onOpen: () => void }) {
+function Tile({ tile, index }: { tile: ReturnType<typeof place>["tiles"][number]; index: number }) {
+  const { piece } = tile;
+  const slides = piece.slides;
   const reduce = useReducedMotion();
-  const ref = useDwell<HTMLElement>(itemFor(piece));
-  const cover = piece.slides[0];
+  const ref = useDwell<HTMLLIElement>(itemFor(piece));
+  const [shown, setShown] = useState(0);
+  const [prev, setPrev] = useState<number | null>(null);
+  const [visible, setVisible] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const started = useRef(false);
 
-  const coverVariants: Variants = {
-    rest: { rotate: reduce ? 0 : slot.r, scale: 1 },
-    hover: { rotate: 0, scale: reduce ? 1 : 1.02 },
-  };
-  const imgVariants: Variants = { rest: { scale: 1 }, hover: { scale: reduce ? 1 : 1.06 } };
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setVisible(e.isIntersecting), { threshold: 0.25 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [ref]);
+
+  const cycling = visible && !hovered && !reduce && slides.length > 1;
+  useEffect(() => {
+    if (!cycling) return;
+    // First change comes in a wave across the grid; after that, a steady beat.
+    const delay = started.current ? HOLD : 3000 + index * WAVE;
+    const t = setTimeout(() => {
+      if (document.visibilityState === "hidden") return;
+      started.current = true;
+      setPrev(shown);
+      setShown((shown + 1) % slides.length);
+    }, delay);
+    return () => clearTimeout(t);
+  }, [cycling, shown, index, slides.length]);
+
+  // The outgoing slide stays up underneath until the new one has faded in
+  // over it, so the tile never dips to the background mid-change.
+  useEffect(() => {
+    if (prev === null) return;
+    const t = setTimeout(() => setPrev(null), FADE + 100);
+    return () => clearTimeout(t);
+  }, [prev]);
+
+  // Only the outgoing, current and next slides are in the DOM: the next one
+  // has loaded by the time it fades in, and the rest wait until needed.
+  const next = (shown + 1) % slides.length;
+  const layer = (i: number) => (i === shown ? "shown" : i === prev ? "prev" : i === next ? "next" : null);
+  const pct = (n: number) => `${(n * 100).toFixed(3)}%`;
 
   return (
-    <motion.article
+    <motion.li
       ref={ref}
-      id={piece.id}
-      className={styles.card}
-      style={{ gridColumn: slot.col, ["--offset" as string]: `${slot.y}px` }}
-      initial={{ opacity: 0, y: reduce ? 0 : 60 }}
+      className={styles.tileItem}
+      style={{
+        ["--x" as string]: pct(tile.x),
+        ["--y" as string]: tile.y,
+        ["--w" as string]: pct(tile.w),
+        ["--w-m" as string]: pct(tile.wm),
+        ["--ratio" as string]: piece.ratio,
+        ["--corner" as string]: tile.corner,
+        ["--corner-m" as string]: tile.cornerM,
+        ["--tilt" as string]: `${tile.tilt}deg`,
+      }}
+      initial={{ opacity: 0, y: reduce ? 0 : 48 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "0px 0px -10% 0px" }}
-      transition={reduce ? { duration: 0.3 } : { type: "spring", stiffness: 90, damping: 18 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={reduce ? { duration: 0.3 } : { type: "spring", stiffness: 80, damping: 18, delay: tile.side * 0.08 }}
     >
-      <motion.button
-        className={styles.cardBtn}
-        data-cursor="View"
-        onClick={onOpen}
-        aria-label={`Open ${piece.title} case study`}
-        initial="rest"
-        animate="rest"
-        whileHover="hover"
-        whileFocus="hover"
+      <Link
+        href={`/design/${piece.id}`}
+        className={styles.tileLink}
+        onPointerEnter={(e) => e.pointerType === "mouse" && setHovered(true)}
+        onPointerLeave={() => setHovered(false)}
       >
-        <motion.div
-          layoutId={`cover-${piece.id}`}
-          className={styles.cover}
-          style={{ aspectRatio: `${cover.width} / ${cover.height}`, zIndex: lifted ? 950 : undefined }}
-          variants={coverVariants}
-          transition={{ type: "spring", stiffness: 220, damping: 22, layout: MORPH }}
-        >
-          <motion.div className={styles.coverImg} variants={imgVariants} transition={{ duration: 0.9, ease }}>
-            <Image src={cover.src} alt={cover.caption} fill sizes="(max-width: 760px) 100vw, 55vw" quality={80} />
-          </motion.div>
-        </motion.div>
-      </motion.button>
-
-      <div className={styles.caption}>
-        <h2>{piece.title}</h2>
-        <span className="label">{piece.year}</span>
-        <p className="label">
-          {piece.status ? `${piece.status} · ` : ""}
-          {piece.deliverables.join(" · ")}
-        </p>
-      </div>
-    </motion.article>
-  );
-}
-
-function CaseStudy({ piece, onClose }: { piece: Piece; onClose: () => void }) {
-  const reduce = useReducedMotion();
-  const [slide, setSlide] = useState(0);
-  const [dir, setDir] = useState(0);
-  const closeRef = useRef<HTMLButtonElement>(null);
-  const n = piece.slides.length;
-  const current = piece.slides[slide];
-
-  const go = useCallback(
-    (i: number) => {
-      const next = (i + n) % n;
-      setDir(i > slide ? 1 : -1);
-      setSlide(next);
-    },
-    [n, slide],
-  );
-
-  useEffect(() => {
-    const previous = document.activeElement as HTMLElement | null;
-    closeRef.current?.focus({ preventScroll: true });
-    const overflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = overflow;
-      previous?.focus?.({ preventScroll: true });
-    };
-  }, []);
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-      else if (e.key === "ArrowRight") go(slide + 1);
-      else if (e.key === "ArrowLeft") go(slide - 1);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [go, onClose, slide]);
-
-  const panel: Variants = {
-    hidden: { opacity: 0, transition: { duration: 0.15 } },
-    show: { opacity: 1, transition: { staggerChildren: reduce ? 0 : 0.06, delayChildren: reduce ? 0 : 0.2 } },
-  };
-  const item: Variants = {
-    hidden: { opacity: 0, y: reduce ? 0 : 16 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.5, ease } },
-  };
-
-  return (
-    <div className={styles.case} role="dialog" aria-modal="true" aria-labelledby={`case-${piece.id}`}>
-      <motion.div
-        className={styles.caseBackdrop}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.3 }}
-        onClick={onClose}
-      />
-
-      <div className={styles.caseStage} style={{ ["--ratio" as string]: current.width / current.height }}>
-        <motion.div layoutId={`cover-${piece.id}`} className={styles.caseFrame} transition={{ layout: MORPH }}>
-          <AnimatePresence initial={false} custom={dir} mode="popLayout">
-            <motion.div
-              key={current.src}
-              layout
-              className={styles.caseImg}
-              custom={dir}
-              variants={{
-                enter: (d: number) => ({ opacity: 0, x: reduce ? 0 : d * 40 }),
-                center: { opacity: 1, x: 0 },
-                exit: (d: number) => ({ opacity: 0, x: reduce ? 0 : d * -40 }),
-              }}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{ duration: 0.45, ease }}
-            >
-              <Image src={current.src} alt={current.caption} fill sizes="70vw" quality={90} loading="eager" fetchPriority="high" style={{ objectFit: "contain" }} />
-            </motion.div>
-          </AnimatePresence>
-        </motion.div>
-        <motion.p className={styles.caseCaption} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-          <span>{current.caption}</span>
-          <span>
-            {String(slide + 1).padStart(2, "0")} / {String(n).padStart(2, "0")}
+        <span className={styles.tileFrame}>
+          <Glow src={slides[shown].src} />
+          <span className={styles.tileMedia}>
+            {slides.map((s, i) =>
+              layer(i) ? (
+                <Image
+                  key={s.src}
+                  src={s.src}
+                  alt=""
+                  fill
+                  sizes="(max-width: 760px) 100vw, 50vw"
+                  quality={80}
+                  className={styles.tileImg}
+                  data-layer={layer(i)}
+                />
+              ) : null,
+            )}
           </span>
-        </motion.p>
-      </div>
-
-      <motion.aside className={styles.casePanel} variants={panel} initial="hidden" animate="show" exit="hidden">
-        <motion.button ref={closeRef} variants={item} className={styles.caseClose} onClick={onClose}>
-          ← Close
-        </motion.button>
-        <motion.p variants={item} className="label">
-          {piece.year}
-          {piece.status ? ` · ${piece.status}` : ""}
-        </motion.p>
-        <motion.h2 variants={item} id={`case-${piece.id}`} className={styles.caseTitle}>
-          {piece.title}
-        </motion.h2>
-        <motion.p variants={item} className={styles.caseDeliverables}>
-          {piece.deliverables.join(", ")}
-        </motion.p>
-        {piece.text.map((t) => (
-          <motion.p key={t.slice(0, 24)} variants={item} className={styles.caseText}>
-            {t}
-          </motion.p>
-        ))}
-        {n > 1 && (
-          <motion.ol variants={item} className={styles.thumbs} aria-label="Slides">
-            {piece.slides.map((s, i) => (
-              <li key={s.src}>
-                <button aria-label={s.caption} aria-current={i === slide || undefined} onClick={() => go(i)}>
-                  <Image src={s.src} alt="" fill sizes="72px" quality={70} />
-                </button>
-              </li>
-            ))}
-          </motion.ol>
-        )}
-      </motion.aside>
-    </div>
+          <LightEdge />
+        </span>
+        {/* Also the link's accessible name; the slides are decorative here. */}
+        <span className={styles.tileName}>{piece.title}</span>
+      </Link>
+    </motion.li>
   );
 }

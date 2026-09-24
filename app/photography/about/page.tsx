@@ -46,10 +46,6 @@ export default async function PhotographyAbout() {
               <dt>Work</dt>
               <dd>2,000+ professional photos</dd>
             </div>
-            <div>
-              <dt>Recognition</dt>
-              <dd>Third place, Bondar Challenge (local division), for Family Field</dd>
-            </div>
           </dl>
 
           <ContactLine section="photography" className={styles.aboutContact} />

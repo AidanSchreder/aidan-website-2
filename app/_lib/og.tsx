@@ -8,17 +8,22 @@ import { ImageResponse } from "next/og";
 // Link-preview cards, one per landing page, each in that page's own style.
 // They are generated at build time (static routes), so reading /public and
 // resizing with sharp here costs nothing at request time.
+//
+// Every page imports the root opengraph-image for its metadata, so a /public
+// path the bundler can't resolve here gets all of /public (3D models included)
+// copied into every server function. `turbopackIgnore` stops that; the
+// background is only read during the build.
 
 export const OG_SIZE = { width: 1200, height: 630 };
 
 const fontCache = new Map<string, Promise<Buffer>>();
 function font(file: string) {
-  if (!fontCache.has(file)) fontCache.set(file, readFile(path.join(process.cwd(), "public/fonts", file)));
+  if (!fontCache.has(file)) fontCache.set(file, readFile(path.join(process.cwd(), "app/_fonts", file)));
   return fontCache.get(file)!;
 }
 
 async function background(src: string) {
-  const buf = await sharp(path.join(process.cwd(), "public", src)).rotate().resize(1200, 630, { fit: "cover" }).jpeg({ quality: 78 }).toBuffer();
+  const buf = await sharp(path.join(/* turbopackIgnore: true */ process.cwd(), "public", src)).rotate().resize(1200, 630, { fit: "cover" }).jpeg({ quality: 78 }).toBuffer();
   return `data:image/jpeg;base64,${buf.toString("base64")}`;
 }
 

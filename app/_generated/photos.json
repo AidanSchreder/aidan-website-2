@@ -10,7 +10,7 @@
       "photos": [
         {
           "file": "01_home.jpg",
-          "src": "/photography/quebec-night/01_home.jpg",
+          "src": "/photography/images/quebec-night/01_home.jpg",
           "width": 1600,
           "height": 2400,
           "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAQAAsDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAgMEBv/EACEQAAIBAwMFAAAAAAAAAAAAAAECEQADBAUTURIUIUHh/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/xAAWEQEBAQAAAAAAAAAAAAAAAAAAASH/2gAMAwEAAhEDEQA/AMphYXc3ygYARJI8x9pedjHEzLthoLW26THNW6Vqhw724UUqomDz6NBevpuSyKxIBJ5kUiXH/9k=",
@@ -19,7 +19,7 @@
         },
         {
           "file": "02_home.jpg",
-          "src": "/photography/quebec-night/02_home.jpg",
+          "src": "/photography/images/quebec-night/02_home.jpg",
           "width": 1600,
           "height": 2400,
           "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAQAAsDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABQME/8QAIRAAAQMEAgMBAAAAAAAAAAAAAgEDEQAEBTESIRMyQdH/xAAVAQEBAAAAAAAAAAAAAAAAAAADBP/EABgRAQADAQAAAAAAAAAAAAAAAAEAEjER/9oADAMBAAIRAxEAPwATCYU8ipGZC20PRKu5VJSE+6qN1jPFcuA04hgi9FqUrdYPXdrYutN8ZMkXtdRP7R7rV0TpFx2s+1TWV2NXhk//2Q==",
@@ -28,7 +28,7 @@
         },
         {
           "file": "03.jpg",
-          "src": "/photography/quebec-night/03.jpg",
+          "src": "/photography/images/quebec-night/03.jpg",
           "width": 2366,
           "height": 1568,
           "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAALABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAgMEBf/EACEQAAEEAgICAwAAAAAAAAAAAAECAwQRACEFEjFRIiNh/8QAFAEBAAAAAAAAAAAAAAAAAAAAAv/EABgRAAMBAQAAAAAAAAAAAAAAAAABEQIx/9oADAMBAAIRAxEAPwDJichElwXETWm7ZT8L871r3kXKtwg6y5GKEocQCW0m+vu96P5hRfpPdsAKB0ausXNdW6sqcIKifNDDmJRD1X0//9k=",
@@ -47,7 +47,7 @@
       "photos": [
         {
           "file": "01_home.jpg",
-          "src": "/photography/streets-of-quebec/01_home.jpg",
+          "src": "/photography/images/streets-of-quebec/01_home.jpg",
           "width": 1444,
           "height": 2166,
           "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAQAAsDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAwT/xAAgEAACAQQBBQAAAAAAAAAAAAABAgMABBESYQUhMVFx/8QAFAEBAAAAAAAAAAAAAAAAAAAAAv/EABcRAAMBAAAAAAAAAAAAAAAAAAABESH/2gAMAwEAAhEDEQA/AKOmySQXDGDQsyHbb6PHNE1rbXLtNeJtO5Jchsd/VBaNKZGdFGVGCc81O926OVIOQaOjaVp//9k=",
@@ -56,7 +56,7 @@
         },
         {
           "file": "02_home.jpg",
-          "src": "/photography/streets-of-quebec/02_home.jpg",
+          "src": "/photography/images/streets-of-quebec/02_home.jpg",
           "width": 1541,
           "height": 2311,
           "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAQAAsDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABAUG/8QAIxAAAgEDAwQDAAAAAAAAAAAAAQIDAAQRBRIiEyExQVGR8P/EABUBAQEAAAAAAAAAAAAAAAAAAAID/8QAGBEBAQEBAQAAAAAAAAAAAAAAAQIAAxH/2gAMAwEAAhEDEQA/ALs2otbTRQsvUMnnPr9kUW6TfcOY4kC57cRWcttQltoWZwZpixPM+B8/dKh1u+aJS0QYn3txmnHQlfdHpDQBv//Z",
@@ -65,7 +65,7 @@
         },
         {
           "file": "03.jpg",
-          "src": "/photography/streets-of-quebec/03.jpg",
+          "src": "/photography/images/streets-of-quebec/03.jpg",
           "width": 1600,
           "height": 2400,
           "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAQAAsDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAwUG/8QAIxAAAQMDAgcAAAAAAAAAAAAAAQACEQMEEhMUISIxYWJxof/EABUBAQEAAAAAAAAAAAAAAAAAAAID/8QAFxEAAwEAAAAAAAAAAAAAAAAAAAERE//aAAwDAQACEQMRAD8ArVrfVe98jnPQI9AjhiTHmQsxvmkYmqGuEmHgtn0QlF7SInIjtGX2UtFCeddbP//Z",
@@ -74,7 +74,7 @@
         },
         {
           "file": "04_home.jpg",
-          "src": "/photography/streets-of-quebec/04_home.jpg",
+          "src": "/photography/images/streets-of-quebec/04_home.jpg",
           "width": 1600,
           "height": 2400,
           "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAQAAsDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAABQT/xAAeEAACAgICAwAAAAAAAAAAAAABAgMRAAQSISIjUf/EABQBAQAAAAAAAAAAAAAAAAAAAAL/xAAWEQEBAQAAAAAAAAAAAAAAAAABAAL/2gAMAwEAAhEDEQA/AJtPajhdNaON+CgryAsXiAdSAbGCau1Ms88MSIyRkyHryNj7i8EnoS7BodYcrJC//9k=",
@@ -83,7 +83,7 @@
         },
         {
           "file": "05.jpg",
-          "src": "/photography/streets-of-quebec/05.jpg",
+          "src": "/photography/images/streets-of-quebec/05.jpg",
           "width": 1370,
           "height": 2055,
           "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAQAAsDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAABQb/xAAiEAACAgIBAwUAAAAAAAAAAAACAwEEABExBRITIUFRYZH/xAAVAQEBAAAAAAAAAAAAAAAAAAABAv/EABYRAQEBAAAAAAAAAAAAAAAAAAEAAv/aAAwDAQACEQMRAD8Afo0KdiqJvQvzWFwTPuePT44yFu9PUq45aGBKxORGS51E40rqHkCJQUiYxrclrfvr9wG0mwyywwHYkUzE9+GkKb//2Q==",
@@ -102,7 +102,7 @@
       "photos": [
         {
           "file": "01_home.jpg",
-          "src": "/photography/chateau-frontenac/01_home.jpg",
+          "src": "/photography/images/chateau-frontenac/01_home.jpg",
           "width": 2400,
           "height": 1600,
           "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAALABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABQMG/8QAIBABAAEEAgIDAAAAAAAAAAAAAQIAAwQRISISMRNRcf/EABQBAQAAAAAAAAAAAAAAAAAAAAP/xAAYEQADAQEAAAAAAAAAAAAAAAAAASERMf/aAAwDAQACEQMRAD8Az9nAi2echJqIa9mqq4eGYTORe+UV8iQhE43r9aLsOpie90hctxlj2pJ2Yy2/fajyiJzh/9k=",
@@ -111,7 +111,7 @@
         },
         {
           "file": "02.jpg",
-          "src": "/photography/chateau-frontenac/02.jpg",
+          "src": "/photography/images/chateau-frontenac/02.jpg",
           "width": 1600,
           "height": 2400,
           "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAQAAsDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAgQF/8QAIRAAAQMDBAMAAAAAAAAAAAAAAQIDIQAEEQUSMaETYeH/xAAVAQEBAAAAAAAAAAAAAAAAAAACA//EABcRAQEBAQAAAAAAAAAAAAAAAAEAAwL/2gAMAwEAAhEDEQA/AMu2sHb1CnUPOOhCcqXJmY6oB61wIdPvx/aNlq69PsnWEBRcdwIAxwe5qFLru0YIEcYoOZV51Rv/2Q==",
@@ -120,7 +120,7 @@
         },
         {
           "file": "03_home.jpg",
-          "src": "/photography/chateau-frontenac/03_home.jpg",
+          "src": "/photography/images/chateau-frontenac/03_home.jpg",
           "width": 1600,
           "height": 2400,
           "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAQAAsDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAMEBf/EACAQAAICAgIDAQEAAAAAAAAAAAECAwQRIQAFEjFBUYH/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAv/EABgRAQEAAwAAAAAAAAAAAAAAAAEAERIh/9oADAMBAAIRAxEAPwDG6kBY1keaJHzkeQyR/MfeOtXgbDHMz+t5IzrlPVdvVgqQRS7eNRvzUA4zr9+8LtutasmaNJGVlXYUn0oHGotWUOX/2Q==",
@@ -138,8 +138,17 @@
       "order": 4,
       "photos": [
         {
+          "file": "0.jpg",
+          "src": "/photography/images/japan/0.jpg",
+          "width": 1600,
+          "height": 2400,
+          "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAQAAsDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAABQP/xAAjEAACAQIEBwAAAAAAAAAAAAABAgMAEQQFEzESFCEyQVGh/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/xAAWEQEBAQAAAAAAAAAAAAAAAAAAETH/2gAMAwEAAhEDEQA/ABMHlccyyrIBde32TajZcGUkKxsJVGzrsadiEeiTxFJL36i9/tQj5eJAmk7W81dI/9k=",
+          "home": false,
+          "caption": null
+        },
+        {
           "file": "01_home.jpg",
-          "src": "/photography/japan/01_home.jpg",
+          "src": "/photography/images/japan/01_home.jpg",
           "width": 1600,
           "height": 2400,
           "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAQAAsDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABAMF/8QAIxAAAgEEAQMFAAAAAAAAAAAAAQIDAAQREgUhMWFBUVOB4f/EABUBAQEAAAAAAAAAAAAAAAAAAAID/8QAGBEAAwEBAAAAAAAAAAAAAAAAAAIhARH/2gAMAwEAAhEDEQA/AMeG3SWZVw2pPoOoFPHExfHcHzr+1TioGbaVYZJBnUFUVh57/VMa2JOTbXWT7QpVXfewCrKf/9k=",
@@ -147,31 +156,94 @@
           "caption": null
         },
         {
+          "file": "1_home.jpg",
+          "src": "/photography/images/japan/1_home.jpg",
+          "width": 2400,
+          "height": 1600,
+          "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAALABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAQMEBv/EAB4QAQABAwUBAAAAAAAAAAAAAAECABESAwQhIjFB/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AMbpEXbyudhebX+UzWjA2EOgTudre8VKTlEQUGjnJhhk4+2oP//Z",
+          "home": true,
+          "caption": null
+        },
+        {
           "file": "02_home.jpg",
-          "src": "/photography/japan/02_home.jpg",
+          "src": "/photography/images/japan/02_home.jpg",
           "width": 1600,
           "height": 2400,
           "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAQAAsDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABQIE/8QAIBAAAgICAgIDAAAAAAAAAAAAAQIDEQAEEiEFQTJRYf/EABQBAQAAAAAAAAAAAAAAAAAAAAD/xAAVEQEBAAAAAAAAAAAAAAAAAAAAAf/aAAwDAQACEQMRAD8AO8Lt60LbDSLHBG1hGERIsd136usFmsStyAJvujka+wyo0Z+LGx+H7zahiCDkiE+zWIV//9k=",
           "home": true,
           "caption": null
+        },
+        {
+          "file": "2.jpg",
+          "src": "/photography/images/japan/2.jpg",
+          "width": 1600,
+          "height": 2400,
+          "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAQAAsDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAQMEBf/EACQQAAIBBAECBwAAAAAAAAAAAAECAwAEERIhMVEFBhMUFUGR/8QAFAEBAAAAAAAAAAAAAAAAAAAAAf/EABkRAAIDAQAAAAAAAAAAAAAAAAARARIxQf/aAAwDAQACEQMRAD8Akl8sLsnt5kbZTgs33x0H7WHcQRRTvGhacKcep0270bHxm5spldXZ1HBRjwR2xTvm4hnWzYDOcCdhTZ8BLJP/2Q==",
+          "home": false,
+          "caption": null
         }
       ]
     },
     {
-      "slug": "family-field",
-      "title": "Family Field",
-      "description": "Two twin dandelions rising from a field of their own kind. Third place in a local division of the Bondar Challenge.",
-      "location": null,
+      "slug": "mont-saint-michel",
+      "title": "Mont Saint-Michel",
+      "description": null,
+      "location": "Northwest France",
       "year": null,
       "order": 5,
       "photos": [
         {
-          "file": "01_home.jpg",
-          "src": "/photography/family-field/01_home.jpg",
-          "width": 2000,
-          "height": 3000,
-          "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAQAAsDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAQIEBf/EAB8QAAIBBAIDAAAAAAAAAAAAAAECEQADBDEFQRIhYf/EABUBAQEAAAAAAAAAAAAAAAAAAAIE/8QAFxEBAQEBAAAAAAAAAAAAAAAAAQACQf/aAAwDAQACEQMRAD8AfGv5TY0teRRoS491lvmjzM3bu+ialt8g6IVDEAiSN90GzJMhVj6tTmHslv/Z",
+          "file": "1 V2_home.jpg",
+          "src": "/photography/images/mont-saint-michel/1%20V2_home.jpg",
+          "width": 6000,
+          "height": 4000,
+          "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAALABADASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAABQT/xAAjEAACAQIEBwAAAAAAAAAAAAABAgMAEQQTITEFBhRBUXGB/8QAFAEBAAAAAAAAAAAAAAAAAAAAAf/EABYRAQEBAAAAAAAAAAAAAAAAAAARQf/aAAwDAQACEQMRAD8AcXHQxo2Y8ahd7kXHyg+McyiOQ9HlusejB929UWI1mbESSXLkm5uR3qB8PEIiwXXzc06K/9k=",
           "home": true,
+          "caption": null
+        },
+        {
+          "file": "2 V2_home.jpg",
+          "src": "/photography/images/mont-saint-michel/2%20V2_home.jpg",
+          "width": 4000,
+          "height": 6000,
+          "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAQAAsDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABgIF/8QAIhAAAgEDAgcAAAAAAAAAAAAAAQIDAAQRBiEFEhMjQWHB/8QAFAEBAAAAAAAAAAAAAAAAAAAAAf/EABYRAQEBAAAAAAAAAAAAAAAAAAACEf/aAAwDAQACEQMRAD8ArTHE452MNzOwcqAqyHIY+j8rZkt06h2oRa2LELJHHgqQ2Oc4NITqLfuW7q/kBgRTOh//2Q==",
+          "home": true,
+          "caption": null
+        },
+        {
+          "file": "3 V2_home.jpg",
+          "src": "/photography/images/mont-saint-michel/3%20V2_home.jpg",
+          "width": 6000,
+          "height": 4000,
+          "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAALABADASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAABAX/xAAfEAACAQMFAQAAAAAAAAAAAAABAgMABBEFITFBcRP/xAAUAQEAAAAAAAAAAAAAAAAAAAAC/8QAFxEBAAMAAAAAAAAAAAAAAAAAABEhQf/aAAwDAQACEQMRAD8AorqCqi/BTIO2DZHlStYuLiVMmdlV+Ylbr2hI7ATsDgruMdbUCJ2uBLJMxd1XYk8UtGaf/9k=",
+          "home": true,
+          "caption": null
+        },
+        {
+          "file": "4.jpg",
+          "src": "/photography/images/mont-saint-michel/4.jpg",
+          "width": 3539,
+          "height": 5308,
+          "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAQAAsDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABAUG/8QAIBAAAgICAgIDAAAAAAAAAAAAAQIDEQAEBQYSIUFRcf/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8Amde63qctxjbM880biQpSVXoA/P7maYUxH0axmnvSayBVkYL5eRUGsGxtico//9k=",
+          "home": false,
+          "caption": null
+        },
+        {
+          "file": "5.jpg",
+          "src": "/photography/images/mont-saint-michel/5.jpg",
+          "width": 4000,
+          "height": 6000,
+          "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAQAAsDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAABAX/xAAfEAACAQMFAQAAAAAAAAAAAAABAgMABBEFEhMhQRT/xAAUAQEAAAAAAAAAAAAAAAAAAAAB/8QAFxEAAwEAAAAAAAAAAAAAAAAAAAIREv/aAAwDAQACEQMRAD8AS6W8IjURFxJ1uHlSJvlSZ1Zo8g4OWp0l9apDHyzrGVBO3GT3Uo6xYgkPDzN7IyAFqawZU//Z",
+          "home": false,
+          "caption": null
+        },
+        {
+          "file": "7.jpg",
+          "src": "/photography/images/mont-saint-michel/7.jpg",
+          "width": 3542,
+          "height": 1802,
+          "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAIABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAIE/8QAHhAAAgIABwAAAAAAAAAAAAAAAQIAAwQFERITQZH/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAv/EABYRAQEBAAAAAAAAAAAAAAAAAAEAAv/aAAwDAQACEQMRAD8A1W407Dwo7t4BJTMgtYN9Vqt3ohIiIdJTf//Z",
+          "home": false,
           "caption": null
         }
       ]

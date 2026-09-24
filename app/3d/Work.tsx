@@ -12,7 +12,7 @@ import { trackOpen, type TrackItem } from "../_lib/track";
 import { useDwell } from "../_lib/useDwell";
 import styles from "./three-d.module.css";
 
-const src = (p: ThreeDPiece, i: number) => `/images/portfolio/${p.folder}/${i}.jpg`;
+const src = (p: ThreeDPiece, i: number) => `/3d/images/${p.id}/${i}.jpg`;
 const itemFor = (p: ThreeDPiece): TrackItem => ({ section: "3d", id: p.id, title: p.title, thumb: src(p, 0), href: `/3d#${p.id}` });
 
 interface Open {

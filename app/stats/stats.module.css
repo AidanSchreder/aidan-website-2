@@ -25,14 +25,6 @@
 .linkBtn { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gray); }
 .linkBtn:hover { color: var(--fg); }
 
-.banner {
-  margin: 16px var(--gutter) 0;
-  padding: 10px 14px;
-  border: 1px solid var(--line);
-  font-size: 13px;
-  color: var(--gray);
-}
-
 .main { padding: 20px var(--gutter) 64px; display: grid; gap: 20px; max-width: 1400px; }
 
 /* ── FILTERS: one row, above everything they scope ── */
@@ -66,6 +58,24 @@
 .cardTitle span { margin-left: 6px; font-weight: 400; color: var(--gray); }
 .spaced { margin-top: 28px; }
 .cols { display: grid; grid-template-columns: 1.2fr 1fr; gap: 20px; }
+
+/* ── SETUP CHECK ── */
+.checks { display: grid; gap: 10px; }
+.checks li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; font-size: 13px; }
+.checks strong { min-width: 80px; font-weight: 500; }
+.checks strong::before { content: "✕ "; color: var(--gray); }
+.checks li[data-ok] strong::before { content: "✓ "; color: var(--series); }
+.checks span { flex: 1 1 320px; color: var(--gray); }
+.setupNote { margin-top: 14px; font-size: 12px; line-height: 1.6; color: var(--gray); }
+
+/* ── MESSAGES ── */
+.card > .note { max-width: none; margin-bottom: 12px; font-size: 13px; }
+.messages { display: grid; max-height: 520px; overflow-y: auto; }
+.messages li { padding: 12px 0; border-bottom: 1px solid var(--line); }
+.messages li:first-child { padding-top: 0; }
+.messageMeta { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; color: var(--gray); }
+.messageMeta a { color: var(--fg); text-decoration: underline; text-underline-offset: 3px; }
+.messageText { margin-top: 6px; max-width: 80ch; white-space: pre-wrap; overflow-wrap: anywhere; }
 
 /* ── CHART ── */
 .chart { position: relative; width: 100%; outline-offset: 4px; }

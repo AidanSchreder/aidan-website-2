@@ -4,6 +4,7 @@ import { ThemeToggle } from "../_components/theme/ThemeToggle";
 import { ContactLine } from "../_components/ContactLine";
 import { FooterLine } from "../_components/FooterLine";
 import { Cursor } from "../_components/Cursor";
+import { FooterShape } from "./FooterShape";
 import styles from "./design.module.css";
 
 export default function DesignLayout({ children }: { children: React.ReactNode }) {
@@ -28,7 +29,8 @@ export default function DesignLayout({ children }: { children: React.ReactNode }
       {children}
 
       <footer id="contact" className={styles.footer}>
-        <ContactLine section="design" className={styles.contact} />
+        <FooterShape />
+        <ContactLine section="design" className={styles.contact} form />
         <FooterLine about="/design/about" />
       </footer>
     </div>

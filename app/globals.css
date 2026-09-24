@@ -119,6 +119,77 @@ body {
 }
 .contact-line a:hover { background-size: 0% 1px; background-position: 100% 100%; }
 
+/* Message form under the contact line (MessageForm.tsx). Everything is in the
+   line's own type. The fields share one grid column sized by a hidden copy of
+   the email address, so each bubble is exactly as wide as the address. */
+.message-form { margin-top: 0.5em; }
+.message-or { margin-bottom: 0.35em; }
+.message-fields {
+  display: inline-grid;
+  max-width: 100%;
+  text-align: left;
+  vertical-align: top;
+}
+.message-sizer { height: 0; overflow: hidden; visibility: hidden; white-space: nowrap; }
+.message-field,
+.message-note { width: 0; min-width: 100%; }
+.message-field {
+  display: block;
+  padding: 0.15em 0.6em;
+  border-radius: 0.5em;
+  background: color-mix(in srgb, var(--fg) 8%, transparent);
+  color: var(--fg);
+  caret-color: var(--fg);
+  font: inherit;
+  letter-spacing: inherit;
+  resize: none;
+  overflow: hidden;
+  /* Height eases as lines wrap (MessageForm.tsx measures it). */
+  transition: height 0.22s var(--ease-out), background-color 0.2s ease, box-shadow 0.2s ease, opacity 0.3s ease;
+}
+.message-field + .message-field { margin-top: 0.4em; }
+.message-field::placeholder { color: var(--gray); opacity: 1; transition: color 0.25s ease; }
+.message-field:focus::placeholder { color: color-mix(in srgb, var(--gray) 50%, transparent); }
+.message-field:hover { background: color-mix(in srgb, var(--fg) 11%, transparent); }
+.message-field:focus { outline: none; background: color-mix(in srgb, var(--fg) 13%, transparent); }
+.message-field:focus-visible { box-shadow: 0 0 0 1px color-mix(in srgb, var(--fg) 30%, transparent); }
+.message-field[aria-invalid] { box-shadow: 0 0 0 1px color-mix(in srgb, var(--fg) 45%, transparent); }
+/* iOS zooms the page into any field under 16px; keep phones from jumping. */
+@supports (-webkit-touch-callout: none) {
+  .message-field { font-size: max(16px, 1em); }
+}
+.message-trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+/* "Send" folds open under the fields once both have text. */
+.message-send-row {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 0.35s var(--ease-out), opacity 0.25s ease;
+}
+.message-send-row[data-show] { grid-template-rows: 1fr; opacity: 1; }
+.message-send-row > div { min-height: 0; overflow: hidden; }
+.message-send {
+  margin-top: 0.4em;
+  color: var(--fg);
+  font: inherit;
+  letter-spacing: inherit;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat;
+  transform: translateY(-0.4em);
+  transition: background-size 0.35s var(--ease-out), transform 0.4s var(--ease-out);
+}
+.message-send-row[data-show] .message-send { transform: none; }
+.message-send:hover { background-size: 0% 1px; background-position: 100% 100%; }
+/* Sending: the fields dim and "Sending" breathes until the reply. */
+.message-form[data-sending] .message-field { opacity: 0.55; }
+.message-form[data-sending] .message-send { animation: message-breathe 0.9s ease-in-out infinite alternate; }
+@keyframes message-breathe {
+  to { opacity: 0.35; }
+}
+/* Notes fold open under the fields (height animated in MessageForm.tsx). */
+.message-fields .message-note { overflow: hidden; }
+.message-fields .message-note > span { display: block; padding-top: 0.4em; }
+.message-sent { margin-top: 0.5em; }
+
 .footer-line {
   display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: baseline;
   font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
@@ -144,9 +215,19 @@ html.custom-cursor * { cursor: none !important; }
 .cursor-dot,
 .cursor-ring { position: fixed; top: 0; left: 0; z-index: 9999; pointer-events: none; }
 .cursor-dot {
-  width: 8px; height: 8px; margin: -4px 0 0 -4px;
+  width: 8px; height: 8px; translate: -50% -50%;
   border-radius: 50%; background: var(--fg);
 }
+/* Over text fields the dot is an I-beam: small crossbars top and bottom. */
+.cursor-dot::before,
+.cursor-dot::after {
+  content: ""; position: absolute; left: 50%; width: 7px; height: 1.5px; translate: -50% 0;
+  border-radius: 1px; background: var(--fg); opacity: 0; transition: opacity 0.2s ease;
+}
+.cursor-dot::before { top: 0; }
+.cursor-dot::after { bottom: 0; }
+.cursor-dot[data-caret]::before,
+.cursor-dot[data-caret]::after { opacity: 1; }
 .cursor-ring-inner {
   display: grid; place-items: center;
   border: 1px solid color-mix(in srgb, var(--fg) 45%, transparent);

@@ -1,9 +1,11 @@
 import "server-only";
 
-// Minimal Redis client for analytics. Production talks to Upstash over its
-// REST API (no SDK needed). Connect a free Upstash Redis store in the Vercel
-// dashboard (Storage → Upstash → Redis) and it injects these env vars:
+// Minimal Redis client for analytics and the message inbox. Production talks
+// to Upstash over its REST API (no SDK needed). Connect a free Upstash Redis
+// store in the Vercel dashboard (Storage → Upstash → Redis) and it injects
+// these env vars:
 //   KV_REST_API_URL / KV_REST_API_TOKEN   (or UPSTASH_REDIS_REST_URL / _TOKEN)
+// A prefix chosen while connecting (STORAGE_KV_REST_API_URL, …) works too.
 //
 // Without them: in development an in-memory store is used so /stats can be
 // tried locally; in production tracking becomes a no-op.
@@ -11,8 +13,13 @@ import "server-only";
 type Arg = string | number;
 export type Command = Arg[];
 
-const REST_URL = process.env.KV_REST_API_URL ?? process.env.UPSTASH_REDIS_REST_URL;
-const TOKEN = process.env.KV_REST_API_TOKEN ?? process.env.UPSTASH_REDIS_REST_TOKEN;
+const urlKey = Object.keys(process.env)
+  .filter((k) => /(^|_)(KV_REST_API|REDIS_REST)_URL$/.test(k) && process.env[k.replace(/URL$/, "TOKEN")])
+  .sort((a, b) => a.length - b.length)[0];
+/** The env var names the store was found under, for the /stats setup check. */
+export const redisVars = urlKey ? [urlKey, urlKey.replace(/URL$/, "TOKEN")] : null;
+const REST_URL = urlKey && process.env[urlKey];
+const TOKEN = urlKey && process.env[urlKey.replace(/URL$/, "TOKEN")];
 const DEV = process.env.NODE_ENV === "development";
 
 export type StoreMode = "upstash" | "memory" | "none";
@@ -36,9 +43,9 @@ export async function pipeline(commands: Command[]): Promise<unknown[]> {
 }
 
 // ── In-memory stand-in (dev only) ─────────────────────────────────────────
-// Implements just the commands analytics uses, with Redis-shaped replies.
+// Implements just the commands analytics and messages use, with Redis-shaped replies.
 
-type Mem = Map<string, Map<string, number | string> | Set<string>>;
+type Mem = Map<string, Map<string, number | string> | Set<string> | string[] | number>;
 const g = globalThis as unknown as { __analyticsMem?: Mem };
 const mem: Mem = (g.__analyticsMem ??= new Map());
 
@@ -86,6 +93,30 @@ function memory([cmd, ...a]: Command): unknown {
         if (s instanceof Set) s.forEach((e) => union.add(e));
       }
       return union.size;
+    }
+    case "INCR": {
+      const v = Number(mem.get(args[0]) ?? 0) + 1;
+      mem.set(args[0], v);
+      return v;
+    }
+    case "LPUSH": {
+      const [key, ...els] = args;
+      const l = mem.get(key);
+      const list = Array.isArray(l) ? l : [];
+      list.unshift(...els.reverse());
+      mem.set(key, list);
+      return list.length;
+    }
+    case "LTRIM":
+    case "LRANGE": {
+      const [key, a0, b0] = args;
+      const l = mem.get(key);
+      const list = Array.isArray(l) ? l : [];
+      const stop = Number(b0) < 0 ? list.length + Number(b0) : Number(b0);
+      const range = list.slice(Number(a0), stop + 1);
+      if (String(cmd).toUpperCase() === "LRANGE") return range;
+      mem.set(key, range);
+      return "OK";
     }
     case "EXPIRE":
       return 1;

@@ -35,7 +35,7 @@ export default function EngineeringLayout({ children }: { children: React.ReactN
       {children}
 
       <footer id="contact" className={styles.footer}>
-        <ContactLine section="engineering" />
+        <ContactLine section="engineering" form />
         <FooterLine about="/engineering/about">
           <span>Built with Next.js, React and Vercel</span>
         </FooterLine>

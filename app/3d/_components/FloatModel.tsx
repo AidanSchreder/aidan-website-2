@@ -1,7 +1,7 @@
 "use client";
 
 // Drag-to-spin GLB model from v1, now:
-//   - loads meshopt-compressed models from /models/web (≈90% smaller)
+//   - loads meshopt-compressed models from /3d/models (≈90% smaller)
 //   - waits to fetch until the canvas is within ~one screen of the viewport
 //   - pauses rendering while off-screen
 //   - parallax via a motion value instead of React state

@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { SECTIONS, SITE_URL } from "@/content/site";
+import { DESIGN } from "@/content/design";
 import { getLibrary } from "./_lib/photos";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -12,5 +13,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...listed.map((s) => ({ url: `${SITE_URL}${s.href}`, lastModified: now, priority: 0.9 })),
     ...listed.flatMap((s) => (s.about ? [{ url: `${SITE_URL}${s.about}`, lastModified: now, priority: 0.5 }] : [])),
     ...collections.map((c) => ({ url: `${SITE_URL}/photography/${c.slug}`, lastModified: now, priority: 0.7 })),
+    ...DESIGN.map((p) => ({ url: `${SITE_URL}/design/${p.id}`, lastModified: now, priority: 0.7 })),
   ];
 }

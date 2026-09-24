@@ -90,7 +90,7 @@ export function PhotoShell({ collections, children }: { collections: NavCollecti
           {list}
         </nav>
         <div className={styles.sideBottom}>
-          <ContactLine section="photography" />
+          <ContactLine section="photography" form />
           <div className={styles.sideMeta}>
             <FooterLine about="/photography/about" />
             <ThemeToggle />
@@ -121,7 +121,7 @@ export function PhotoShell({ collections, children }: { collections: NavCollecti
             transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
           >
             {list}
-            <ContactLine section="photography" />
+            <ContactLine section="photography" form />
             <FooterLine about="/photography/about" />
           </motion.nav>
         )}

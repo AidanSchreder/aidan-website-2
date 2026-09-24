@@ -4,10 +4,11 @@ import Link from "next/link";
 import { plexSans } from "../_fonts/plex-sans";
 import { ThemeToggle } from "../_components/theme/ThemeToggle";
 import { report, TRACKED } from "../_lib/analytics";
-import { storeMode } from "../_lib/store";
+import { recentMessages, telegramReady, telegramTokenShaped } from "../_lib/messages";
+import { redisVars, storeMode } from "../_lib/store";
 import { SECTIONS, type SectionId } from "@/content/site";
 import { authState } from "./auth";
-import { login, logout } from "./actions";
+import { login, logout, testTelegram } from "./actions";
 import { DailyChart } from "./DailyChart";
 import styles from "./stats.module.css";
 
@@ -22,9 +23,79 @@ const NAMES: Record<SectionId, string> = {
   ...(Object.fromEntries(SECTIONS.map((s) => [s.id, s.label])) as Record<string, string>),
 } as Record<SectionId, string>;
 
-type Search = { range?: string; section?: string; sort?: string; error?: string };
+type Search = { range?: string; section?: string; sort?: string; error?: string; telegram?: string };
 
 const fmt = (n: number) => n.toLocaleString("en-CA");
+
+/** Plain-language reading of Telegram's error for the setup check. */
+function telegramHint(error: string) {
+  if (/unauthorized/i.test(error)) return "the bot token is wrong.";
+  if (/chat not found/i.test(error)) return "the chat id is wrong, or you haven't sent the bot a message yet.";
+  if (/^not found$/i.test(error)) return "the bot token is malformed; copy it again from @BotFather.";
+  if (/blocked/i.test(error)) return "you've blocked the bot in Telegram.";
+  if (/isn't set/i.test(error)) return "add both variables in Vercel, then redeploy.";
+  return "";
+}
+
+/**
+ * What this deployment can see: which database and Telegram variables it was
+ * built with (names only), and a button that sends Telegram a test message.
+ */
+function Setup({ telegram }: { telegram?: string }) {
+  const related = Object.keys(process.env)
+    .filter((k) => /(^|_)(KV|REDIS|UPSTASH|TELEGRAM)(_|$)/i.test(k))
+    .sort();
+  const env = process.env.VERCEL_ENV ?? process.env.NODE_ENV;
+  const sha = process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7);
+  return (
+    <section className={styles.card} aria-labelledby="setup">
+      <h2 id="setup" className={styles.cardTitle}>
+        Setup <span>what this deployment can see · {env}{sha && ` · ${sha}`}</span>
+      </h2>
+      <ul className={styles.checks}>
+        <li data-ok={storeMode === "upstash" || undefined}>
+          <strong>Database</strong>
+          <span>
+            {storeMode === "upstash"
+              ? `Connected through ${redisVars?.join(" + ")}.`
+              : storeMode === "memory"
+                ? "In memory (development): counts and messages reset when the dev server restarts."
+                : "Not found. It needs KV_REST_API_URL and KV_REST_API_TOKEN (or UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN)."}
+          </span>
+        </li>
+        <li data-ok={(telegramReady && telegramTokenShaped) || undefined}>
+          <strong>Telegram</strong>
+          <span>
+            Bot token {process.env.TELEGRAM_BOT_TOKEN ? "found" : "missing"}
+            {!telegramTokenShaped && " but not shaped like one from @BotFather (digits, a colon, then about 35 letters)"}, chat id{" "}
+            {process.env.TELEGRAM_CHAT_ID ? "found" : "missing"}.
+            {telegram &&
+              (telegram === "ok"
+                ? " Test sent: check Telegram."
+                : ` Telegram said “${telegram}”: ${telegramHint(telegram)}`)}
+          </span>
+          <form action={testTelegram}>
+            <button type="submit" className={styles.linkBtn}>
+              Send test message
+            </button>
+          </form>
+        </li>
+      </ul>
+      <p className={styles.setupNote}>
+        Related variables in this deployment: {related.length ? related.join(", ") : "none"}. Variables only reach a deployment
+        built after they were saved, and only in the environments ticked beside them (Production, Preview), so redeploy after
+        changing them.
+      </p>
+    </section>
+  );
+}
+const when = new Intl.DateTimeFormat("en-CA", {
+  timeZone: "America/Toronto",
+  month: "short",
+  day: "numeric",
+  hour: "numeric",
+  minute: "2-digit",
+});
 
 function Sparkline({ values }: { values: number[] }) {
   const max = Math.max(1, ...values);
@@ -67,7 +138,7 @@ export default async function StatsPage({ searchParams }: { searchParams: Promis
   const range = RANGES.find((r) => String(r) === sp.range) ?? 30;
   const scope: SectionId | "all" = TRACKED.find((s) => s === sp.section) ?? "all";
   const sort = sp.sort === "views" ? "views" : "opens";
-  const r = await report(range, scope);
+  const [r, messages] = await Promise.all([report(range, scope), recentMessages(50)]);
 
   const href = (next: Partial<Record<"range" | "section" | "sort", string>>) => {
     const q = new URLSearchParams({ range: String(range), section: scope, sort, ...next });
@@ -98,15 +169,9 @@ export default async function StatsPage({ searchParams }: { searchParams: Promis
         </div>
       </header>
 
-      {storeMode !== "upstash" && (
-        <p className={styles.banner}>
-          {storeMode === "memory"
-            ? "Development: counts are kept in memory and reset when the dev server restarts."
-            : "Not collecting yet. In Vercel → Storage, connect an Upstash Redis database to this project; it adds KV_REST_API_URL and KV_REST_API_TOKEN."}
-        </p>
-      )}
-
       <main id="main" className={styles.main}>
+        {(storeMode !== "upstash" || !telegramReady || sp.telegram) && <Setup telegram={sp.telegram} />}
+
         <nav className={styles.filters} aria-label="Filters">
           <div className={styles.segment} role="group" aria-label="Date range">
             {RANGES.map((d) => (
@@ -143,6 +208,35 @@ export default async function StatsPage({ searchParams }: { searchParams: Promis
               <p className={styles.tileValue}>{fmt(value as number)}</p>
             </div>
           ))}
+        </section>
+
+        <section className={styles.card} aria-labelledby="messages">
+          <h2 id="messages" className={styles.cardTitle}>
+            Messages <span>from the form under each email line · latest {messages.length || ""}</span>
+          </h2>
+          {!telegramReady && (
+            <p className={styles.note}>
+              Telegram isn’t set up, so messages only arrive here. Add TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID in
+              Vercel (see README).
+            </p>
+          )}
+          {messages.length === 0 ? (
+            <p className={styles.empty}>No messages yet.</p>
+          ) : (
+            <ol className={styles.messages}>
+              {messages.map((m) => (
+                <li key={`${m.at}-${m.email}`}>
+                  <p className={styles.messageMeta}>
+                    <time dateTime={new Date(m.at).toISOString()}>{when.format(m.at)}</time>
+                    <span>{NAMES[m.section] ?? m.section}</span>
+                    <a href={`mailto:${m.email}?subject=${encodeURIComponent("Re: your message on aidanschreder.com")}`}>{m.email}</a>
+                    {!m.sent && <span>not sent to Telegram</span>}
+                  </p>
+                  <p className={styles.messageText}>{m.text}</p>
+                </li>
+              ))}
+            </ol>
+          )}
         </section>
 
         <section className={styles.card} aria-labelledby="daily">

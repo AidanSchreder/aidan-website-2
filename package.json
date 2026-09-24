@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "photos": "node scripts/photo-manifest.mjs",
+    "telegram": "node --env-file-if-exists=.env.local scripts/telegram-chat-id.mjs",
     "predev": "node scripts/photo-manifest.mjs",
     "dev": "next dev",
     "prebuild": "node scripts/photo-manifest.mjs",

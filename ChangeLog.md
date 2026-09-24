@@ -17,7 +17,18 @@ All meaningful changes to the portfolio site are recorded here.
 - `/photography`: Jessica Chou-style sidebar + randomized three-column collage
   with staggered column starts and nested photo pairs, built from folders;
   `_home` filename tag; per-photo shareable viewer
-- `/design`: collage grid with shared-element case studies (framer-motion)
+- `/design`: grain-gradient shapes behind the title and one in the footer
+  (drawn on canvas; palette turned by `HUE_SHIFT` in
+  `app/design/grain-fills.ts`; the rounded square breathes), a tilted,
+  rounded grid of tiles that slowly fade through each project's
+  `home("…")`-tagged slides and straighten to show its name on hover (every
+  tile the same area and shaped like its first tagged slide; rows of two
+  spread evenly across the full page width; every image, here and on the
+  project pages, has a thin light edge on its top-left rim, plus an optional
+  glow of grain in its own colours, off for now: `GLOW` in
+  `app/design/Edge.tsx`), and a page per project
+  (`/design/<id>`): lead image, write-up beside the details, every slide
+  captioned, previous/next
 - `/3d`: the v1 landing page (models, parallax renders, FLIP lightbox);
   models meshopt-compressed (172 MB → 22 MB) and lazy-loaded; parallax moved
   off React state
@@ -28,7 +39,19 @@ All meaningful changes to the portfolio site are recorded here.
 - Per-page titles, descriptions and Open Graph images; sitemap covers collections
 - Contact is one line per page with a pre-filled subject (engineering uses
   aschrede@uwaterloo.ca); big CTAs, copyright and "updated" stamps removed
+- Message form under the email line on engineering, design, photography and
+  3D: two grey bubbles (message, email) as wide as the address, growing as
+  the text wraps, with a "Send" that appears once both are filled. Short
+  eased motion for each state (growing, sending, a shake for a bad address,
+  folding away into the confirmation); on design and 3D the custom cursor
+  turns into an I-beam over the fields. Messages go to a private Telegram
+  bot and are kept on `/stats`; hidden-field, timing and rate-limit checks
+  against spam
 - `/portfolio` → `/design` and `/thank-you` → `/` redirects
+- `public/` organised by section, then type (`images`, `videos`, `documents`,
+  `models`, `textures`), then a folder per project or collection named after
+  its id; old file URLs (including `/tron-portfolio.pdf`) redirect. Fonts moved
+  beside their loaders; v1-only files moved to `legacy/public/`
 - v1 kept on the `legacy-v1` branch and in `legacy/`
 
 ## March 2026

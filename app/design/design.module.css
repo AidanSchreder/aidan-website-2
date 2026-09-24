@@ -1,4 +1,4 @@
-/* Design: expressive. Stencil + italic serif, grain, collage tilt, flourishes. */
+/* Design: expressive. Stencil + italic serif, grain-gradient shapes, fading tiles. */
 
 .root { position: relative; min-height: 100vh; overflow-x: clip; }
 
@@ -27,9 +27,10 @@
 /* ── HERO ── */
 .hero {
   position: relative;
+  isolation: isolate;
   padding: clamp(48px, 10vh, 120px) var(--gutter) clamp(72px, 14vh, 160px);
 }
-.eyebrow { margin-bottom: 28px; }
+.hero > :not(.shapes) { position: relative; z-index: 1; }
 .title {
   display: grid;
   font-family: var(--font-display);
@@ -53,13 +54,6 @@
   line-height: 1;
   letter-spacing: -0.01em;
 }
-.star {
-  position: absolute;
-  top: clamp(96px, 16vh, 180px);
-  right: calc(var(--gutter) + clamp(0px, 4vw, 64px));
-  width: clamp(28px, 3.4vw, 52px);
-  color: var(--fg);
-}
 .intro {
   max-width: 38ch;
   margin-top: clamp(32px, 5vh, 56px);
@@ -67,139 +61,207 @@
   font-size: clamp(20px, 2vw, 28px);
   line-height: 1.25;
 }
-.badge {
-  position: absolute;
-  right: var(--gutter);
-  bottom: clamp(40px, 8vh, 96px);
-  width: clamp(96px, 9vw, 132px);
-  color: var(--gray);
+
+/* Grain shapes behind the title (see Grain.tsx; the canvas draws the shape).
+   Slots carry the scroll drift and tilt, the shape inside carries the
+   entrance, the canvas the breathing. */
+.shapes { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.squareSlot,
+.triSlot,
+.dotSlot { position: absolute; }
+.squareSlot {
+  width: clamp(230px, 32vw, 560px);
+  left: calc(var(--gutter) - clamp(8px, 2vw, 36px));
+  top: clamp(28px, 6vh, 80px);
 }
-.badge svg { width: 100%; height: auto; overflow: visible; animation: spin 40s linear infinite; }
-.badge text {
-  font-family: var(--font-mono);
-  font-size: 8.4px;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  fill: currentColor;
+.triSlot {
+  width: clamp(110px, 16vw, 280px);
+  left: calc(var(--gutter) + clamp(160px, 34vw, 600px));
+  top: clamp(0px, 1.5vh, 24px);
 }
-.badge path:last-child { fill: currentColor; }
-@keyframes spin { to { transform: rotate(360deg); } }
+.dotSlot {
+  width: clamp(56px, 7vw, 120px);
+  right: calc(var(--gutter) + clamp(0px, 9vw, 160px));
+  top: calc(clamp(48px, 10vh, 120px) + clamp(140px, 27vw, 480px));
+}
+.square,
+.dot { aspect-ratio: 1; }
+.tri { aspect-ratio: 1 / 0.866; }
+.grain { display: block; width: 100%; height: 100%; }
+.square .grain { animation: breathe 10s ease-in-out infinite alternate; }
+@keyframes breathe {
+  from { transform: scale(0.93); }
+  to { transform: scale(1.07); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .square .grain { animation: none; }
+}
 
 /* ── WORK GRID ── */
-.work { padding: 0 var(--gutter) clamp(96px, 16vh, 180px); }
-.grid {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  column-gap: clamp(16px, 2vw, 32px);
-  row-gap: clamp(72px, 10vw, 140px);
-  align-items: start;
+/* Full width (no gutter): each row spreads its tiles evenly from edge to edge. */
+.work {
+  container-type: inline-size;
+  padding: 0 0 clamp(96px, 16vh, 180px);
+  scroll-margin-top: 24px;
 }
-.card { margin-top: var(--offset, 0px); scroll-margin-top: 96px; }
-.cardBtn { display: block; width: 100%; text-align: left; }
-.cover {
-  position: relative;
-  overflow: hidden;
-  background: var(--surface);
-  box-shadow: 0 24px 60px -30px rgba(0, 0, 0, 0.55);
-  will-change: transform;
+/* DesignWork.tsx places every tile (x, y, width) as a fraction of the page
+   width, so the whole layout scales with it; 100cqi is that width. */
+.tiles { position: relative; height: calc(var(--height, 0) * 100cqi); }
+.tileItem {
+  --radius: calc(var(--corner, 0) * 100cqi);
+  position: absolute;
+  left: var(--x);
+  top: calc(var(--y) * 100cqi);
+  width: var(--w);
 }
-.coverImg { position: absolute; inset: 0; }
-.coverImg img { object-fit: cover; }
-
-.caption {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: baseline;
-  gap: 4px 16px;
-  margin-top: 20px;
-}
-.caption h2 {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: clamp(24px, 2.2vw, 34px);
-  line-height: 1.05;
-}
-.caption p { grid-column: 1 / -1; font-size: 10px; }
-
-/* ── CASE STUDY ── */
-.case {
-  position: fixed;
-  inset: 0;
-  z-index: 900;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) min(420px, 34vw);
-}
-.caseBackdrop { position: absolute; inset: 0; background: var(--bg); }
-.caseStage {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 16px;
-  padding: 56px clamp(24px, 4vw, 64px);
-  min-width: 0;
-}
-.caseFrame {
-  position: relative;
-  width: min(100%, calc((100dvh - 150px) * var(--ratio)));
-  aspect-ratio: var(--ratio);
-  overflow: hidden;
-  background: var(--surface);
-}
-.caseImg { position: absolute; inset: 0; }
-.caseCaption {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  width: min(100%, calc((100dvh - 150px) * var(--ratio)));
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  color: var(--gray);
-}
-
-.casePanel {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 40px 36px;
-  overflow-y: auto;
-  border-left: 1px solid var(--line);
-}
-.caseClose {
-  align-self: flex-start;
-  margin-bottom: 20px;
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  opacity: 0.7;
-  transition: opacity 0.2s ease;
-}
-.caseClose:hover { opacity: 1; }
-.caseTitle {
-  font-family: var(--font-display);
-  font-size: clamp(34px, 3.4vw, 54px);
-  line-height: 0.92;
-  text-transform: uppercase;
-}
-.caseDeliverables { font-family: var(--font-serif); font-style: italic; font-size: 20px; color: var(--gray); }
-.caseText { font-size: 12.5px; line-height: 1.85; color: color-mix(in srgb, var(--fg) 78%, var(--bg)); }
-.thumbs { display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 8px; margin-top: 12px; }
-.thumbs button {
+.tileLink {
   position: relative;
   display: block;
-  width: 100%;
-  aspect-ratio: 1;
-  overflow: hidden;
-  opacity: 0.45;
-  outline: 1px solid transparent;
-  outline-offset: 2px;
-  transition: opacity 0.25s ease, outline-color 0.25s ease;
+  transform: rotate(var(--tilt, 0deg));
+  transition: transform 0.8s var(--ease-out);
 }
-.thumbs button img { object-fit: cover; }
-.thumbs button:hover { opacity: 0.8; }
-.thumbs button[aria-current] { opacity: 1; outline-color: var(--fg); }
+/* The image and its edge fade and grow on hover as one group, so the glow
+   behind never shows through the image while it's half faded. */
+.tileFrame {
+  position: relative;
+  display: block;
+  transition: opacity 0.45s ease, transform 0.9s var(--ease-out);
+}
+.tileMedia {
+  position: relative;
+  display: block;
+  aspect-ratio: var(--ratio, 4 / 3);
+  overflow: hidden;
+  border-radius: var(--radius);
+  isolation: isolate; /* keeps the fading layers clipped to the corners in Safari */
+  /* Page colour under transparent images, so the glow behind the tile only
+     shows around it, never through it. */
+  background: var(--bg);
+  transition: background-color var(--theme-fade);
+}
+/* ── IMAGE EDGE (Edge.tsx) ──
+   Glow: a blurred copy of the artwork let through a noise mask, so it glows
+   as grain in the artwork's own colours. The layer runs 56px past the image
+   so the blur fades out inside it. */
+.glow {
+  position: absolute;
+  inset: -56px;
+  pointer-events: none;
+  filter: blur(12px) saturate(1.25);
+  opacity: 0.8;
+  -webkit-mask-image: url("/design/textures/noise.png");
+  mask-image: url("/design/textures/noise.png");
+  -webkit-mask-size: 96px;
+  mask-size: 96px;
+}
+.glowImg { position: absolute; inset: 56px; }
+.glowImg img { object-fit: cover; }
+/* Light edge: a 2px ring on the image itself, the text colour lit from the
+   top-left and gone by the middle. The ring is an inset shadow, drawn at the
+   tile's tilt so it stays crisp; only the smooth fade is a mask (a thin ring
+   cut out by a mask is drawn flat, then rotated, and breaks into patches). */
+.lightEdge {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius, 0);
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--fg) 65%, transparent);
+  -webkit-mask-image: linear-gradient(135deg, #000, transparent 60%);
+  mask-image: linear-gradient(135deg, #000, transparent 60%);
+  pointer-events: none;
+}
+
+/* Crossfade: the incoming slide fades in on top of the outgoing one. */
+.tileImg { object-fit: cover; opacity: 0; transition: opacity 1.8s ease-in-out; }
+.tileImg[data-layer="shown"] { z-index: 2; opacity: 1; }
+.tileImg[data-layer="prev"] { z-index: 1; opacity: 1; }
+.tileName {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: clamp(26px, 3.4vw, 56px);
+  line-height: 0.95;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.3s ease, transform 0.6s var(--ease-out);
+  pointer-events: none;
+}
+@media (hover: hover) {
+  .tileLink:hover,
+  .tileLink:focus-visible { transform: none; }
+  .tileLink:hover .tileFrame,
+  .tileLink:focus-visible .tileFrame { opacity: 0; transform: scale(1.03); }
+  .tileLink:hover .tileName,
+  .tileLink:focus-visible .tileName { opacity: 1; transform: none; transition-delay: 0.08s; }
+}
+/* No hover on touch: the name sits under the tile. */
+@media (hover: none) {
+  .tileName {
+    position: static;
+    display: block;
+    padding: 14px 0 0;
+    text-align: left;
+    font-size: 22px;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ── PROJECT PAGE ── */
+.project { padding: clamp(24px, 5vh, 56px) var(--gutter) 0; }
+.slide { display: grid; gap: 12px; }
+.slide figcaption { font-size: 11px; letter-spacing: 0.08em; color: var(--gray); text-align: center; }
+.frameWrap {
+  position: relative;
+  width: min(100%, calc(82vh * var(--ratio)));
+  margin-inline: auto;
+}
+.frame { position: relative; overflow: hidden; background: var(--surface); }
+.frame img { object-fit: cover; }
+.projectIntro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(200px, 1fr);
+  gap: clamp(32px, 6vw, 120px);
+  max-width: 1200px;
+  margin: clamp(56px, 10vh, 112px) auto;
+}
+.projectText { display: grid; gap: 18px; align-content: start; }
+.projectText p { max-width: 62ch; font-size: 13.5px; line-height: 1.85; color: color-mix(in srgb, var(--fg) 80%, var(--bg)); }
+.projectTitle {
+  margin-bottom: 10px;
+  font-family: var(--font-display);
+  font-size: clamp(40px, 5.6vw, 88px);
+  line-height: 0.9;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+.projectMeta { display: grid; gap: 28px; align-content: start; padding-top: clamp(0px, 1vw, 16px); }
+.projectMeta dt { margin-bottom: 8px; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gray); }
+.projectMeta dd { font-family: var(--font-serif); font-size: clamp(20px, 1.8vw, 26px); line-height: 1.2; }
+.slides { display: grid; gap: clamp(64px, 10vh, 120px); }
+.pager {
+  display: flex;
+  justify-content: space-between;
+  gap: 32px;
+  margin-top: clamp(96px, 16vh, 180px);
+  padding: 32px 0 clamp(80px, 12vh, 140px);
+  border-top: 1px solid var(--line);
+}
+.pagerLink { display: flex; align-items: center; gap: clamp(14px, 1.6vw, 24px); }
+.pagerLink[data-dir="next"] { text-align: right; }
+.pagerLink > span:not(.pagerArrow) { display: grid; gap: 6px; }
+.pagerTitle { font-family: var(--font-serif); font-style: italic; font-size: clamp(24px, 2.8vw, 42px); line-height: 1.05; }
+.pagerArrow {
+  font-family: var(--font-serif);
+  font-size: clamp(28px, 3vw, 44px);
+  transition: transform 0.5s var(--ease-out);
+}
+.pagerLink[data-dir="prev"]:hover .pagerArrow { transform: translateX(-10px); }
+.pagerLink[data-dir="next"]:hover .pagerArrow { transform: translateX(10px); }
 
 /* ── ABOUT ── */
 .aboutPage { padding: clamp(48px, 10vh, 120px) var(--gutter) clamp(80px, 14vh, 160px); }
@@ -241,24 +303,44 @@
 .clients em { font-style: normal; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gray); text-align: right; }
 
 /* ── FOOTER ── */
-.footer { display: grid; gap: 28px; padding: 0 var(--gutter) 40px; }
+.footer { position: relative; display: grid; gap: 28px; padding: 0 var(--gutter) 40px; }
+.footerShape {
+  position: absolute;
+  right: calc(var(--gutter) + clamp(0px, 6vw, 110px));
+  top: -6px;
+  width: clamp(92px, 9vw, 150px);
+  aspect-ratio: 3.2;
+  pointer-events: none;
+}
+.footerShape .grain { animation: sway 9s ease-in-out infinite alternate; }
+@keyframes sway {
+  from { transform: rotate(-11deg); }
+  to { transform: rotate(-3deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .footerShape .grain { animation: none; transform: rotate(-7deg); }
+}
 .contact { font-family: var(--font-serif); font-size: clamp(22px, 2.4vw, 32px); line-height: 1.25; }
-.contact a { font-style: italic; }
+/* The email is italic, so the hidden copy that sizes the message fields is too. */
+.contact a,
+.contact :global(.message-sizer),
+.contact :global(.message-send) { font-style: italic; }
 
 @media (max-width: 900px) {
-  .case { grid-template-columns: 1fr; grid-template-rows: auto 1fr; overflow-y: auto; }
-  .caseStage { padding: 64px 16px 12px; }
-  .caseFrame,
-  .caseCaption { width: 100%; }
-  .casePanel { border-left: 0; border-top: 1px solid var(--line); padding: 24px 16px 40px; overflow: visible; }
-  .caseClose { position: fixed; top: 16px; left: 16px; z-index: 2; margin: 0; }
+  .projectIntro { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 760px) {
-  .grid { grid-template-columns: 1fr; row-gap: 64px; }
+  .squareSlot { width: 66vw; left: -4vw; top: 20px; }
+  .triSlot { width: 30vw; left: auto; right: 7vw; top: 0; }
+  .dotSlot { width: 56px; top: auto; bottom: 24px; right: calc(var(--gutter) + 10vw); }
+  .work { padding-inline: var(--gutter); }
+  .tiles { height: auto; display: flex; flex-direction: column; align-items: center; gap: 44px; }
+  .tileItem { --radius: calc(var(--corner-m, 0) * 100cqi); position: static; width: var(--w-m); }
+  .tileLink { transform: rotate(calc(var(--tilt, 0deg) * 0.5)); }
+  .footerShape { top: -64px; right: var(--gutter); }
   .aboutGrid { grid-template-columns: 1fr; }
-  .card { grid-column: 1 / -1 !important; margin-top: 0; }
-  .badge { display: none; }
-  .star { top: 88px; }
   .navLinks a { display: none; }
+  .pager { flex-direction: column; }
+  .pagerLink[data-dir="next"] { align-self: flex-end; }
 }

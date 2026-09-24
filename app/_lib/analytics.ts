@@ -18,7 +18,8 @@ import { day, pipeline, toCounts, toFields, type Command } from "./store";
 export const TRACKED: SectionId[] = ["lobby", ...SECTIONS.map((s) => s.id)];
 const TTL = 60 * 60 * 24 * 400;
 
-const ID = /^[\w\-./]{1,120}$/;
+// Photo ids are "<collection>/<filename>", and filenames may contain spaces.
+const ID = /^[\w\-./ ()]{1,120}$/;
 const clip = (v: unknown, n: number) => (typeof v === "string" ? v.slice(0, n) : "");
 const isSection = (v: unknown): v is SectionId => TRACKED.includes(v as SectionId);
 

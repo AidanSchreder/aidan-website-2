@@ -10,12 +10,13 @@ export const EMAIL = "aidan.schreder@gmail.com";
 export const LINKS = {
   linkedin: "https://www.linkedin.com/in/aidan-schreder",
   github: "https://github.com/AidanSchreder",
-  // Mechatronics portfolio PDF — this URL is on résumés already; keep it.
-  portfolioPdf: "/tron-portfolio.pdf",
-  icraPaper: "/ICRA-paper.pdf",
-  // Drop the file at public/resume.pdf; the engineering page shows the link
-  // automatically once it exists.
-  resume: "/resume.pdf",
+  // Mechatronics portfolio PDF. Its old URL, /tron-portfolio.pdf, is on
+  // résumés already and redirects here (next.config.ts).
+  portfolioPdf: "/engineering/documents/tron-portfolio.pdf",
+  icraPaper: "/engineering/documents/ICRA-paper.pdf",
+  // Drop the file at public/engineering/documents/resume.pdf; the engineering
+  // page shows the link automatically once it exists.
+  resume: "/engineering/documents/resume.pdf",
 } as const;
 
 export type SectionId = "lobby" | "engineering" | "design" | "photography" | "3d";

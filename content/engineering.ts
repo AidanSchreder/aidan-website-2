@@ -1,7 +1,9 @@
 // Engineering portfolio entries. Newest / strongest first.
 //
 // HOW TO ADD A PROJECT
-//   1. Put images in public/images/engineering/<id>/ (0.jpg is the cover).
+//   1. Put images in public/engineering/images/<id>/ (0.jpg is the cover),
+//      videos in public/engineering/videos/<id>/ and PDFs in
+//      public/engineering/documents/.
 //   2. Append an entry below. `tools` and `skills` show as chips and feed the
 //      toolbox filter at the top of /engineering — recruiters scan these.
 //   3. `domains` drive the filter tabs; add a new Domain if needed.
@@ -46,7 +48,7 @@ export interface Project {
   };
 }
 
-const img = (id: string, n: number, ext = "jpg") => `/images/engineering/${id}/${n}.${ext}`;
+const img = (id: string, n: number, ext = "jpg") => `/engineering/images/${id}/${n}.${ext}`;
 
 export const PROJECTS: Project[] = [
   {
@@ -67,11 +69,11 @@ export const PROJECTS: Project[] = [
     tools: [],
     skills: [],
     figures: [
-      { src: "/images/engineering/icra-haptics/cover.png", caption: "Force-blind vs force-streamed teleoperation" },
-      { src: img("icra-haptics", 0, "png"), caption: "Fig. 1: framework overview" },
-      { src: img("icra-haptics", 1, "png"), caption: "Fig. 2: haptic feedback loop" },
+      { src: "/engineering/images/haptic-imitation-learning/cover.png", caption: "Force-blind vs force-streamed teleoperation" },
+      { src: img("haptic-imitation-learning", 0, "png"), caption: "Fig. 1: framework overview" },
+      { src: img("haptic-imitation-learning", 1, "png"), caption: "Fig. 2: haptic feedback loop" },
     ],
-    links: [{ label: "Paper (PDF)", href: "/ICRA-paper.pdf" }],
+    links: [{ label: "Paper (PDF)", href: "/engineering/documents/ICRA-paper.pdf" }],
     publication: {
       authors: [
         { name: "Joanna Peng", equal: true },
@@ -130,8 +132,8 @@ export const PROJECTS: Project[] = [
     tools: ["React", "REST APIs", "Vercel", "Anthropic API"],
     skills: ["Full-stack development", "API design", "LLM integration", "UI/UX"],
     figures: [
-      { src: "/images/engineering/ai-compass/0.jpg", caption: "Model library" },
-      { src: "/images/engineering/ai-compass/1.jpg", caption: "Recommendation view" },
+      { src: img("ai-compass", 0), caption: "Model library" },
+      { src: img("ai-compass", 1), caption: "Recommendation view" },
     ],
     links: [{ label: "Live app", href: "https://theaicompass.vercel.app/" }],
   },
