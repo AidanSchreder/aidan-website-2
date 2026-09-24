@@ -6,7 +6,7 @@ import localFont from "next/font/local";
 import { Space_Mono } from "next/font/google";
 
 export const prodes = localFont({
-  src: "../../public/fonts/ProdesStencil-Regular.ttf",
+  src: "./ProdesStencil-Regular.ttf",
   variable: "--font-display",
   display: "swap",
   weight: "400",

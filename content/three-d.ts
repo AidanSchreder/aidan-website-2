@@ -1,9 +1,9 @@
 // 3D pieces (Blender renders, models, animation), in display order.
-// Images live in public/images/portfolio/<folder>/; 0.jpg is the cover.
+// Images live in public/3d/images/<id>/ (0.jpg is the cover), videos in
+// public/3d/videos/<id>/ and web models in public/3d/models/.
 
 export interface ThreeDPiece {
   id: string;
-  folder: string;
   title: string;
   date: string;
   tags: string[];
@@ -15,7 +15,6 @@ export interface ThreeDPiece {
 export const THREE_D: ThreeDPiece[] = [
   {
     id: "research-and-sample-pod-13",
-    folder: "15",
     title: "Research and Sample Pod #13",
     date: "April 2026",
     tags: ["Modelling", "Animation", "Sound design"],
@@ -27,7 +26,6 @@ export const THREE_D: ThreeDPiece[] = [
   },
   {
     id: "orbital-ship",
-    folder: "09",
     title: "Orbital Ship",
     date: "Mar 2024",
     tags: ["Concept design", "Modelling", "Physical model"],
@@ -40,7 +38,6 @@ export const THREE_D: ThreeDPiece[] = [
   },
   {
     id: "machine-replication-horizon",
-    folder: "10",
     title: "Machine Replication: Horizon",
     date: "Oct 2023",
     tags: ["Hard-surface", "Low-poly", "Rigging"],
@@ -60,7 +57,6 @@ export const THREE_D: ThreeDPiece[] = [
   },
   {
     id: "a-shallow-past",
-    folder: "07",
     title: "A Shallow Past",
     date: "Nov 2022",
     tags: ["Environment", "Simulation"],
@@ -72,7 +68,6 @@ export const THREE_D: ThreeDPiece[] = [
   },
   {
     id: "spring-morning",
-    folder: "08",
     title: "Spring Morning",
     date: "Aug 2023",
     tags: ["Environment", "Procedural"],
@@ -83,7 +78,6 @@ export const THREE_D: ThreeDPiece[] = [
   },
   {
     id: "evacuation",
-    folder: "01",
     title: "Evacuation",
     date: "July 2021",
     tags: ["Challenge entry", "Simulation"],

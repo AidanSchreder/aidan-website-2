@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { withSizes } from "../_lib/image-size";
-import { DESIGN } from "@/content/design";
+import { DESIGN, homeSlides } from "@/content/design";
+import { sizeOf } from "../_lib/image-size";
 import { DesignHero } from "./DesignHero";
 import { DesignWork } from "./DesignWork";
 
@@ -16,7 +16,14 @@ export const metadata: Metadata = {
 };
 
 export default async function DesignPage() {
-  const pieces = await Promise.all(DESIGN.map(async (p) => ({ ...p, slides: await withSizes(p.slides) })));
+  // Each tile takes its proportions from its first homepage slide.
+  const pieces = await Promise.all(
+    DESIGN.map(async (p) => {
+      const slides = homeSlides(p);
+      const { width, height } = await sizeOf(slides[0].src);
+      return { id: p.id, title: p.title, slides, ratio: width / height };
+    }),
+  );
 
   return (
     <main id="main">

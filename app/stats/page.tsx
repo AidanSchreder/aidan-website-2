@@ -4,6 +4,7 @@ import Link from "next/link";
 import { plexSans } from "../_fonts/plex-sans";
 import { ThemeToggle } from "../_components/theme/ThemeToggle";
 import { report, TRACKED } from "../_lib/analytics";
+import { recentMessages, telegramReady } from "../_lib/messages";
 import { storeMode } from "../_lib/store";
 import { SECTIONS, type SectionId } from "@/content/site";
 import { authState } from "./auth";
@@ -25,6 +26,13 @@ const NAMES: Record<SectionId, string> = {
 type Search = { range?: string; section?: string; sort?: string; error?: string };
 
 const fmt = (n: number) => n.toLocaleString("en-CA");
+const when = new Intl.DateTimeFormat("en-CA", {
+  timeZone: "America/Toronto",
+  month: "short",
+  day: "numeric",
+  hour: "numeric",
+  minute: "2-digit",
+});
 
 function Sparkline({ values }: { values: number[] }) {
   const max = Math.max(1, ...values);
@@ -67,7 +75,7 @@ export default async function StatsPage({ searchParams }: { searchParams: Promis
   const range = RANGES.find((r) => String(r) === sp.range) ?? 30;
   const scope: SectionId | "all" = TRACKED.find((s) => s === sp.section) ?? "all";
   const sort = sp.sort === "views" ? "views" : "opens";
-  const r = await report(range, scope);
+  const [r, messages] = await Promise.all([report(range, scope), recentMessages(50)]);
 
   const href = (next: Partial<Record<"range" | "section" | "sort", string>>) => {
     const q = new URLSearchParams({ range: String(range), section: scope, sort, ...next });
@@ -143,6 +151,35 @@ export default async function StatsPage({ searchParams }: { searchParams: Promis
               <p className={styles.tileValue}>{fmt(value as number)}</p>
             </div>
           ))}
+        </section>
+
+        <section className={styles.card} aria-labelledby="messages">
+          <h2 id="messages" className={styles.cardTitle}>
+            Messages <span>from the form under each email line · latest {messages.length || ""}</span>
+          </h2>
+          {!telegramReady && (
+            <p className={styles.note}>
+              Telegram isn’t set up, so messages only arrive here. Add TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID in
+              Vercel (see README).
+            </p>
+          )}
+          {messages.length === 0 ? (
+            <p className={styles.empty}>No messages yet.</p>
+          ) : (
+            <ol className={styles.messages}>
+              {messages.map((m) => (
+                <li key={`${m.at}-${m.email}`}>
+                  <p className={styles.messageMeta}>
+                    <time dateTime={new Date(m.at).toISOString()}>{when.format(m.at)}</time>
+                    <span>{NAMES[m.section] ?? m.section}</span>
+                    <a href={`mailto:${m.email}?subject=${encodeURIComponent("Re: your message on aidanschreder.com")}`}>{m.email}</a>
+                    {!m.sent && <span>not sent to Telegram</span>}
+                  </p>
+                  <p className={styles.messageText}>{m.text}</p>
+                </li>
+              ))}
+            </ol>
+          )}
         </section>
 
         <section className={styles.card} aria-labelledby="daily">

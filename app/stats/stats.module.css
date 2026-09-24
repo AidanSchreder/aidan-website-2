@@ -67,6 +67,15 @@
 .spaced { margin-top: 28px; }
 .cols { display: grid; grid-template-columns: 1.2fr 1fr; gap: 20px; }
 
+/* ── MESSAGES ── */
+.card > .note { max-width: none; margin-bottom: 12px; font-size: 13px; }
+.messages { display: grid; max-height: 520px; overflow-y: auto; }
+.messages li { padding: 12px 0; border-bottom: 1px solid var(--line); }
+.messages li:first-child { padding-top: 0; }
+.messageMeta { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; color: var(--gray); }
+.messageMeta a { color: var(--fg); text-decoration: underline; text-underline-offset: 3px; }
+.messageText { margin-top: 6px; max-width: 80ch; white-space: pre-wrap; overflow-wrap: anywhere; }
+
 /* ── CHART ── */
 .chart { position: relative; width: 100%; outline-offset: 4px; }
 .grid { stroke: var(--line); stroke-width: 1; }

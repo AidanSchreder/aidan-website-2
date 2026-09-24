@@ -53,7 +53,7 @@ export default function ThreeDAbout() {
       </section>
 
       <section className={styles.aboutEnd} id="contact">
-        <ContactLine section="3d" />
+        <ContactLine section="3d" form />
         <FooterLine about="/3d/about" />
       </section>
     </main>

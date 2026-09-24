@@ -1,8 +1,8 @@
-// Scans public/photography into a photo library.
+// Scans public/photography/images into a photo library.
 //
 // Layout:
-//   public/photography/<collection-folder>/<photo files>
-//   public/photography/<collection-folder>/info.json   (optional)
+//   public/photography/images/<collection-folder>/<photo files>
+//   public/photography/images/<collection-folder>/info.json   (optional)
 //
 // A photo whose filename ends in `_home` (e.g. IMG_2034_home.jpg) is eligible
 // for the /photography collage. Photos sort by filename, so prefix with
@@ -19,7 +19,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
 
-const ROOT = path.join(process.cwd(), "public", "photography");
+const ROOT = path.join(process.cwd(), "public", "photography", "images");
 const IMAGE = /\.(jpe?g|png|webp|avif)$/i;
 const HOME_TAG = /_home(?=\.[a-z0-9]+$)/i;
 
@@ -72,7 +72,7 @@ async function describePhoto(file, folder, info) {
   }
   return {
     file,
-    src: `/photography/${encodeURIComponent(folder)}/${encodeURIComponent(file)}`,
+    src: `/photography/images/${encodeURIComponent(folder)}/${encodeURIComponent(file)}`,
     width: meta.width,
     height: meta.height,
     blur: meta.blur,
@@ -104,10 +104,11 @@ export async function scanPhotos() {
       const photos = await Promise.all(files.map((f) => describePhoto(f, folder, info)));
       return {
         slug: slugify(folder),
-        title: info.title ?? titleFromFolder(folder),
-        description: info.description ?? null,
-        location: info.location ?? null,
-        year: info.year ?? null,
+        // Blank fields ("description": "") count as not set.
+        title: info.title || titleFromFolder(folder),
+        description: info.description || null,
+        location: info.location || null,
+        year: info.year || null,
         order: typeof info.order === "number" ? info.order : 999,
         photos,
       };

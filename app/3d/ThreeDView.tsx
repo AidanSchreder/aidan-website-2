@@ -84,10 +84,10 @@ export function ThreeDView({ pieces }: { pieces: ThreeDPiece[] }) {
           <motion.div className={styles.decoLine} style={{ y: lineY }} aria-hidden="true" />
 
           {showModels && (
-            <FloatModel label="Research and Sample Pod #13" width={400} height={400} top="8%" left="55%" speed={0.25} scroll={hero} zIndex={2} modelScale={3.3} modelSrc="/models/web/RSPod13.glb" />
+            <FloatModel label="Research and Sample Pod #13" width={400} height={400} top="8%" left="55%" speed={0.25} scroll={hero} zIndex={2} modelScale={3.3} modelSrc="/3d/models/RSPod13.glb" />
           )}
-          {showImgs && <FloatImg label="IMG 02" width={230} height={230} top="45%" left="39%" speed={0.2} scroll={hero} src="/images/portfolio/10/1.jpg" />}
-          {showImgs && <FloatImg label="IMG 03" width={330} height={400} top="18%" left="70%" speed={0.3} scroll={hero} src="/images/portfolio/07/0.jpg" />}
+          {showImgs && <FloatImg label="IMG 02" width={230} height={230} top="45%" left="39%" speed={0.2} scroll={hero} src="/3d/images/machine-replication-horizon/1.jpg" />}
+          {showImgs && <FloatImg label="IMG 03" width={330} height={400} top="18%" left="70%" speed={0.3} scroll={hero} src="/3d/images/a-shallow-past/0.jpg" />}
 
           <motion.div className={styles.cornerTag} style={{ y: cornerY }} aria-hidden="true">
             3D work — 2021–2026
@@ -116,12 +116,12 @@ export function ThreeDView({ pieces }: { pieces: ThreeDPiece[] }) {
 
         {/* ── INTERSTITIAL ── */}
         <div className={styles.interstitial} ref={midRef} aria-hidden="true">
-          {showImgs && <FloatImg label="IMG 04" width={320} height={220} top="-100px" left="5%" speed={0.22} scroll={mid} zIndex={2} src="/images/portfolio/08/0.jpg" />}
+          {showImgs && <FloatImg label="IMG 04" width={320} height={220} top="-100px" left="5%" speed={0.22} scroll={mid} zIndex={2} src="/3d/images/spring-morning/0.jpg" />}
           {showModels && (
-            <FloatModel label="Satellite repair ship" width={700} height={700} top="-100px" left="18%" speed={0.2} scroll={mid} zIndex={2} modelScale={2.2} modelSrc="/models/web/repairship12.glb" />
+            <FloatModel label="Satellite repair ship" width={700} height={700} top="-100px" left="18%" speed={0.2} scroll={mid} zIndex={2} modelScale={2.2} modelSrc="/3d/models/repairship12.glb" />
           )}
-          {showImgs && <FloatImg label="IMG 06" width={300} height={200} top="-40px" left="68%" speed={0.35} scroll={mid} src="/images/portfolio/09/0.jpg" />}
-          {showImgs && <FloatImg label="IMG 07" width={160} height={160} top="80px" left="82%" speed={0.38} scroll={mid} src="/images/portfolio/15/1.jpg" />}
+          {showImgs && <FloatImg label="IMG 06" width={300} height={200} top="-40px" left="68%" speed={0.35} scroll={mid} src="/3d/images/orbital-ship/0.jpg" />}
+          {showImgs && <FloatImg label="IMG 07" width={160} height={160} top="80px" left="82%" speed={0.38} scroll={mid} src="/3d/images/research-and-sample-pod-13/1.jpg" />}
         </div>
 
         {/* ── WORK ── */}
@@ -129,8 +129,8 @@ export function ThreeDView({ pieces }: { pieces: ThreeDPiece[] }) {
           <motion.div className={styles.sectionGhost} style={{ y: workGhostY }} aria-hidden="true">
             01
           </motion.div>
-          {showImgs && <FloatImg label="IMG 08" width={260} height={170} top="-40px" left="400px" speed={0.2} scroll={work} zIndex={0} src="/images/portfolio/09/4.jpg" />}
-          {showImgs && <FloatImg label="IMG 10" width={120} height={190} top="-120px" left="560px" speed={0.22} scroll={work} zIndex={0} src="/images/portfolio/01/0.jpg" />}
+          {showImgs && <FloatImg label="IMG 08" width={260} height={170} top="-40px" left="400px" speed={0.2} scroll={work} zIndex={0} src="/3d/images/orbital-ship/4.jpg" />}
+          {showImgs && <FloatImg label="IMG 10" width={120} height={190} top="-120px" left="560px" speed={0.22} scroll={work} zIndex={0} src="/3d/images/evacuation/0.jpg" />}
 
           <div className={styles.sectionHeader}>
             <div>
@@ -155,13 +155,13 @@ export function ThreeDView({ pieces }: { pieces: ThreeDPiece[] }) {
             Render
           </motion.div>
           {showModels && (
-            <FloatModel label="Hotel" width={400} height={560} top="40px" left="-20px" speed={0.32} scroll={end} zIndex={3} modelScale={1.7} modelSrc="/models/web/hotel5.glb" />
+            <FloatModel label="Hotel" width={400} height={560} top="40px" left="-20px" speed={0.32} scroll={end} zIndex={3} modelScale={1.7} modelSrc="/3d/models/hotel5.glb" />
           )}
-          {showImgs && <FloatImg label="IMG 12" width={260} height={260} top="60px" left="76%" speed={-0.18} scroll={end} src="/images/main/watcher.jpg" />}
+          {showImgs && <FloatImg label="IMG 12" width={260} height={260} top="60px" left="76%" speed={-0.18} scroll={end} src="/3d/images/machine-replication-horizon/6.jpg" />}
 
           <div className={styles.endInner}>
             <p className={styles.endLabel}>[ 02 ] — Contact</p>
-            <ContactLine section="3d" className={styles.endContact} />
+            <ContactLine section="3d" className={styles.endContact} form />
           </div>
           <FooterLine about="/3d/about" className={styles.endFooter} />
         </section>

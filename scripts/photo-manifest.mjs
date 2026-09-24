@@ -1,4 +1,4 @@
-// Writes app/_generated/photos.json from public/photography.
+// Writes app/_generated/photos.json from public/photography/images.
 // Runs automatically before `npm run dev` and `npm run build`; run it by hand
 // with `npm run photos`. In development the site also rescans on every
 // request, so new photos show up on refresh without a restart.

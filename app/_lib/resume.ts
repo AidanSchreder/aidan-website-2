@@ -5,7 +5,7 @@ import path from "node:path";
 import { LINKS } from "@/content/site";
 
 /**
- * True once public/resume.pdf exists. Evaluated at build for static pages;
+ * True once public/engineering/documents/resume.pdf exists. Evaluated at build for static pages;
  * `turbopackIgnore` keeps /public out of the server functions (see app/_lib/og.tsx).
  */
 export function hasResume() {

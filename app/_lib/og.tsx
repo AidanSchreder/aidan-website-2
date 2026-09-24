@@ -18,7 +18,7 @@ export const OG_SIZE = { width: 1200, height: 630 };
 
 const fontCache = new Map<string, Promise<Buffer>>();
 function font(file: string) {
-  if (!fontCache.has(file)) fontCache.set(file, readFile(path.join(process.cwd(), "public/fonts", file)));
+  if (!fontCache.has(file)) fontCache.set(file, readFile(path.join(process.cwd(), "app/_fonts", file)));
   return fontCache.get(file)!;
 }
 

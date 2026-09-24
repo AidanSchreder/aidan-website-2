@@ -3,7 +3,7 @@
 // Client-side analytics. Everything goes to /api/track (the private /stats
 // dashboard) and is mirrored to GA4 + Clarity so those keep working.
 //
-//   trackOpen(item)  – visitor opened something (lightbox, case study, gallery)
+//   trackOpen(item)  – visitor opened something (lightbox, project page, gallery)
 //   trackView(item)  – item sat in view for a while (see useDwell); batched
 //   trackContact(id) – contact link clicked on a given page
 //
