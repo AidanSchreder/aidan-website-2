@@ -170,7 +170,10 @@ export default async function StatsPage({ searchParams }: { searchParams: Promis
       </header>
 
       <main id="main" className={styles.main}>
-        {(storeMode !== "upstash" || !telegramReady || sp.telegram) && <Setup telegram={sp.telegram} />}
+        {/* Until everything works: something missing, a test result, or the newest message not delivered. */}
+        {(storeMode !== "upstash" || !telegramReady || !telegramTokenShaped || sp.telegram || messages[0]?.sent === false) && (
+          <Setup telegram={sp.telegram} />
+        )}
 
         <nav className={styles.filters} aria-label="Filters">
           <div className={styles.segment} role="group" aria-label="Date range">
@@ -230,7 +233,7 @@ export default async function StatsPage({ searchParams }: { searchParams: Promis
                     <time dateTime={new Date(m.at).toISOString()}>{when.format(m.at)}</time>
                     <span>{NAMES[m.section] ?? m.section}</span>
                     <a href={`mailto:${m.email}?subject=${encodeURIComponent("Re: your message on aidanschreder.com")}`}>{m.email}</a>
-                    {!m.sent && <span>not sent to Telegram</span>}
+                    {!m.sent && <span>not sent to Telegram{m.error && `: ${m.error}`}</span>}
                   </p>
                   <p className={styles.messageText}>{m.text}</p>
                 </li>

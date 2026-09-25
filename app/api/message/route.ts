@@ -41,7 +41,7 @@ export async function POST(req: Request) {
     console.error("[message] rate limit", err);
   }
 
-  const sent = await notify(message);
-  const saved = await save({ ...message, at: Date.now(), sent });
+  const { ok: sent, error } = await notify(message);
+  const saved = await save({ ...message, at: Date.now(), sent, error });
   return sent || saved ? reply(true) : reply(false, 503);
 }
