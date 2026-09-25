@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { altFor, getLibrary, photoId } from "../../_lib/photos";
+import { share } from "../../_lib/share";
 import { CollectionView } from "./CollectionView";
 import styles from "../photography.module.css";
 
@@ -25,12 +26,12 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     title: `${c.title} · Photography`,
     description,
     alternates: { canonical: `/photography/${c.slug}` },
-    openGraph: {
+    ...share({
       title: `${c.title} · Aidan Schreder`,
       description,
       url: `/photography/${c.slug}`,
       images: [{ url: cover.src, width: cover.width, height: cover.height }],
-    },
+    }),
   };
 }
 

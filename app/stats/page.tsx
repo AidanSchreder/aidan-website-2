@@ -390,13 +390,22 @@ export default async function StatsPage({ searchParams }: { searchParams: Promis
                 {r.referrers.length === 0 && (
                   <tr>
                     <td colSpan={3} className={styles.empty}>
-                      No external referrers in this range. Direct visits (typed links, DMs, email apps) don’t send one.
+                      No external referrers in this range. Direct visits (typed links, DMs, email apps, PDFs) don’t send
+                      one; tag the links you share, like aidanschreder.com/engineering?ref=resume, to see them here.
                     </td>
                   </tr>
                 )}
                 {r.referrers.slice(0, 15).map((x) => (
                   <tr key={`${x.section}|${x.host}`}>
-                    <td>{x.host}</td>
+                    <td>
+                      {x.host.startsWith("#") ? (
+                        <span className={styles.tag} title="From a link tagged ?ref=">
+                          {x.host.slice(1)}
+                        </span>
+                      ) : (
+                        x.host
+                      )}
+                    </td>
                     <td>{NAMES[x.section]}</td>
                     <td className={styles.num}>{fmt(x.count)}</td>
                   </tr>
@@ -419,6 +428,24 @@ export default async function StatsPage({ searchParams }: { searchParams: Promis
                 ))}
               </tbody>
             </table>
+
+            {r.missing.length > 0 && (
+              <>
+                <h2 className={`${styles.cardTitle} ${styles.spaced}`}>
+                  Not found <span>broken links and old URLs; add a redirect in next.config.ts</span>
+                </h2>
+                <table className={styles.table}>
+                  <tbody>
+                    {r.missing.slice(0, 15).map((p) => (
+                      <tr key={p.path}>
+                        <td>{p.path}</td>
+                        <td className={styles.num}>{fmt(p.views)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </>
+            )}
           </section>
         </div>
 

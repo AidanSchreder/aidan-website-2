@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { engineeringLinks } from "../../_lib/resume";
+import { share } from "../../_lib/share";
 import { LINKS } from "@/content/site";
 import styles from "../engineering.module.css";
 
@@ -9,12 +10,12 @@ export const metadata: Metadata = {
   title: "About · Engineering",
   description,
   alternates: { canonical: "/engineering/about" },
-  openGraph: {
+  ...share({
     title: "About · Aidan Schreder, Engineering",
     description,
     url: "/engineering/about",
     images: [{ url: "/engineering/opengraph-image", width: 1200, height: 630 }],
-  },
+  }),
 };
 
 const external = { target: "_blank", rel: "noopener noreferrer" } as const;

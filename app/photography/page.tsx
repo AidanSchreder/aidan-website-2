@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { connection } from "next/server";
 import { altFor, getLibrary, photoId } from "../_lib/photos";
+import { share } from "../_lib/share";
 import { Masonry } from "./Masonry";
 import { single, type Tile, type Unit } from "./units";
 import styles from "./photography.module.css";
@@ -14,13 +15,12 @@ export async function generateMetadata(): Promise<Metadata> {
     title: "Photography",
     description,
     alternates: { canonical: "/photography" },
-    openGraph: {
+    ...share({
       title: "Aidan Schreder · Photography",
       description,
       url: "/photography",
       images: cover ? [{ url: cover.src, width: cover.width, height: cover.height }] : undefined,
-    },
-    twitter: { title: "Aidan Schreder · Photography", description },
+    }),
   };
 }
 

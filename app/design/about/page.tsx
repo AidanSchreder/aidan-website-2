@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { share } from "../../_lib/share";
 import styles from "../design.module.css";
 
 const description = "About Aidan Schreder's brand identity and logo design work.";
@@ -7,12 +8,12 @@ export const metadata: Metadata = {
   title: "About · Design",
   description,
   alternates: { canonical: "/design/about" },
-  openGraph: {
+  ...share({
     title: "About · Aidan Schreder, Design",
     description,
     url: "/design/about",
     images: [{ url: "/design/opengraph-image", width: 1200, height: 630 }],
-  },
+  }),
 };
 
 const CLIENTS = [

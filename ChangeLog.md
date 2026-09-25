@@ -4,6 +4,22 @@ All meaningful changes to the portfolio site are recorded here.
 
 ---
 
+## September 2026 — search and analytics pass
+
+- Canonical URLs, sitemap, robots.txt and link previews now use
+  www.aidanschreder.com, the host the site is served from (the bare domain
+  redirects there)
+- Every page's link preview has the site name and a large image card (X/Twitter
+  was showing a small square on the landing pages)
+- `/photography/about` shows a photo again (Québec: Night) and has a preview
+  image; it pointed at the removed Family Field collection
+- Sitemap lists each page's images and no longer stamps every page with the
+  build time
+- Styled 404 page that points back to the section the address was under
+- `/stats`: `?ref=` link tags as visit sources, PDFs and outside links opened
+  from the site, and a list of addresses that weren't found
+- 3D image alt text names the piece
+
 ## September 2026 — v2: split by audience
 
 - Site restructured into standalone landing pages: `/engineering`, `/design`,

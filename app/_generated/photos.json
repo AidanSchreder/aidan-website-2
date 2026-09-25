@@ -447,6 +447,52 @@
           "caption": null
         }
       ]
+    },
+    {
+      "slug": "newfoundland",
+      "title": "St. John's",
+      "description": null,
+      "location": "Newfoundland and Labrador, Canada",
+      "year": null,
+      "order": 8,
+      "photos": [
+        {
+          "file": "IMG_6167.jpg",
+          "src": "/photography/images/newfoundland/IMG_6167.jpg",
+          "width": 1824,
+          "height": 1136,
+          "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAKABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABgIE/8QAIxAAAgEDAQkAAAAAAAAAAAAAAQIDAAQRMQYSEyEjMmGRof/EABQBAQAAAAAAAAAAAAAAAAAAAAL/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdljPbK8TygIw3hGVzg6ZzSFpjju+Ufso0HCwijpk6eRWwswXkx90hf//Z",
+          "home": false,
+          "caption": null
+        },
+        {
+          "file": "IMG_6558.jpg",
+          "src": "/photography/images/newfoundland/IMG_6558.jpg",
+          "width": 2567,
+          "height": 1425,
+          "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABQEE/8QAIRAAAgIBAgcAAAAAAAAAAAAAAQIDBAAFBhEhMTJBY3H/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAv/EABcRAAMBAAAAAAAAAAAAAAAAAAABAhH/2gAMAwEAAhEDEQA/ANlncViYgVkjSP2JxOSPWbqFQ9RJIypJdVC8/GEV+9PhxaXquTNNjEf/2Q==",
+          "home": false,
+          "caption": null
+        },
+        {
+          "file": "IMG_6650.jpg",
+          "src": "/photography/images/newfoundland/IMG_6650.jpg",
+          "width": 2736,
+          "height": 1824,
+          "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAALABADASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAgT/xAAfEAACAgIBBQAAAAAAAAAAAAABAgADBBEGIkFSgpH/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8Apr5j07empfcwtzNFcFqgydwuwfpkeHh45UE1AmN6q0vQLWmt+Igf/9k=",
+          "home": false,
+          "caption": null
+        },
+        {
+          "file": "IMG_6799.jpg",
+          "src": "/photography/images/newfoundland/IMG_6799.jpg",
+          "width": 1700,
+          "height": 1000,
+          "blur": "data:image/jpeg;base64,/9j/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAJABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAIEBf/EACEQAAEDAwQDAAAAAAAAAAAAAAEAAwQCERIiMUFCUXKh/8QAFQEBAQAAAAAAAAAAAAAAAAAAAQL/xAAXEQADAQAAAAAAAAAAAAAAAAAAARET/9oADAMBAAIRAxEAPwBjTKvpmZW8OKJ6Q8AMZJJJ2FZPxZ1XPqEN9UaMmI//2Q==",
+          "home": false,
+          "caption": null
+        }
+      ]
     }
   ]
 }

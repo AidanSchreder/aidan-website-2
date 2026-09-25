@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { engineeringLinks } from "../_lib/resume";
+import { share } from "../_lib/share";
 import { PROJECTS } from "@/content/engineering";
 import { ProjectIndex } from "./ProjectIndex";
 import styles from "./engineering.module.css";
@@ -11,8 +12,7 @@ export const metadata: Metadata = {
   title: "Engineering",
   description,
   alternates: { canonical: "/engineering" },
-  openGraph: { title: "Aidan Schreder · Engineering", description, url: "/engineering" },
-  twitter: { title: "Aidan Schreder · Engineering", description },
+  ...share({ title: "Aidan Schreder · Engineering", description, url: "/engineering" }),
 };
 
 export default function EngineeringPage() {

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { THREE_D } from "@/content/three-d";
+import { share } from "../_lib/share";
 import { ThreeDView } from "./ThreeDView";
 
 const description =
@@ -9,8 +10,7 @@ export const metadata: Metadata = {
   title: "3D",
   description,
   alternates: { canonical: "/3d" },
-  openGraph: { title: "Aidan Schreder · 3D", description, url: "/3d" },
-  twitter: { title: "Aidan Schreder · 3D", description },
+  ...share({ title: "Aidan Schreder · 3D", description, url: "/3d" }),
 };
 
 export default function ThreeDPage() {

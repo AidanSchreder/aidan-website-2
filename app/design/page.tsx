@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DESIGN, homeSlides } from "@/content/design";
 import { sizeOf } from "../_lib/image-size";
+import { share } from "../_lib/share";
 import { DesignHero } from "./DesignHero";
 import { DesignWork } from "./DesignWork";
 
@@ -11,8 +12,7 @@ export const metadata: Metadata = {
   title: "Design",
   description,
   alternates: { canonical: "/design" },
-  openGraph: { title: "Aidan Schreder · Design", description, url: "/design" },
-  twitter: { title: "Aidan Schreder · Design", description },
+  ...share({ title: "Aidan Schreder · Design", description, url: "/design" }),
 };
 
 export default async function DesignPage() {

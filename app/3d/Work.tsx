@@ -88,7 +88,7 @@ function Card({
         }}
       >
         <div style={{ visibility: hidden ? "hidden" : "visible" }} className={styles.slideImg}>
-          <Image src={src(piece, slide)} alt={piece.captions[slide]} fill sizes="(max-width: 768px) 100vw, 50vw" quality={80} />
+          <Image src={src(piece, slide)} alt={`${piece.title}: ${piece.captions[slide]}`} fill sizes="(max-width: 768px) 100vw, 50vw" quality={80} />
         </div>
         {piece.preview && <HoverVideo src={`/3d/videos/${piece.id}/preview.mp4`} hovered={hovered} stopped={browsing || hidden} />}
         {n > 1 && !hidden && (

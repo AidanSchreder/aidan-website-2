@@ -6,7 +6,8 @@ deliberately links nowhere: each section is reached by a link you send.
 
 **Search.** A section with `searchable: false` in `content/site.ts` is noindexed and left out of the
 sitemap (currently engineering; its files under `public/engineering/` get an `X-Robots-Tag` in
-`next.config.ts`).
+`next.config.ts`). `SITE_URL` there must be the host Vercel serves (aidanschreder.com redirects to
+www), since canonical tags and the sitemap use it.
 Private analytics at `/stats`. The v1 site is kept on the `legacy-v1` branch and in `legacy/`.
 
 ```bash
@@ -80,6 +81,16 @@ The code is `app/_components/MessageForm.tsx`, `app/api/message/route.ts` and `a
 
 Counts only production traffic on aidanschreder.com, skips bots, and sets no cookies on visitors
 (they're a daily salted hash). GA4 and Microsoft Clarity still run alongside.
+
+**Tag the links you share.** Résumé PDFs, apps and email clients don't send a referrer, so add
+`?ref=` to each link you hand out and `/stats` lists it under **Where visitors came from**:
+`aidanschreder.com/engineering?ref=resume`, `…/photography?ref=instagram`,
+`…/engineering?ref=shopify-application`. Letters, digits, `-`, `_` and `.`; up to 40 characters.
+A standard `utm_source=` works too (GA4 reads that one as well).
+
+Also counted: PDFs and other sites opened from a link (résumé, portfolio PDF, LinkedIn, YouTube)
+appear in **Most popular**, and addresses that don't exist appear under **Not found**, a list of
+broken links and old URLs to redirect in `next.config.ts`.
 
 **Your own visits.** Signing in to `/stats` marks that browser as yours (an `uncounted` cookie, kept
 400 days and renewed at each sign-in): nothing it does is counted, and GA and Clarity don't load on it.
