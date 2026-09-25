@@ -10,6 +10,11 @@ export interface ThreeDPiece {
   text: string[];
   captions: string[];
   links?: { label: string; href: string }[];
+  /**
+   * A short silent loop at public/3d/videos/<id>/preview.mp4 that plays over
+   * the card's still while it's hovered (on touch screens, while it's in view).
+   */
+  preview?: boolean;
 }
 
 export const THREE_D: ThreeDPiece[] = [
@@ -23,6 +28,7 @@ export const THREE_D: ThreeDPiece[] = [
     ],
     captions: ["Unedited frame", "Unedited frame", "Unedited frame", "Unedited frame"],
     links: [{ label: "Watch on YouTube", href: "https://youtu.be/NnYOx5x_wQg" }],
+    preview: true,
   },
   {
     id: "orbital-ship",

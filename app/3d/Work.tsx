@@ -10,6 +10,7 @@ import Image, { getImageProps } from "next/image";
 import type { ThreeDPiece } from "@/content/three-d";
 import { trackOpen, type TrackItem } from "../_lib/track";
 import { useDwell } from "../_lib/useDwell";
+import { HoverVideo } from "./_components/HoverVideo";
 import styles from "./three-d.module.css";
 
 const src = (p: ThreeDPiece, i: number) => `/3d/images/${p.id}/${i}.jpg`;
@@ -57,10 +58,17 @@ function Card({
   onOpen: (slide: number, rect: DOMRect) => void;
 }) {
   const [slide, setSlide] = useState(0);
+  const [hovered, setHovered] = useState(false);
+  // Flipping through stills with the arrows stops the preview until the pointer leaves.
+  const [browsing, setBrowsing] = useState(false);
   const viewport = useRef<HTMLDivElement>(null);
   const ref = useDwell<HTMLElement>(itemFor(piece));
   const n = piece.captions.length;
   const open = () => viewport.current && onOpen(slide, viewport.current.getBoundingClientRect());
+  const go = (s: number) => {
+    setBrowsing(true);
+    setSlide(s);
+  };
 
   return (
     <article ref={ref} id={piece.id} className={styles.card} style={{ animationDelay: `${index * 0.07}s` }}>
@@ -73,10 +81,16 @@ function Card({
         aria-label={`Open ${piece.title} in full view`}
         onClick={open}
         onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), open())}
+        onPointerEnter={(e) => e.pointerType === "mouse" && setHovered(true)}
+        onPointerLeave={() => {
+          setHovered(false);
+          setBrowsing(false);
+        }}
       >
         <div style={{ visibility: hidden ? "hidden" : "visible" }} className={styles.slideImg}>
           <Image src={src(piece, slide)} alt={piece.captions[slide]} fill sizes="(max-width: 768px) 100vw, 50vw" quality={80} />
         </div>
+        {piece.preview && <HoverVideo src={`/3d/videos/${piece.id}/preview.mp4`} hovered={hovered} stopped={browsing || hidden} />}
         {n > 1 && !hidden && (
           <>
             <button
@@ -84,7 +98,7 @@ function Card({
               aria-label="Previous slide"
               onClick={(e) => {
                 e.stopPropagation();
-                setSlide((s) => (s - 1 + n) % n);
+                go((slide - 1 + n) % n);
               }}
             >
               ←
@@ -94,7 +108,7 @@ function Card({
               aria-label="Next slide"
               onClick={(e) => {
                 e.stopPropagation();
-                setSlide((s) => (s + 1) % n);
+                go((slide + 1) % n);
               }}
             >
               →
