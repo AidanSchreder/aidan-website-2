@@ -3,7 +3,19 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { sendTelegram } from "../_lib/messages";
+import { UNCOUNTED, UNCOUNTED_MAX_AGE } from "../_lib/uncounted";
 import { authState, COOKIE, passwordMatches, token } from "./auth";
+
+async function markUncounted(on: boolean) {
+  const jar = await cookies();
+  if (!on) return void jar.delete({ name: UNCOUNTED, path: "/" });
+  jar.set(UNCOUNTED, "1", {
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+    maxAge: UNCOUNTED_MAX_AGE,
+  });
+}
 
 export async function login(form: FormData) {
   const password = String(form.get("password") ?? "");
@@ -20,7 +32,17 @@ export async function login(form: FormData) {
     path: "/stats",
     maxAge: 60 * 60 * 24 * 30,
   });
+  // Whoever can sign in here is Aidan: stop counting this device.
+  await markUncounted(true);
   redirect("/stats");
+}
+
+/** The "Ignore this device" switch. Comes back to the same filters. */
+export async function setUncounted(form: FormData) {
+  if ((await authState()) !== "ok") redirect("/stats");
+  await markUncounted(form.get("on") === "1");
+  const back = String(form.get("back") ?? "");
+  redirect(/^\/stats(\?|$)/.test(back) ? back : "/stats");
 }
 
 /** Setup check: sends a test message and comes back with Telegram's answer. */

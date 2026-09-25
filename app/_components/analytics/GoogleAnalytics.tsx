@@ -6,6 +6,7 @@
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Script from "next/script";
+import { useCounted } from "@/app/_lib/track";
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "G-3RYJ5FDDWX";
 // The inline snippet below records the landing page view itself.
@@ -13,8 +14,10 @@ let landing = true;
 
 export function GoogleAnalytics() {
   const pathname = usePathname();
+  const counted = useCounted(pathname);
 
   useEffect(() => {
+    if (!counted) return;
     if (landing) {
       landing = false;
       return;
@@ -25,9 +28,9 @@ export function GoogleAnalytics() {
       page_location: window.location.href,
       page_path: pathname,
     });
-  }, [pathname]);
+  }, [pathname, counted]);
 
-  if (process.env.NODE_ENV !== "production") return null;
+  if (process.env.NODE_ENV !== "production" || !counted) return null;
 
   return (
     <>

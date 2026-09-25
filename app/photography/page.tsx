@@ -28,6 +28,10 @@ export async function generateMetadata(): Promise<Metadata> {
 const COLLAGE_SIZE = 30;
 /** Chance that two adjacent portrait photos share one slot side by side. */
 const PAIR_CHANCE = 0.35;
+/** One landscape spans two columns for about every this many units. */
+const UNITS_PER_WIDE = 7;
+/** Width over height a photo needs before it may span two columns. */
+const WIDE_RATIO = 1.3;
 
 function shuffle<T>(list: T[]): T[] {
   const a = [...list];
@@ -55,9 +59,28 @@ function toUnits(tiles: Tile[]): Unit[] {
   return units;
 }
 
-/** One column starts at the top; the other two start lower, by different amounts each visit. */
-function staggerOffsets() {
-  return shuffle([0, Math.round(40 + Math.random() * 90), Math.round(130 + Math.random() * 120)]);
+/**
+ * Lets a few landscapes span two columns, spread down the page: each takes
+ * a spot near the middle of its own stretch of the collage. Panoramas are
+ * likelier picks, since a single column shrinks them the most.
+ */
+function widen(units: Unit[]): Unit[] {
+  const ratio = (t: Tile) => t.width / t.height;
+  const chosen = units
+    .flatMap((u) => (u.kind === "single" && ratio(u.tile) >= WIDE_RATIO ? [u.tile] : []))
+    .map((t) => ({ t, key: Math.random() ** (1 / ratio(t)) })) // weighted by ratio
+    .sort((a, b) => b.key - a.key)
+    .slice(0, Math.round(units.length / UNITS_PER_WIDE))
+    .map(({ t }) => t);
+  if (!chosen.length) return units;
+
+  const out = units.filter((u) => u.kind === "pair" || !chosen.includes(u.tile));
+  const stretch = units.length / chosen.length;
+  chosen.forEach((t, k) => {
+    const at = Math.round((k + 0.2 + Math.random() * 0.6) * stretch);
+    out.splice(Math.min(at, out.length), 0, { kind: "wide", tile: t });
+  });
+  return out;
 }
 
 export default async function PhotographyHome() {
@@ -76,7 +99,7 @@ export default async function PhotographyHome() {
   return (
     <div className={styles.page}>
       <h1 className="sr-only">Aidan Schreder, photography</h1>
-      <Masonry units={toUnits(shuffle(tagged).slice(0, COLLAGE_SIZE))} offsets={staggerOffsets()} linked />
+      <Masonry units={widen(toUnits(shuffle(tagged).slice(0, COLLAGE_SIZE)))} linked />
     </div>
   );
 }

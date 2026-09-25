@@ -1,62 +1,73 @@
 "use client";
 
-// Three-column masonry with staggered column starts and "nested" units: two
-// photos sharing one slot side by side. Columns are balanced by height
-// (shortest column takes the next unit), deterministically, so server and
-// client agree. Narrower screens reflow to two columns (CSS multi-column)
-// and then one (original order via CSS `order`).
+// Masonry with "nested" units (two photos sharing one slot side by side) and
+// "wide" ones (a landscape across two columns). The layout is worked out in
+// pack.ts for three columns and for two, then CSS picks one by width; a
+// single column just flows in order. Deterministic, so server and client agree.
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useFocus } from "./PhotoShell";
 import { useDwell } from "../_lib/useDwell";
+import { pack, type Layout, type Len } from "./pack";
 import type { Tile, Unit } from "./units";
 import styles from "./photography.module.css";
 
-/** Rough rendered column width, used to weigh the stagger offsets when balancing. */
-const COL_PX = 380;
-const GAP_PX = 10;
-
-function height(u: Unit) {
-  if (u.kind === "single") return u.tile.height / u.tile.width;
-  const [a, b] = u.tiles;
-  return 1 / (a.width / a.height + b.width / b.height);
-}
-
-function balance(units: Unit[], offsets: number[]) {
-  const cols = offsets.map((o) => ({ h: o / COL_PX, items: [] as { unit: Unit; i: number }[] }));
-  units.forEach((unit, i) => {
-    const col = cols.reduce((a, b) => (b.h < a.h - 0.001 ? b : a));
-    col.items.push({ unit, i });
-    col.h += height(unit) + GAP_PX / COL_PX;
-  });
-  return cols;
-}
+/** Typical rendered column widths, for comparing heights while placing. */
+const COL_PX = { 3: 380, 2: 440 };
 
 const SIZES_SINGLE = "(max-width: 600px) 100vw, (max-width: 1100px) 45vw, 30vw";
 const SIZES_PAIR = "(max-width: 600px) 50vw, (max-width: 1100px) 23vw, 15vw";
+const SIZES_WIDE = "(max-width: 1100px) 100vw, 60vw";
+
+const round = (n: number) => Math.round(n * 1e5) / 1e5;
+const len = ([a, p]: Len) => `calc(${round(a)} * var(--w) + ${round(p)}px)`;
+
+/** Position of unit `i` in each layout, as custom properties the CSS picks from. */
+function place(layouts: [number, Layout][], i: number) {
+  const vars: Record<string, string> = {};
+  for (const [n, { boxes }] of layouts) {
+    const b = boxes[i];
+    vars[`--x${n}`] = `calc(${b.col} * (var(--w) + var(--gap)))`;
+    vars[`--w${n}`] = b.span === 1 ? "var(--w)" : `calc(${b.span} * var(--w) + ${b.span - 1} * var(--gap))`;
+    vars[`--y${n}`] = len(b.top);
+    vars[`--h${n}`] = len(b.h);
+  }
+  return vars as CSSProperties;
+}
 
 export function Masonry({
   units,
-  offsets = [0, 0, 0],
+  offsets,
   linked,
   onOpen,
 }: {
   units: Unit[];
+  /** px each of the three columns starts below the top. */
   offsets?: number[];
   linked?: boolean;
   onOpen?: (tile: Tile) => void;
 }) {
-  const cols = useMemo(() => balance(units, offsets), [units, offsets]);
+  const layouts = useMemo<[number, Layout][]>(
+    () => [
+      [3, pack(units, 3, COL_PX[3], offsets)],
+      [2, pack(units, 2, COL_PX[2])],
+    ],
+    [units, offsets],
+  );
   const { focus, setFocus } = useFocus();
 
-  const tile = (t: Tile, i: number, inPair: boolean) => (
+  const board = Object.fromEntries(
+    layouts.map(([n, { bottoms }]) => [`--height${n}`, `max(${bottoms.map(len).join(", ")})`]),
+  ) as CSSProperties;
+
+  const tile = (t: Tile, i: number, kind: Unit["kind"], style?: CSSProperties) => (
     <PhotoTile
       key={t.id}
       tile={t}
-      inPair={inPair}
-      order={i}
+      kind={kind}
+      style={style}
       preload={i < 4}
       dim={focus?.from === "nav" && focus.slug !== t.slug}
       onEnter={() => setFocus({ slug: t.slug, from: "photo" })}
@@ -67,27 +78,25 @@ export function Masonry({
 
   return (
     <div className={styles.masonry} onMouseLeave={() => setFocus(null)}>
-      {cols.map((col, c) => (
-        <div key={c} className={styles.col} style={{ ["--offset" as string]: `${offsets[c] ?? 0}px` }}>
-          {col.items.map(({ unit, i }) =>
-            unit.kind === "single" ? (
-              tile(unit.tile, i, false)
-            ) : (
-              <div key={unit.tiles[0].id} className={`${styles.unit} ${styles.pair}`} style={{ order: i }}>
-                {unit.tiles.map((t) => tile(t, i, true))}
-              </div>
-            ),
-          )}
-        </div>
-      ))}
+      <div className={styles.board} style={board}>
+        {units.map((unit, i) =>
+          unit.kind === "pair" ? (
+            <div key={unit.tiles[0].id} className={`${styles.unit} ${styles.pair}`} style={place(layouts, i)}>
+              {unit.tiles.map((t) => tile(t, i, "pair"))}
+            </div>
+          ) : (
+            tile(unit.tile, i, unit.kind, place(layouts, i))
+          ),
+        )}
+      </div>
     </div>
   );
 }
 
 function PhotoTile({
   tile,
-  inPair,
-  order,
+  kind,
+  style,
   preload,
   dim,
   onEnter,
@@ -95,8 +104,9 @@ function PhotoTile({
   onOpen,
 }: {
   tile: Tile;
-  inPair: boolean;
-  order: number;
+  kind: Unit["kind"];
+  /** Placement, for a tile that is a unit on its own. */
+  style?: CSSProperties;
   preload: boolean;
   dim: boolean;
   onEnter: () => void;
@@ -111,6 +121,7 @@ function PhotoTile({
     thumb: tile.src,
     href: `/photography/${tile.slug}#${encodeURIComponent(tile.file)}`,
   });
+  const inPair = kind === "pair";
   const ratio = tile.width / tile.height;
 
   const img = (
@@ -119,7 +130,7 @@ function PhotoTile({
       alt={tile.alt}
       width={tile.width}
       height={tile.height}
-      sizes={inPair ? SIZES_PAIR : SIZES_SINGLE}
+      sizes={inPair ? SIZES_PAIR : kind === "wide" ? SIZES_WIDE : SIZES_SINGLE}
       quality={80}
       preload={preload}
       data-loaded={loaded || undefined}
@@ -134,7 +145,7 @@ function PhotoTile({
       style={{
         aspectRatio: `${tile.width} / ${tile.height}`,
         backgroundImage: `url(${tile.blur})`,
-        ...(inPair ? { flex: `${ratio} 1 0%` } : { order }),
+        ...(inPair ? { flex: `${ratio} 1 0%` } : style),
       }}
       data-dim={dim || undefined}
       onMouseEnter={onEnter}

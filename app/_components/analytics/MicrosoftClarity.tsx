@@ -6,11 +6,13 @@ import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Script from "next/script";
 import { sectionFor } from "@/content/site";
+import { useCounted } from "@/app/_lib/track";
 
 const CLARITY_PROJECT_ID = "vv6k3s8thp";
 
 export function MicrosoftClarity() {
   const pathname = usePathname();
+  const counted = useCounted(pathname);
 
   useEffect(() => {
     const w = window as unknown as { clarity?: (...a: unknown[]) => void };
@@ -18,7 +20,7 @@ export function MicrosoftClarity() {
     w.clarity?.("set", "section", sectionFor(pathname).id);
   }, [pathname]);
 
-  if (process.env.NODE_ENV !== "production") return null;
+  if (process.env.NODE_ENV !== "production" || !counted) return null;
 
   return (
     <Script id="microsoft-clarity" strategy="lazyOnload">

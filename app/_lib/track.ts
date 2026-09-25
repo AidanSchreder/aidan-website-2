@@ -9,8 +9,12 @@
 //
 // Item ids are stable strings like "quebec-night/01_home.jpg" or
 // "frc-reefscape"; section + id is the key the dashboard ranks by.
+//
+// Devices marked as Aidan's (see uncounted.ts) send nothing.
 
+import { useSyncExternalStore } from "react";
 import type { SectionId } from "@/content/site";
+import { isUncounted } from "./uncounted";
 
 export interface TrackItem {
   section: SectionId;
@@ -30,7 +34,7 @@ let queue: Event[] = [];
 let firstPageview = true;
 
 function send(events: Event[]) {
-  if (!events.length) return;
+  if (!events.length || isUncounted()) return;
   const body = JSON.stringify({ events });
   try {
     if (navigator.sendBeacon?.(ENDPOINT, new Blob([body], { type: "application/json" }))) return;
@@ -46,6 +50,17 @@ function flush() {
 if (typeof window !== "undefined") {
   addEventListener("visibilitychange", () => document.visibilityState === "hidden" && flush());
   addEventListener("pagehide", flush);
+}
+
+const noop = () => () => {};
+
+/**
+ * Whether third-party analytics (GA, Clarity) should load here: false while
+ * rendering on the server, on /stats, and on devices marked as Aidan's.
+ */
+export function useCounted(pathname: string) {
+  const counted = useSyncExternalStore(noop, () => !isUncounted(), () => false);
+  return counted && !pathname.startsWith("/stats");
 }
 
 function gtagEvent(name: string, params: Record<string, string>) {

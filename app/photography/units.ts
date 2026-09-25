@@ -13,7 +13,7 @@ export interface Tile {
   alt: string;
 }
 
-/** A slot in the masonry: one photo, or two nested side by side. */
-export type Unit = { kind: "single"; tile: Tile } | { kind: "pair"; tiles: [Tile, Tile] };
+/** A slot in the masonry: one photo, two nested side by side, or one landscape across two columns. */
+export type Unit = { kind: "single" | "wide"; tile: Tile } | { kind: "pair"; tiles: [Tile, Tile] };
 
 export const single = (tile: Tile): Unit => ({ kind: "single", tile });

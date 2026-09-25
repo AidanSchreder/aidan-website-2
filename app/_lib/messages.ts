@@ -22,6 +22,8 @@ export interface Message {
   text: string;
   /** Whether Telegram accepted it. */
   sent: boolean;
+  /** Telegram's reason when it didn't. */
+  error?: string;
 }
 
 export const MAX_TEXT = 2000;
@@ -85,17 +87,14 @@ export async function sendTelegram(text: string): Promise<{ ok: boolean; error?:
   }
 }
 
-/** Forwards a message to Telegram. False if it isn't set up or didn't take it. */
+/** Forwards a message to Telegram; on failure, why (kept with the message). */
 export async function notify(m: Pick<Message, "section" | "email" | "text">) {
   const label = SECTIONS.find((s) => s.id === m.section)?.label ?? m.section;
   const text = `New message · ${label}\nFrom: ${m.email}\n\n${m.text}`;
-  if (!telegramReady) {
-    if (process.env.NODE_ENV === "development") console.info(`[message]\n${text}`);
-    return false;
-  }
+  if (!telegramReady && process.env.NODE_ENV === "development") console.info(`[message]\n${text}`);
   const r = await sendTelegram(text);
-  if (!r.ok) console.error("[message] telegram:", r.error);
-  return r.ok;
+  if (!r.ok && telegramReady) console.error("[message] telegram:", r.error);
+  return r;
 }
 
 /** Keeps a message for /stats. False if there's no store to keep it in. */
