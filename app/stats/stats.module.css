@@ -2,6 +2,7 @@
 
 .root {
   --series: #5b8def;
+  --danger: #ff6b6b;
   --card: #0b0b0b;
   min-height: 100vh;
   font-family: var(--font-body), system-ui, sans-serif;
@@ -9,6 +10,7 @@
 }
 :global([data-theme="light"]) .root {
   --series: #2f62d6;
+  --danger: #c92a2a;
   --card: #fafafa;
 }
 
@@ -176,6 +178,23 @@
 .loginForm button { padding: 10px 12px; background: var(--fg); color: var(--bg); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; }
 .error { color: var(--gray); font-size: 13px; }
 .note { max-width: 40ch; color: var(--gray); line-height: 1.6; }
+
+/* ── RESET: last on the page, quiet until asked ── */
+.reset {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px 24px;
+  min-height: 36px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+.since { font-size: 12px; color: var(--gray); }
+.resetAsk { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; font-size: 13px; }
+.danger { color: var(--danger); }
+.danger:hover { color: var(--danger); text-decoration: underline; text-underline-offset: 4px; }
+.danger:disabled { opacity: 0.6; cursor: progress; text-decoration: none; }
 
 @media (max-width: 960px) {
   .kpis { grid-template-columns: 1fr 1fr; }

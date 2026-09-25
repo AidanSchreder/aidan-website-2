@@ -13,7 +13,9 @@ import { day, pipeline, toCounts, toFields, type Command } from "./store";
 //   a:view:{day}        hash  "{section}:{id}" → dwell views
 //   a:contact:{day}     hash  section → contact-link clicks
 //   a:item:{section}:{id}  hash  title / thumb / href (latest seen)
-// Daily keys expire after ~13 months.
+//   a:since             string  ms timestamp of the last reset
+// Daily keys expire after ~13 months. Everything here starts with "a:";
+// messages live under "m:", so a reset leaves them alone.
 
 export const TRACKED: SectionId[] = ["lobby", ...SECTIONS.map((s) => s.id)];
 const TTL = 60 * 60 * 24 * 400;
@@ -217,4 +219,27 @@ export async function report(rangeDays: number, scope: SectionId | "all" = "all"
       opens: items.reduce((t, it) => t + it.opens, 0),
     },
   };
+}
+
+// ── Reset (from /stats) ───────────────────────────────────────────────────
+
+const SINCE = "a:since";
+
+/** Deletes every count (all "a:" keys) and notes when counting restarted. Messages are kept. */
+export async function resetAnalytics() {
+  let cursor = "0";
+  do {
+    const [reply] = await pipeline([["SCAN", cursor, "MATCH", "a:*", "COUNT", 1000]]);
+    if (!Array.isArray(reply)) break;
+    const [next, keys] = reply as [string, string[]];
+    if (keys.length) await pipeline([["DEL", ...keys]]);
+    cursor = String(next);
+  } while (cursor !== "0");
+  await pipeline([["SET", SINCE, Date.now()]]);
+}
+
+/** When the counts were last reset, if ever. */
+export async function countingSince(): Promise<number | null> {
+  const [v] = await pipeline([["GET", SINCE]]);
+  return v ? Number(v) : null;
 }

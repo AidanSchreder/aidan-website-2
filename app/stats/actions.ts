@@ -2,6 +2,7 @@
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { resetAnalytics } from "../_lib/analytics";
 import { sendTelegram } from "../_lib/messages";
 import { UNCOUNTED, UNCOUNTED_MAX_AGE } from "../_lib/uncounted";
 import { authState, COOKIE, passwordMatches, token } from "./auth";
@@ -50,6 +51,13 @@ export async function testTelegram() {
   if ((await authState()) !== "ok") redirect("/stats");
   const r = await sendTelegram("Test from /stats: messages from the site's contact form will arrive here.");
   redirect(`/stats?telegram=${encodeURIComponent(r.ok ? "ok" : (r.error ?? "failed"))}`);
+}
+
+/** Clears every count and starts from zero. Messages and ignored devices are untouched. */
+export async function resetStats() {
+  if ((await authState()) !== "ok") redirect("/stats");
+  await resetAnalytics();
+  redirect("/stats");
 }
 
 export async function logout() {
