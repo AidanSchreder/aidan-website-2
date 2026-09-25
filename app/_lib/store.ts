@@ -45,7 +45,7 @@ export async function pipeline(commands: Command[]): Promise<unknown[]> {
 // ── In-memory stand-in (dev only) ─────────────────────────────────────────
 // Implements just the commands analytics and messages use, with Redis-shaped replies.
 
-type Mem = Map<string, Map<string, number | string> | Set<string> | string[] | number>;
+type Mem = Map<string, Map<string, number | string> | Set<string> | string[] | number | string>;
 const g = globalThis as unknown as { __analyticsMem?: Mem };
 const mem: Mem = (g.__analyticsMem ??= new Map());
 
@@ -120,6 +120,21 @@ function memory([cmd, ...a]: Command): unknown {
     }
     case "EXPIRE":
       return 1;
+    case "SET":
+      mem.set(args[0], args[1]);
+      return "OK";
+    case "GET": {
+      const v = mem.get(args[0]);
+      return typeof v === "string" || typeof v === "number" ? String(v) : null;
+    }
+    case "DEL":
+      return args.filter((k) => mem.delete(k)).length;
+    case "SCAN": {
+      // Everything in one pass; only a trailing-* MATCH is needed.
+      const at = args.findIndex((x) => x.toUpperCase() === "MATCH");
+      const prefix = at >= 0 ? args[at + 1].replace(/\*$/, "") : "";
+      return ["0", [...mem.keys()].filter((k) => k.startsWith(prefix))];
+    }
     default:
       throw new Error(`memory store: unsupported ${cmd}`);
   }

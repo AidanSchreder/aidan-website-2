@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { plexSans } from "../_fonts/plex-sans";
 import { ThemeToggle } from "../_components/theme/ThemeToggle";
-import { report, TRACKED } from "../_lib/analytics";
+import { countingSince, report, TRACKED } from "../_lib/analytics";
 import { recentMessages, telegramReady, telegramTokenShaped } from "../_lib/messages";
 import { redisVars, storeMode } from "../_lib/store";
 import { UNCOUNTED } from "../_lib/uncounted";
@@ -12,6 +12,7 @@ import { SECTIONS, type SectionId } from "@/content/site";
 import { authState } from "./auth";
 import { login, logout, setUncounted, testTelegram } from "./actions";
 import { DailyChart } from "./DailyChart";
+import { ResetStats } from "./ResetStats";
 import styles from "./stats.module.css";
 
 export const metadata: Metadata = {
@@ -140,7 +141,7 @@ export default async function StatsPage({ searchParams }: { searchParams: Promis
   const range = RANGES.find((r) => String(r) === sp.range) ?? 30;
   const scope: SectionId | "all" = TRACKED.find((s) => s === sp.section) ?? "all";
   const sort = sp.sort === "views" ? "views" : "opens";
-  const [r, messages] = await Promise.all([report(range, scope), recentMessages(50)]);
+  const [r, messages, since] = await Promise.all([report(range, scope), recentMessages(50), countingSince()]);
 
   const href = (next: Partial<Record<"range" | "section" | "sort", string>>) => {
     const q = new URLSearchParams({ range: String(range), section: scope, sort, ...next });
@@ -420,6 +421,9 @@ export default async function StatsPage({ searchParams }: { searchParams: Promis
             </table>
           </section>
         </div>
+
+        {/* Keyed by the reset time, so a finished reset starts it over. */}
+        <ResetStats key={since ?? 0} since={since ? when.format(since) : null} />
       </main>
     </div>
   );

@@ -85,3 +85,7 @@ Counts only production traffic on aidanschreder.com, skips bots, and sets no coo
 400 days and renewed at each sign-in): nothing it does is counted, and GA and Clarity don't load on it.
 Sign in once on each device and browser you use. The **Ignore this device** switch in the `/stats`
 header shows the current state and turns it off or on.
+
+**Starting over.** **Reset all counts** at the bottom of `/stats` deletes every count (the `a:` keys)
+after a confirmation, and notes the time as "Counting since". Messages (`m:` keys) are kept, and
+ignored devices stay ignored since that mark lives in each browser.
