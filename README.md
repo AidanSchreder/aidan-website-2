@@ -42,8 +42,9 @@ Old URLs (`/tron-portfolio.pdf`, `/images/portfolio/02/…`, …) redirect to th
 
 **Photography.** Each folder in `public/photography/images/` is a collection; photos sort by filename.
 Add `_home` to a filename (`IMG_2034_home.jpg`) to make it eligible for the randomized collage on
-`/photography`. The collage is three staggered columns; adjacent portrait photos are sometimes
-nested side by side in one slot (tune `PAIR_CHANCE` in `app/photography/page.tsx`). An optional `info.json` in the folder sets the title, description, location, sort
+`/photography`. The collage is three columns; adjacent portrait photos are sometimes nested side
+by side in one slot, and a few landscapes span two columns (tune `PAIR_CHANCE`, `UNITS_PER_WIDE`
+and `WIDE_RATIO` in `app/photography/page.tsx`; placement is `app/photography/pack.ts`). An optional `info.json` in the folder sets the title, description, location, sort
 order and per-photo captions (see `scripts/photo-scan.mjs`). Folders starting with `_` are ignored,
 so they work as drafts: `_winnipeg`, `_japan-1`, `_japan-2` and `_untitled` are v1's unpublished sets.
 
@@ -77,5 +78,10 @@ The code is `app/_components/MessageForm.tsx`, `app/api/message/route.ts` and `a
 2. Add an env var `STATS_PASSWORD` (the /stats login). Optionally `ANALYTICS_SALT` (any random string).
 3. Redeploy. Visit `/stats`.
 
-Counts only production traffic on aidanschreder.com, skips bots, and uses no cookies (visitors are a
-daily salted hash). GA4 and Microsoft Clarity still run alongside.
+Counts only production traffic on aidanschreder.com, skips bots, and sets no cookies on visitors
+(they're a daily salted hash). GA4 and Microsoft Clarity still run alongside.
+
+**Your own visits.** Signing in to `/stats` marks that browser as yours (an `uncounted` cookie, kept
+400 days and renewed at each sign-in): nothing it does is counted, and GA and Clarity don't load on it.
+Sign in once on each device and browser you use. The **Ignore this device** switch in the `/stats`
+header shows the current state and turns it off or on.

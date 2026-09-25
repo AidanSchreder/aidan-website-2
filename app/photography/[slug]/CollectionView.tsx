@@ -13,8 +13,6 @@ import { Masonry } from "../Masonry";
 import { single, type Tile } from "../units";
 
 const HASH_EVENT = "photo-hash";
-// Collections keep their filename order, with a fixed gentle stagger.
-const OFFSETS = [0, 64, 24];
 
 function subscribe(cb: () => void) {
   window.addEventListener("hashchange", cb);
@@ -67,7 +65,7 @@ export function CollectionView({ title, tiles }: { title: string; tiles: (Tile &
 
   return (
     <>
-      <Masonry units={units} offsets={OFFSETS} onOpen={open} />
+      <Masonry units={units} onOpen={open} />
       <AnimatePresence>
         {index >= 0 && (
           <Lightbox

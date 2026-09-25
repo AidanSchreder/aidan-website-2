@@ -14,8 +14,10 @@
 
 .header {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+  gap: 14px 24px;
   padding: 20px var(--gutter);
   border-bottom: 1px solid var(--line);
 }
@@ -24,6 +26,31 @@
 .headerRight { display: flex; align-items: center; gap: 24px; }
 .linkBtn { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gray); }
 .linkBtn:hover { color: var(--fg); }
+
+/* "Ignore this device": a small track whose knob slides over and fills when on. */
+.switch { display: inline-flex; align-items: center; gap: 10px; white-space: nowrap; }
+.knob {
+  position: relative;
+  width: 26px;
+  height: 14px;
+  border: 1px solid currentColor;
+  border-radius: 7px;
+  transition: border-color 0.25s ease;
+}
+.knob::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  transition: transform 0.35s var(--ease-out), background-color 0.25s ease;
+}
+.switch[aria-checked="true"] { color: var(--fg); }
+.switch[aria-checked="true"] .knob { border-color: var(--series); }
+.switch[aria-checked="true"] .knob::after { transform: translateX(12px); background: var(--series); }
 
 .main { padding: 20px var(--gutter) 64px; display: grid; gap: 20px; max-width: 1400px; }
 
