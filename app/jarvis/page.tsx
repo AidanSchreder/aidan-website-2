@@ -33,8 +33,8 @@ export default function Jarvis() {
 
         <div className={styles.body}>
           <p>
-            It adds, moves and removes events in my Google Calendar, converts files to PDF, looks things up on
-            the web, opens apps and sets timers. Speech is turned into text on my own computer, and Anthropic&rsquo;s
+            It adds, moves and removes events in my Google Calendar, shows the coming week on my desktop
+            background, converts files to PDF, looks things up on the web, opens apps and sets timers. Speech is turned into text on my own computer, and Anthropic&rsquo;s
             Claude works out and carries out each request.
           </p>
           <p>
