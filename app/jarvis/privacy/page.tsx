@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-const UPDATED = "November 17, 2026";
+const UPDATED = "November 18, 2026";
 
 export default function JarvisPrivacy() {
   return (
@@ -41,14 +41,18 @@ export default function JarvisPrivacy() {
           <h2 className="label">Google data it uses</h2>
           <p>
             After permission is given on Google&rsquo;s sign-in screen, Jarvis uses the Google Calendar API to
-            read, create, change and delete events in the signed-in account&rsquo;s calendars, and only when
-            asked to. It requests no other Google data.
+            read, create, change and delete events in the signed-in account&rsquo;s calendars. It creates, changes
+            and deletes events only when asked to. It also reads the calendars that are switched on in Google
+            Calendar every few minutes, to show them on the computer&rsquo;s desktop background. It requests no
+            other Google data.
           </p>
 
           <h2 className="label">How that data is used</h2>
           <ul>
-            <li>Only to carry out the request just made, such as adding a meeting or answering what is on Sunday,
-              and to offer an Undo for the change.</li>
+            <li>To carry out the request just made, such as adding a meeting or answering what is on Sunday, and
+              to offer an Undo for the change.</li>
+            <li>To show this month and the coming week&rsquo;s events on the computer&rsquo;s desktop background,
+              which only appears on that computer&rsquo;s screen.</li>
             <li>Never sold, never used for advertising, and never used to train AI models.</li>
             <li>Not shared with anyone, except the processing described next.</li>
           </ul>
@@ -61,14 +65,18 @@ export default function JarvisPrivacy() {
             <a href="https://www.anthropic.com/legal/privacy" className={styles.link}>
               privacy policy
             </a>
-            . No other service receives calendar data.
+            . The desktop background is drawn on the computer itself, so the events read for it are not sent
+            anywhere. No other service receives calendar data.
           </p>
 
           <h2 className="label">What is stored</h2>
           <p>
             Google&rsquo;s sign-in token is stored only on that computer. Jarvis keeps a local log of requests and
             short summaries of its replies, which can include event titles and times, on the same computer. Details
-            of a recent change are held in memory for a few minutes so it can be undone.
+            of a recent change are held in memory for a few minutes so it can be undone. For the desktop
+            background, it keeps a copy of this month&rsquo;s and the coming week&rsquo;s event titles, times,
+            locations and calendar colours on the computer, along with the background picture drawn from them;
+            both are replaced every few minutes.
           </p>
 
           <h2 className="label">Removing access</h2>
