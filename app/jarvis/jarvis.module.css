@@ -1,0 +1,74 @@
+/* Jarvis: a page for the assistant and its privacy policy, on the lobby's faint grid.
+   Google's OAuth consent screen links here, so it stays plain and readable. */
+
+.root { position: relative; min-height: 100vh; min-height: 100dvh; overflow: hidden; }
+
+.grid {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(var(--faint) 1px, transparent 1px),
+    linear-gradient(90deg, var(--faint) 1px, transparent 1px);
+  background-size: 80px 80px;
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 30% 30%, #000 30%, transparent);
+  mask-image: radial-gradient(ellipse 80% 60% at 30% 30%, #000 30%, transparent);
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 24px var(--gutter);
+}
+.crumb a { color: var(--fg); }
+.crumb a:hover { color: var(--gray); }
+
+.main {
+  max-width: calc(720px + 2 * var(--gutter));
+  padding: clamp(32px, 9vh, 112px) var(--gutter) 14vh;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(56px, 10vw, 152px);
+  line-height: 0.88;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  animation: rise 1s var(--ease-out) both;
+}
+.title.small { font-size: clamp(40px, 6.4vw, 96px); }
+
+.lead {
+  margin-top: clamp(24px, 3vw, 40px);
+  font-size: 15px;
+  line-height: 1.7;
+  animation: rise 0.9s var(--ease-out) 0.15s both;
+}
+
+.body { animation: rise 0.9s var(--ease-out) 0.25s both; }
+.body p, .body li { margin-top: 14px; font-size: 13px; line-height: 1.75; color: var(--gray); }
+.body p strong { color: var(--fg); font-weight: 400; }
+.body h2 { margin-top: 44px; }
+.body ul { padding-left: 0; }
+.body li { position: relative; padding-left: 20px; }
+.body li::before { content: "—"; position: absolute; left: 0; color: var(--gray); }
+
+.link {
+  color: var(--fg);
+  background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat;
+  transition: background-size 0.35s var(--ease-out);
+}
+.link:hover { background-size: 0% 1px; background-position: 100% 100%; }
+
+.contact { margin-top: 48px; }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .title, .lead, .body { animation: none; }
+}
