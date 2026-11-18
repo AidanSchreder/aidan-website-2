@@ -1,30 +1,45 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { ContactLine } from "../../_components/ContactLine";
-import { getLibrary } from "../../_lib/photos";
+import { altFor, getLibrary, type Collection, type Photo } from "../../_lib/photos";
+import { share } from "../../_lib/share";
 import styles from "../photography.module.css";
 
 const description = "About Aidan Schreder's photography: night streets, architecture and interiors.";
 
-export async function generateMetadata(): Promise<Metadata> {
+/** The photo beside the text (collection folder, file). Also this page's link preview. */
+const PHOTO = { collection: "quebec-night", file: "01_home.jpg" };
+
+/** PHOTO, or the first collage photo if it has been moved or renamed. */
+async function aboutPhoto() {
   const { collections } = await getLibrary();
-  const cover = collections.find((c) => c.slug === "family-field")?.photos[0];
+  const first = (match: (c: Collection, p: Photo) => boolean) => {
+    for (const c of collections) {
+      const i = c.photos.findIndex((p) => match(c, p));
+      if (i >= 0) return { ...c.photos[i], title: c.title, alt: altFor(c, c.photos[i], i) };
+    }
+    return null;
+  };
+  return first((c, p) => c.slug === PHOTO.collection && p.file === PHOTO.file) ?? first((_, p) => p.home);
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const cover = await aboutPhoto();
   return {
     title: "About · Photography",
     description,
     alternates: { canonical: "/photography/about" },
-    openGraph: {
+    ...share({
       title: "About · Aidan Schreder, Photography",
       description,
       url: "/photography/about",
       images: cover ? [{ url: cover.src, width: cover.width, height: cover.height }] : undefined,
-    },
+    }),
   };
 }
 
 export default async function PhotographyAbout() {
-  const { collections } = await getLibrary();
-  const field = collections.find((c) => c.slug === "family-field")?.photos[0];
+  const photo = await aboutPhoto();
 
   return (
     <div className={styles.page}>
@@ -51,20 +66,20 @@ export default async function PhotographyAbout() {
           <ContactLine section="photography" className={styles.aboutContact} />
         </div>
 
-        {field && (
+        {photo && (
           <figure className={styles.aboutFigure}>
             <Image
-              src={field.src}
-              alt="Family Field: two dandelions in a field"
-              width={field.width}
-              height={field.height}
+              src={photo.src}
+              alt={photo.alt}
+              width={photo.width}
+              height={photo.height}
               sizes="(max-width: 900px) 100vw, 34vw"
               placeholder="blur"
-              blurDataURL={field.blur}
+              blurDataURL={photo.blur}
               quality={85}
               preload
             />
-            <figcaption>Family Field</figcaption>
+            <figcaption>{photo.title}</figcaption>
           </figure>
         )}
       </article>

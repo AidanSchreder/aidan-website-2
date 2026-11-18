@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ContactLine } from "../../_components/ContactLine";
 import { FooterLine } from "../../_components/FooterLine";
+import { share } from "../../_lib/share";
 import styles from "../three-d.module.css";
 
 const description = "About Aidan Schreder's 3D work: Blender since 2021, environments, hard-surface models and animation.";
@@ -9,12 +10,12 @@ export const metadata: Metadata = {
   title: "About · 3D",
   description,
   alternates: { canonical: "/3d/about" },
-  openGraph: {
+  ...share({
     title: "About · Aidan Schreder, 3D",
     description,
     url: "/3d/about",
     images: [{ url: "/3d/opengraph-image", width: 1200, height: 630 }],
-  },
+  }),
 };
 
 const FACTS = [

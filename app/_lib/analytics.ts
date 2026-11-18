@@ -8,10 +8,11 @@ import { day, pipeline, toCounts, toFields, type Command } from "./store";
 //   a:pv:{day}          hash  path → pageviews
 //   a:sec:{day}         hash  section → pageviews
 //   a:uv:{day}:{sec}    HLL   visitor hashes (sec = section id or "all")
-//   a:ref:{day}         hash  "{section}|{host}" → landings
+//   a:ref:{day}         hash  "{section}|{host}" or "{section}|#{tag}" → landings
 //   a:open:{day}        hash  "{section}:{id}" → opens
 //   a:view:{day}        hash  "{section}:{id}" → dwell views
 //   a:contact:{day}     hash  section → contact-link clicks
+//   a:404:{day}         hash  path → visits to pages that don't exist
 //   a:item:{section}:{id}  hash  title / thumb / href (latest seen)
 //   a:since             string  ms timestamp of the last reset
 // Daily keys expire after ~13 months. Everything here starts with "a:";
@@ -22,6 +23,8 @@ const TTL = 60 * 60 * 24 * 400;
 
 // Photo ids are "<collection>/<filename>", and filenames may contain spaces.
 const ID = /^[\w\-./ ()]{1,120}$/;
+// A shared link's ?ref= tag ("resume", "linkedin", "app-shopify").
+const TAG = /^[\w.-]{1,40}$/;
 const clip = (v: unknown, n: number) => (typeof v === "string" ? v.slice(0, n) : "");
 const isSection = (v: unknown): v is SectionId => TRACKED.includes(v as SectionId);
 
@@ -76,8 +79,10 @@ export function commandsFor(events: unknown[], v: Visitor): Command[] {
         cmds.push(["PFADD", k, vh]);
         touched.add(k);
       }
-      const host = refHost(clip(e.ref, 300), v.host);
-      if (host) inc(`a:ref:${today}`, `${sec}|${host}`);
+      // A tag says more than a host (which résumé, which post), so it wins.
+      const tag = clip(e.tag, 40).toLowerCase();
+      const from = TAG.test(tag) ? `#${tag}` : refHost(clip(e.ref, 300), v.host);
+      if (from) inc(`a:ref:${today}`, `${sec}|${from}`);
     } else if ((e.t === "open" || e.t === "view") && isSection(e.section)) {
       const id = clip(e.id, 120);
       if (!ID.test(id)) continue;
@@ -95,6 +100,9 @@ export function commandsFor(events: unknown[], v: Visitor): Command[] {
       ]);
     } else if (e.t === "contact" && isSection(e.section)) {
       inc(`a:contact:${today}`, e.section);
+    } else if (e.t === "404") {
+      const path = clip(e.path, 200);
+      if (path.startsWith("/")) inc(`a:404:${today}`, path);
     }
   }
 
@@ -123,6 +131,9 @@ export interface Report {
   /** Per section totals over the range (always all sections). */
   sections: { id: SectionId; views: number; visitors: number; contacts: number; daily: number[] }[];
   pages: { path: string; views: number }[];
+  /** Paths that don't exist: broken links, old URLs, typos. */
+  missing: { path: string; views: number }[];
+  /** `host` is a site, or a shared link's tag starting with "#". */
   referrers: { section: SectionId; host: string; count: number }[];
   items: ItemStat[];
   totals: { views: number; visitors: number; contacts: number; opens: number };
@@ -137,7 +148,7 @@ const total = (m: Record<string, number>) => Object.values(m).reduce((a, b) => a
 
 export async function report(rangeDays: number, scope: SectionId | "all" = "all"): Promise<Report> {
   const days = Array.from({ length: rangeDays }, (_, i) => day(rangeDays - 1 - i));
-  const perDay = ["pv", "sec", "ref", "open", "view", "contact"] as const;
+  const perDay = ["pv", "sec", "ref", "open", "view", "contact", "404"] as const;
   const uvKey = (d: string) => `a:uv:${d}:${scope}`;
 
   const cmds: Command[] = [];
@@ -189,10 +200,12 @@ export async function report(rangeDays: number, scope: SectionId | "all" = "all"
     };
   });
 
-  const pages = Object.entries(pv)
-    .map(([path, v]) => ({ path, views: v }))
-    .filter((p) => inScope(sectionOf(p.path)))
-    .sort((a, b) => b.views - a.views);
+  const byPath = (m: Record<string, number>) =>
+    Object.entries(m)
+      .map(([path, v]) => ({ path, views: v }))
+      .filter((p) => inScope(sectionOf(p.path)))
+      .sort((a, b) => b.views - a.views);
+  const pages = byPath(pv);
 
   return {
     days,
@@ -204,6 +217,7 @@ export async function report(rangeDays: number, scope: SectionId | "all" = "all"
     })),
     sections,
     pages,
+    missing: byPath(sum(byDay.map((r) => r["404"]))),
     referrers: Object.entries(refs)
       .map(([k, count]) => {
         const [section, host] = k.split("|");

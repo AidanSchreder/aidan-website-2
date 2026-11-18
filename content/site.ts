@@ -3,7 +3,11 @@
 // create app/<slug>/ (and app/<slug>/about/), and it appears in the lobby,
 // sitemap and analytics.
 
-export const SITE_URL = "https://aidanschreder.com";
+// The host Vercel serves: aidanschreder.com redirects to www. Canonical tags,
+// the sitemap and link previews all use this, so it must match that redirect
+// (Vercel → Domains); a mismatch leaves search engines with two versions of
+// every page.
+export const SITE_URL = "https://www.aidanschreder.com";
 export const NAME = "Aidan Schreder";
 export const EMAIL = "aidan.schreder@gmail.com";
 

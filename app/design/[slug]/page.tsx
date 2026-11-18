@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { sizeOf, withSizes } from "../../_lib/image-size";
+import { share } from "../../_lib/share";
 import { DESIGN } from "@/content/design";
 import { ProjectView } from "./ProjectView";
 
@@ -26,13 +27,12 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     title: `${piece.title} · Design`,
     description,
     alternates: { canonical: `/design/${piece.id}` },
-    openGraph: {
+    ...share({
       title: `${piece.title} · Aidan Schreder`,
       description,
       url: `/design/${piece.id}`,
-      images: [{ url: cover.src, alt: cover.caption, ...(await sizeOf(cover.src)) }],
-    },
-    twitter: { title: `${piece.title} · Aidan Schreder`, description, images: [cover.src] },
+      images: [{ url: cover.src, alt: `${piece.title}: ${cover.caption}`, ...(await sizeOf(cover.src)) }],
+    }),
   };
 }
 
