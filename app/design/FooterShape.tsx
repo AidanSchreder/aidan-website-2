@@ -16,16 +16,17 @@ export function FooterShape() {
     <motion.div
       className={styles.footerShape}
       aria-hidden="true"
-      initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.4 }}
+      // Same start state for everyone, as the server renders it (see DesignHero);
+      // reduced motion just snaps the scale.
+      initial={{ opacity: 0, scale: 0.4 }}
       whileInView={{ opacity: 1, scale: 1 }}
       // No negative bottom margin: this sits ~115px from the end of the page,
       // so on a tall window a shrunk viewport would never reach it.
       viewport={{ once: true, amount: 0.5 }}
-      transition={
-        reduce
-          ? { duration: 0.4 }
-          : { opacity: { duration: 0.4 }, scale: { type: "spring", stiffness: 70, damping: 13 } }
-      }
+      transition={{
+        opacity: { duration: 0.4 },
+        scale: reduce ? { duration: 0 } : { type: "spring", stiffness: 70, damping: 13 },
+      }}
     >
       <Grain fill={SWEEP} shape={{ kind: "rect", round: 0.5 }} seed={5} className={styles.grain} />
     </motion.div>

@@ -26,18 +26,26 @@ export function DesignHero() {
   const triR = useTransform(scrollYProgress, [0, 1], to(10, 34));
   const dotY = useTransform(scrollYProgress, [0, 1], to(0, -160));
 
-  const rise = (delay: number, rotate = 0) =>
-    reduce
-      ? { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: 0.3, delay } }
-      : { initial: { y: "108%", rotate }, animate: { y: "0%", rotate: 0 }, transition: { duration: 0.9, ease, delay } };
-  const pop = (delay: number) =>
-    reduce
-      ? { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: 0.4, delay } }
-      : {
-          initial: { opacity: 0, scale: 0.4 },
-          animate: { opacity: 1, scale: 1 },
-          transition: { opacity: { duration: 0.4, delay }, scale: { type: "spring" as const, stiffness: 70, damping: 13, delay } },
-        };
+  // `initial` must not depend on `reduce`. The server can't know the visitor's
+  // setting (useReducedMotion() is null there), so the HTML always carries the
+  // full-motion start state, and hydration keeps it. Reduced motion only
+  // changes how each piece reaches rest: transforms snap there at once and the
+  // piece fades in after its usual delay (held at 0 until then).
+  const rise = (delay: number, rotate = 0) => ({
+    initial: { y: "108%", rotate },
+    animate: reduce ? { y: "0%", rotate: 0, opacity: [0, 1] } : { y: "0%", rotate: 0 },
+    transition: reduce
+      ? { opacity: { duration: 0.3, delay }, y: { duration: 0 }, rotate: { duration: 0 } }
+      : { duration: 0.9, ease, delay },
+  });
+  const pop = (delay: number) => ({
+    initial: { opacity: 0, scale: 0.4 },
+    animate: { opacity: 1, scale: 1 },
+    transition: {
+      opacity: { duration: 0.4, delay },
+      scale: reduce ? { duration: 0 } : { type: "spring" as const, stiffness: 70, damping: 13, delay },
+    },
+  });
 
   return (
     <header ref={ref} className={styles.hero}>

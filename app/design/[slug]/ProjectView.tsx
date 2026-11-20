@@ -40,9 +40,12 @@ export function ProjectView({ piece, prev, next }: { piece: Piece; prev: Neighbo
     hidden: {},
     show: { transition: { staggerChildren: reduce ? 0 : 0.07, delayChildren: reduce ? 0 : 0.35 } },
   };
+  // Start states (`initial`, "hidden") must not depend on `reduce`: the server
+  // can't know the visitor's setting, so the HTML always carries the
+  // full-motion start state. Reduced motion snaps the movement and only fades.
   const item: Variants = {
-    hidden: { opacity: 0, y: reduce ? 0 : 18 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.6, ease } },
+    hidden: { opacity: 0, y: 18 },
+    show: { opacity: 1, y: 0, transition: reduce ? { duration: 0.6, ease, y: { duration: 0 } } : { duration: 0.6, ease } },
   };
 
   return (
@@ -50,9 +53,9 @@ export function ProjectView({ piece, prev, next }: { piece: Piece; prev: Neighbo
       <motion.figure
         className={styles.slide}
         // Ends outside the figure so the glow around the frame isn't cut.
-        initial={reduce ? { opacity: 0 } : { opacity: 0, clipPath: "inset(14% -12% -12% -12%)" }}
-        animate={reduce ? { opacity: 1 } : { opacity: 1, clipPath: "inset(-12% -12% -12% -12%)" }}
-        transition={{ duration: 1, ease }}
+        initial={{ opacity: 0, clipPath: "inset(14% -12% -12% -12%)" }}
+        animate={{ opacity: 1, clipPath: "inset(-12% -12% -12% -12%)" }}
+        transition={reduce ? { duration: 1, ease, clipPath: { duration: 0 } } : { duration: 1, ease }}
       >
         <Frame slide={lead} title={piece.title} lead />
         <figcaption>{lead.caption}</figcaption>
@@ -94,10 +97,10 @@ export function ProjectView({ piece, prev, next }: { piece: Piece; prev: Neighbo
           {rest.map((s) => (
             <motion.li
               key={s.src}
-              initial={{ opacity: 0, y: reduce ? 0 : 40 }}
+              initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "0px 0px -8% 0px" }}
-              transition={reduce ? { duration: 0.3 } : { type: "spring", stiffness: 80, damping: 20 }}
+              transition={reduce ? { duration: 0.3, y: { duration: 0 } } : { type: "spring", stiffness: 80, damping: 20 }}
             >
               <figure className={styles.slide}>
                 <Frame slide={s} title={piece.title} />
