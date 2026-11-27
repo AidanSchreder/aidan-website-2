@@ -1,7 +1,8 @@
 "use client";
 
 // One small grain shape in the footer, from the header's family, so every
-// design page opens and closes on the same motif. It pops in on the header's
+// design page opens and closes on the same motif. It sits on the end of the
+// contact address like a sticker (DesignContact.tsx), pops in on the header's
 // spring when it scrolls into view, then sways slowly (CSS).
 // Reduced motion: fades in and stays still.
 
@@ -20,8 +21,8 @@ export function FooterShape() {
       // reduced motion just snaps the scale.
       initial={{ opacity: 0, scale: 0.4 }}
       whileInView={{ opacity: 1, scale: 1 }}
-      // No negative bottom margin: this sits ~115px from the end of the page,
-      // so on a tall window a shrunk viewport would never reach it.
+      // No negative bottom margin: this sits near the end of the page, so on
+      // a tall window a shrunk viewport might never reach it.
       viewport={{ once: true, amount: 0.5 }}
       transition={{
         opacity: { duration: 0.4 },
