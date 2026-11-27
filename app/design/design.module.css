@@ -303,12 +303,40 @@
 .clients em { font-style: normal; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gray); text-align: right; }
 
 /* ── FOOTER ── */
-.footer { position: relative; display: grid; gap: 28px; padding: 0 var(--gutter) 40px; }
+.footer { display: grid; gap: clamp(44px, 8vh, 88px); padding: 0 var(--gutter) 40px; }
+
+/* ── CONTACT (DesignContact.tsx) ──
+   The section's line, the address as the headline, then the form in a row.
+   The form's own type is set here so the "Sent" note that replaces it keeps it. */
+.contact {
+  display: grid;
+  gap: clamp(20px, 3vh, 32px);
+  font-family: var(--font-serif);
+  font-size: clamp(20px, 1.8vw, 26px);
+  line-height: 1.3;
+}
+.contactLead { font-style: italic; font-size: clamp(24px, 2.6vw, 40px); line-height: 1.2; color: var(--gray); }
+/* As wide as the address, so the pill can sit on its end. */
+.contactAddress { position: relative; width: max-content; max-width: 100%; }
+/* About 4.6vw on wide screens (66px at 1440: between the hero's name and its
+   serif line); on narrow ones, whatever keeps the address on one line. */
+.contactAddress a {
+  display: block;
+  font-family: var(--font-display);
+  font-size: min(calc((100vw - 2 * var(--gutter)) * 0.068), max(4.6vw, 30px));
+  line-height: 0.95;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--fg);
+  transition: color 0.45s ease;
+}
+.contactAddress a:hover { color: var(--fg); }
 .footerShape {
   position: absolute;
-  right: calc(var(--gutter) + clamp(0px, 6vw, 110px));
-  top: -6px;
-  width: clamp(92px, 9vw, 150px);
+  right: calc(-1 * clamp(40px, 4.5vw, 80px));
+  top: -62%;
+  width: clamp(90px, 8vw, 140px);
   aspect-ratio: 3.2;
   pointer-events: none;
 }
@@ -320,11 +348,58 @@
 @media (prefers-reduced-motion: reduce) {
   .footerShape .grain { animation: none; transform: rotate(-7deg); }
 }
-.contact { font-family: var(--font-serif); font-size: clamp(22px, 2.4vw, 32px); line-height: 1.25; }
-/* The email is italic, so the hidden copy that sizes the message fields is too. */
-.contact a,
-.contact :global(.message-sizer),
-.contact :global(.message-send) { font-style: italic; }
+
+/* Form (MessageForm.tsx): message, email and Send in one row, the fields as
+   underlines. Send opens out at the end of the row once both fields have
+   text: its column goes 0fr → 1fr, the sideways twin of the fold the form
+   uses elsewhere, so the fields ease narrower to make room. */
+.contactForm { margin-top: 8px; }
+.contactForm :global(.message-fields) {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr) auto;
+  align-items: end;
+}
+.contactForm :global(.message-field),
+.contactForm :global(.message-field:hover),
+.contactForm :global(.message-field:focus) {
+  width: auto;
+  min-width: 0;
+  padding: 0.3em 0;
+  border: 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--fg) 28%, transparent);
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  transition: height 0.22s var(--ease-out), border-color 0.25s ease, box-shadow 0.25s ease, opacity 0.3s ease;
+}
+.contactForm :global(.message-field:hover) { border-bottom-color: color-mix(in srgb, var(--fg) 50%, transparent); }
+/* Focus and a bad address thicken the line to 2px in the text colour. */
+.contactForm :global(.message-field:focus),
+.contactForm :global(.message-field[aria-invalid]) { border-bottom-color: var(--fg); box-shadow: 0 1px 0 var(--fg); }
+.contactForm :global(.message-field + .message-field) { margin: 0 0 0 28px; }
+.contactForm :global(.message-send-row) {
+  grid-template-rows: none;
+  grid-template-columns: 0fr;
+  transition: grid-template-columns 0.35s var(--ease-out), opacity 0.25s ease;
+}
+.contactForm :global(.message-send-row[data-show]) { grid-template-columns: 1fr; }
+.contactForm :global(.message-send-row > div) { min-width: 0; }
+/* Bottom padding = the fields' plus their 1px line, so Send's underline
+   continues theirs. */
+.contactForm :global(.message-send) {
+  margin: 0 0 0 28px;
+  padding: 0.3em 0 calc(0.3em + 1px);
+  font-style: italic;
+  white-space: nowrap;
+  transform: translateX(-0.4em);
+}
+.contactForm :global(.message-send-row[data-show] .message-send) { transform: none; }
+.contactForm :global(.message-send)::after {
+  content: "\00a0\2192";
+  content: "\00a0\2192" / "";
+}
+.contactForm[data-sending] :global(.message-send)::after { content: none; }
+.contactForm :global(.message-note) { grid-column: 1 / -1; font-size: 0.75em; color: var(--gray); }
 
 @media (max-width: 900px) {
   .projectIntro { grid-template-columns: 1fr; }
@@ -338,7 +413,20 @@
   .tiles { height: auto; display: flex; flex-direction: column; align-items: center; gap: 44px; }
   .tileItem { --radius: calc(var(--corner-m, 0) * 100cqi); position: static; width: var(--w-m); }
   .tileLink { transform: rotate(calc(var(--tilt, 0deg) * 0.5)); }
-  .footerShape { top: -64px; right: var(--gutter); }
+  /* Too small for the outline to read: the address goes solid on phones, and
+     the pill moves up beside the line above it. */
+  .contactAddress a { color: var(--fg); -webkit-text-stroke: 0; }
+  .footerShape { top: auto; bottom: 115%; right: 0; width: 72px; }
+  /* One column; Send folds down under the fields as it does elsewhere. */
+  .contactForm :global(.message-fields) { grid-template-columns: minmax(0, 1fr); }
+  .contactForm :global(.message-field + .message-field) { margin: 0.5em 0 0; }
+  .contactForm :global(.message-send-row) {
+    grid-template-columns: none;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.35s var(--ease-out), opacity 0.25s ease;
+  }
+  .contactForm :global(.message-send-row[data-show]) { grid-template-rows: 1fr; }
+  .contactForm :global(.message-send) { margin: 0.5em 0 0; transform: translateY(-0.4em); }
   .aboutGrid { grid-template-columns: 1fr; }
   .navLinks a { display: none; }
   .pager { flex-direction: column; }

@@ -1,10 +1,9 @@
 import Link from "next/link";
 import { instrumentSerif } from "../_fonts/instrument-serif";
 import { ThemeToggle } from "../_components/theme/ThemeToggle";
-import { ContactLine } from "../_components/ContactLine";
 import { FooterLine } from "../_components/FooterLine";
 import { Cursor } from "../_components/Cursor";
-import { FooterShape } from "./FooterShape";
+import { DesignContact } from "./DesignContact";
 import styles from "./design.module.css";
 
 export default function DesignLayout({ children }: { children: React.ReactNode }) {
@@ -29,8 +28,7 @@ export default function DesignLayout({ children }: { children: React.ReactNode }
       {children}
 
       <footer id="contact" className={styles.footer}>
-        <FooterShape />
-        <ContactLine section="design" className={styles.contact} form />
+        <DesignContact />
         <FooterLine about="/design/about" />
       </footer>
     </div>

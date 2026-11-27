@@ -6,6 +6,10 @@
 // wraps. "Send" slides in once both have something in them; Enter in the email
 // field sends too. Posts to /api/message, which forwards it to Aidan's phone.
 //
+// A section can drop the "or" and the email-width sizing (`or`, `fit`) and
+// lay the fields out itself through `className`; /design does, putting them
+// in a row under its address.
+//
 // Motion (all 200–400ms, eased out; reduced motion keeps only the fades):
 //   typing   — the bubble eases to its new height as lines wrap or unwrap.
 //   ready    — "Send" folds open under the fields and drops into place.
@@ -66,7 +70,24 @@ function useAutosize(value: string) {
   return ref;
 }
 
-export function MessageForm({ section }: { section: SectionId }) {
+interface Props {
+  section: SectionId;
+  /** Extra class on the form, for a section's own layout. */
+  className?: string;
+  /** The "or" line above the fields. */
+  or?: boolean;
+  /** Fields as wide as the email address above them; off, they fill their container. */
+  fit?: boolean;
+  placeholders?: { message: string; email: string };
+}
+
+export function MessageForm({
+  section,
+  className,
+  or = true,
+  fit = true,
+  placeholders = { message: "Enter message", email: "Enter email" },
+}: Props) {
   const reduce = useReducedMotion();
   const [text, setText] = useState("");
   const [email, setEmail] = useState("");
@@ -131,24 +152,26 @@ export function MessageForm({ section }: { section: SectionId }) {
       ) : (
         <motion.form
           key="form"
-          className="message-form"
+          className={className ? `message-form ${className}` : "message-form"}
           onSubmit={send}
           noValidate
           data-sending={sending || undefined}
           exit={{ opacity: 0, height: 0, marginTop: 0, y: reduce ? 0 : -10, overflow: "hidden" }}
           transition={{ duration: 0.4, ease }}
         >
-          <p className="message-or">or</p>
+          {or && <p className="message-or">or</p>}
           <div className="message-fields">
-            <span className="message-sizer" aria-hidden="true">
-              {emailFor(section)}
-            </span>
+            {fit && (
+              <span className="message-sizer" aria-hidden="true">
+                {emailFor(section)}
+              </span>
+            )}
             <textarea
               ref={textRef}
               className="message-field"
               name="message"
               rows={1}
-              placeholder="Enter message"
+              placeholder={placeholders.message}
               aria-label="Message"
               maxLength={2000}
               readOnly={sending}
@@ -161,7 +184,7 @@ export function MessageForm({ section }: { section: SectionId }) {
               className="message-field"
               name="email"
               rows={1}
-              placeholder="Enter email"
+              placeholder={placeholders.email}
               aria-label="Your email"
               aria-invalid={status === "invalid" || undefined}
               autoComplete="email"

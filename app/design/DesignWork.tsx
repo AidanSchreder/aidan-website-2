@@ -171,10 +171,16 @@ function Tile({ tile, index }: { tile: ReturnType<typeof place>["tiles"][number]
         ["--corner-m" as string]: tile.cornerM,
         ["--tilt" as string]: `${tile.tilt}deg`,
       }}
-      initial={{ opacity: 0, y: reduce ? 0 : 48 }}
+      // Same start state for everyone, as the server renders it (see DesignHero);
+      // reduced motion snaps the rise and only fades.
+      initial={{ opacity: 0, y: 48 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
-      transition={reduce ? { duration: 0.3 } : { type: "spring", stiffness: 80, damping: 18, delay: tile.side * 0.08 }}
+      transition={
+        reduce
+          ? { duration: 0.3, y: { duration: 0 } }
+          : { type: "spring", stiffness: 80, damping: 18, delay: tile.side * 0.08 }
+      }
     >
       <Link
         href={`/design/${piece.id}`}
